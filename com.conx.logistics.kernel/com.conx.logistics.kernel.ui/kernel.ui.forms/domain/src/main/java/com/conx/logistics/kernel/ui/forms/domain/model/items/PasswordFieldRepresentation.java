@@ -57,14 +57,6 @@ public class PasswordFieldRepresentation extends FormItemRepresentation {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public Integer getMaxLength() {
         return maxLength;
     }

@@ -65,14 +65,6 @@ public class NumberFieldRepresentation extends FormItemRepresentation {
         this.maxLength = maxLength;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     @Override
     public Map<String, Object> getDataMap() {
         Map<String, Object> data = super.getDataMap();

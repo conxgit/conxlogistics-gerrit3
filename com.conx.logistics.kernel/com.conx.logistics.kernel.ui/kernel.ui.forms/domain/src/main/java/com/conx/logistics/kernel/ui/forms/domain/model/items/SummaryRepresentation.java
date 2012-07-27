@@ -63,14 +63,6 @@ public class SummaryRepresentation extends FormItemRepresentation {
         this.dir = dir;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public int getScrollLeft() {
         return scrollLeft;
     }

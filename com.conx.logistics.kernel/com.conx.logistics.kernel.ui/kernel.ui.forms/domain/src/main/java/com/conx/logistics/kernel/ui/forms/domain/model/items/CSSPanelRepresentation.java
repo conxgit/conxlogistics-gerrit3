@@ -61,14 +61,6 @@ public class CSSPanelRepresentation extends FormItemRepresentation {
         this.cssStylesheetUrl = cssStylesheetUrl;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public List<FormItemRepresentation> getItems() {
         return items;
     }

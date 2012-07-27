@@ -58,14 +58,6 @@ public class ImageRepresentation extends FormItemRepresentation {
         this.url = url;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public Map<String, String> getI18n() {
         return i18n;
     }
