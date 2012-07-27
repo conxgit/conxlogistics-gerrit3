@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Fragment-Host: org.jbpm.human-task-core
+Build-Jdk: 1.6.0_23
+Built-By: sandile
+Bundle-Version: 5.3.0.Final
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: ConX JBPM TaskServer Human-Task-Core Fragment
+Bundle-ManifestVersion: 2
+Created-By: Maven Integration for Eclipse
+Bundle-SymbolicName: com.conx.logistics.kernel.bpm.impl.jbpm.taskserve
+ r.fragment
+Import-Package: javax.transaction;version="0",org.springframework.jndi
+ ;version="[3.0,3.1)"
+

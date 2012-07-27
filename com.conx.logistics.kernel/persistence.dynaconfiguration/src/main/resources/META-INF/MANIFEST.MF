@@ -1,0 +1,63 @@
+Manifest-Version: 1.0
+Export-Package: com.conx.logistics.kernel.persistence.dynaconfiguratio
+ n;version="1.0.0";uses:="com.conx.logistics.kernel.persistence.servic
+ es,javax.sql,javax.transaction,org.hibernate,org.hibernate.transactio
+ n,org.osgi.framework,org.slf4j,org.springframework.beans.factory",com
+ .conx.logistics.kernel.persistence.orm.jpa;version="1.0.0";uses:="com
+ .conx.logistics.kernel.persistence.services,javax.persistence,javax.s
+ ql,org.springframework.beans.factory,org.springframework.beans.factor
+ y.annotation,org.springframework.context,org.springframework.context.
+ weaving,org.springframework.orm.jpa,org.springframework.orm.jpa.persi
+ stenceunit",com.conx.logistics.kernel.persistence.orm.jpa.multipu;ver
+ sion="1.0.0";uses:="javax.sql,org.springframework.beans.factory.annot
+ ation,org.springframework.orm.jpa.persistenceunit"
+Import-Bundle: com.conx.logistics.thirdparty.hibernate.core;version="3
+ .6.0.Final";import-scope:="application",com.conx.logistics.thirdparty
+ .hibernate.annotations.commons;version="3.2.0.Final";import-scope:="a
+ pplication"
+Build-Jdk: 1.6.0_29
+Built-By: dev
+Bundle-Version: 1.0.0
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: ConX Kernel Dynamic Persistence  Configurator
+Bundle-ManifestVersion: 2
+Created-By: Maven Integration for Eclipse
+Bundle-SymbolicName: com.conx.logistics.kernel.persistence.dynaconfigu
+ ration
+Import-Package: bitronix.tm;version="[2.1.0,2.2.0)",bitronix.tm.journa
+ l;version="[2.1.0,2.2.0)",bitronix.tm.recovery;version="[2.1.0,2.2.0)
+ ",bitronix.tm.resource;version="[2.1.0,2.2.0)",bitronix.tm.resource.j
+ dbc;version="[2.1.0,2.2.0)",bitronix.tm.timer;version="[2.1.0,2.2.0)"
+ ,bitronix.tm.twopc.executor;version="[2.1.0,2.2.0)",bitronix.tm.utils
+ ;version="[2.1.0,2.2.0)",com.conx.logistics.common.utils;version="1.0
+ .0",com.conx.logistics.kernel.persistence.services;version="1.0.0",co
+ m.mysql.jdbc.jdbc2.optional;version="5.1.20",javassist.util.proxy;ver
+ sion="3.12.0.GA",javax.naming;version="0",javax.persistence;version="
+ 0",javax.persistence.criteria;version="0",javax.persistence.spi;versi
+ on="0",javax.sql;version="0",javax.transaction;version="0",javax.vali
+ dation;version="1.0.0.GA",net.sf.cglib.core;version="2.2.0",net.sf.cg
+ lib.proxy;version="2.2.0",net.sf.cglib.reflect;version="2.2.0",org.ao
+ palliance.aop;version="1.0.0",org.hibernate;version="3.6.0.Final",org
+ .hibernate.cfg;version="3.6.0.Final",org.hibernate.ejb;version="3.6.0
+ .Final",org.hibernate.hql.ast;version="3.6.0.Final",org.hibernate.tra
+ nsaction;version="3.6.0.Final",org.hibernate.validator;version="4.2.0
+ .Final",org.jsoup;version="1.5.2",org.osgi.framework;version="0",org.
+ slf4j;version="[1.6.0,1.7.0)",org.springframework.aop;version="[3.0, 
+ 3.1)",org.springframework.aop.framework;version="[3.0, 3.1)",org.spri
+ ngframework.aop.scope;version="[3.0, 3.1)",org.springframework.beans.
+ factory;version="[3.0, 3.1)",org.springframework.beans.factory.annota
+ tion;version="[3.0, 3.1)",org.springframework.beans.factory.config;ve
+ rsion="[3.0, 3.1)",org.springframework.context;version="[3.0, 3.1)",o
+ rg.springframework.context.weaving;version="[3.0, 3.1)",org.springfra
+ mework.core.io;version="[3.0, 3.1)",org.springframework.dao;version="
+ [3.0, 3.1)",org.springframework.dao.annotation;version="[3.0, 3.1)",o
+ rg.springframework.jdbc.core;version="[3.0, 3.1)",org.springframework
+ .orm.jpa;version="[3.0, 3.1)",org.springframework.orm.jpa.persistence
+ unit;version="[3.0, 3.1)",org.springframework.orm.jpa.support;version
+ ="[3.0, 3.1)",org.springframework.orm.jpa.vendor;version="[3.0, 3.1)"
+ ,org.springframework.stereotype;version="[3.0, 3.1)",org.springframew
+ ork.transaction;version="[3.0, 3.1)",org.springframework.transaction.
+ annotation;version="[3.0, 3.1)",org.springframework.transaction.aspec
+ tj;version="[3.0, 3.1)",org.springframework.transaction.jta;version="
+ [3.0, 3.1)"
+

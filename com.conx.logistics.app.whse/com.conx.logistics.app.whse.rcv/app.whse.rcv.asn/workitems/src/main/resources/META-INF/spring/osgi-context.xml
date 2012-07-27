@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd"
+	xmlns:osgi="http://www.springframework.org/schema/osgi">
+	<osgi:service ref="newASNWIH"
+		interface="org.drools.process.instance.WorkItemHandler">
+		<osgi:service-properties>
+			<entry key="PROCESS_ID" value="whse.rcv.asn.CreateNewASNByOrgV1.0" />
+			<entry key="TASK_NAME" value="CreateNewASNWIH" />
+		</osgi:service-properties>
+	</osgi:service>
+	<osgi:service ref="acceptASNOrgWIH"
+		interface="org.drools.process.instance.WorkItemHandler">
+		<osgi:service-properties>
+			<entry key="PROCESS_ID" value="whse.rcv.asn.CreateNewASNByOrgV1.0" />
+			<entry key="TASK_NAME" value="AcceptASNOrgWIH" />
+		</osgi:service-properties>
+	</osgi:service>
+	<osgi:service ref="acceptASNRefNumsWIH"
+		interface="org.drools.process.instance.WorkItemHandler">
+		<osgi:service-properties>
+			<entry key="PROCESS_ID" value="whse.rcv.asn.CreateNewASNByOrgV1.0" />
+			<entry key="TASK_NAME" value="AcceptASNRefNumsWIH" />
+		</osgi:service-properties>
+	</osgi:service>	
+	<osgi:service ref="acceptASNLinesWIH"
+		interface="org.drools.process.instance.WorkItemHandler">
+		<osgi:service-properties>
+			<entry key="PROCESS_ID" value="whse.rcv.asn.CreateNewASNByOrgV1.0" />
+			<entry key="TASK_NAME" value="AcceptASNLinesWIH" />
+		</osgi:service-properties>
+	</osgi:service>		
+	<osgi:service ref="acceptASNLocalTransWIH"
+		interface="org.drools.process.instance.WorkItemHandler">
+		<osgi:service-properties>
+			<entry key="PROCESS_ID" value="whse.rcv.asn.CreateNewASNByOrgV1.0" />
+			<entry key="TASK_NAME" value="AcceptASNLocalTransWIH" />
+		</osgi:service-properties>
+	</osgi:service>		
+	<osgi:service ref="acceptASNWIH"
+		interface="org.drools.process.instance.WorkItemHandler">
+		<osgi:service-properties>
+			<entry key="PROCESS_ID" value="whse.rcv.asn.CreateNewASNByOrgV1.0" />
+			<entry key="TASK_NAME" value="AcceptASNWIH" />
+		</osgi:service-properties>
+	</osgi:service>		
+	
+	<osgi:reference id="conxLogisticsManagerFactory" interface="javax.persistence.EntityManagerFactory" filter="(module=KERNEL)">
+	</osgi:reference>		
+	
+	<!-- KERNEL.TM.JTA Transaction Manager -->
+	<osgi:reference id="globalJtaTransactionManager" interface="org.springframework.transaction.PlatformTransactionManager" filter="(module=KERNEL.TM.JTA)">
+	</osgi:reference>		
+	
+	<!-- KERNEL.TM Transaction Manager -->
+	<osgi:reference id="globalTransactionManager" interface="javax.transaction.TransactionManager" filter="(module=KERNEL.TM)">
+	</osgi:reference>	
+	
+	<osgi:reference id="userTransaction" interface="javax.transaction.UserTransaction">
+	</osgi:reference>		
+	
+	<osgi:reference id="asnDao"  interface="com.conx.logistics.app.whse.rcv.asn.dao.services.IASNDAOService"/>
+	<osgi:reference id="orgDao"  interface="com.conx.logistics.mdm.dao.services.IOrganizationDAOService"/>
+	<osgi:reference id="referenceNumberDao"  interface="com.conx.logistics.mdm.dao.services.referencenumber.IReferenceNumberDAOService"/>
+	<osgi:reference id="referenceNumberTypeDao"  interface="com.conx.logistics.mdm.dao.services.referencenumber.IReferenceNumberTypeDAOService"/>
+</beans>

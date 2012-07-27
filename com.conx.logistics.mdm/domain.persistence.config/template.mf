@@ -1,0 +1,7 @@
+Bundle-ManifestVersion: 2
+Bundle-Version: 1.0.0
+Bundle-Name: ConX Master Data Management Domain Model Pers Config
+Fragment-Host: com.conx.logistics.kernel.persistence.dynaconfigu
+ ration
+Bundle-SymbolicName: com.conx.logistics.mdm.domain.persistence.config
+ 

@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Export-Package: com.conx.logistics.kernel.bpm.services;version="1.0.0"
+ ;uses:="javax.persistence,org.drools.definition.process,org.jboss.bpm
+ .console.client.model,org.jbpm.task,org.jbpm.task.service,org.jbpm.ta
+ sk.service.local,org.jbpm.workflow.core.node"
+Build-Jdk: 1.6.0_29
+Built-By: dev
+Bundle-Version: 1.0.0
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: ConX Kernel BPM Services
+Bundle-ManifestVersion: 2
+Created-By: Maven Integration for Eclipse
+Bundle-SymbolicName: com.conx.logistics.kernel.bpm.services
+Import-Package: javax.persistence;version="0",org.drools.definition.pr
+ ocess;version="[5.4.0,5.5.0)",org.drools.runtime.process;version="[5.
+ 4.0,5.5.0)",org.jboss.bpm.console.client.model;version="2.3.2.SNAPSHO
+ T",org.jbpm.process.audit;version="[5.3.0,5.4.0)",org.jbpm.task;versi
+ on="[5.3.0,5.4.0)",org.jbpm.task.service;version="[5.3.0,5.4.0)",org.
+ jbpm.task.service.local;version="[5.3.0,5.4.0)",org.jbpm.workflow.cor
+ e.node;version="[5.3.0,5.4.0)"
+

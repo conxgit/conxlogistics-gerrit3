@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:UiBinder xmlns:ui="urn:org.vaadin.mvp.uibinder" xmlns:m="urn:org.vaadin.mvp.uibinder.message"
+	xmlns:r="urn:org.vaadin.mvp.uibinder.resource" xmlns:e="urn:org.vaadin.mvp.uibinder.event"
+	xmlns:v="urn:import:com.vaadin.ui">
+
+	<v:VerticalLayout sizeFull="" ui:field="mainLayout">
+		<v:VerticalSplitPanel sizeFull="" ui:field="splitLayout">
+			<v:VerticalLayout sizeFull="" ui:field="gridLayout">
+				<v:HorizontalLayout spacing="true" ui:field="buttonLayout">
+					<v:Button caption="New ASN" e:click="createASN" />
+				</v:HorizontalLayout>
+				<v:Table sizeFull="" ui:field="grid" />
+			</v:VerticalLayout>
+		</v:VerticalSplitPanel>
+	</v:VerticalLayout>
+
+</ui:UiBinder>

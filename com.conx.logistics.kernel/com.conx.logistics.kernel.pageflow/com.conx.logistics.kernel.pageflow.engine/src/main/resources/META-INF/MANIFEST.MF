@@ -1,0 +1,43 @@
+Manifest-Version: 1.0
+Export-Package: com.conx.logistics.kernel.pageflow.engine;version="1.0
+ .0";uses:="com.conx.logistics.kernel.bpm.services,com.conx.logistics.
+ kernel.pageflow.engine.path,com.conx.logistics.kernel.pageflow.engine
+ .ui,com.conx.logistics.kernel.pageflow.services,com.conx.logistics.ke
+ rnel.ui.service.contribution,com.conx.logistics.mdm.domain.applicatio
+ n,com.conx.logistics.mdm.domain.task,com.vaadin.ui,javax.persistence,
+ javax.transaction,org.jboss.bpm.console.client.model,org.jbpm.task,or
+ g.springframework.jndi,org.springframework.transaction,org.vaadin.mvp
+ .presenter",com.conx.logistics.kernel.pageflow.engine.path;version="1
+ .0.0";uses:="org.jbpm.workflow.core.node",com.conx.logistics.kernel.p
+ ageflow.engine.ui;version="1.0.0";uses:="com.conx.logistics.kernel.pa
+ geflow.engine,com.conx.logistics.kernel.pageflow.event,com.conx.logis
+ tics.kernel.pageflow.services,com.conx.logistics.mdm.domain.applicati
+ on,com.vaadin.ui,org.vaadin.teemu.wizards"
+Bundle-Version: 1.0.0
+Tool: Bundlor 1.1.0.BUILD-20101220120024
+Bundle-Name: ConX kernel PageFlow Engine
+Bundle-ManifestVersion: 2
+Import-Package: com.conx.logistics.common.utils;version="1.0.0",com.co
+ nx.logistics.kernel.bpm.impl.jbpm.core;version="1.0.0",com.conx.logis
+ tics.kernel.bpm.services;version="1.0.0",com.conx.logistics.kernel.pa
+ geflow.event;version="1.0.0",com.conx.logistics.kernel.pageflow.servi
+ ces;version="1.0.0",com.conx.logistics.kernel.ui.common.mvp;version="
+ 1.0.0",com.conx.logistics.kernel.ui.service;version="1.0.0",com.conx.
+ logistics.kernel.ui.service.contribution;version="1.0.0",com.conx.log
+ istics.mdm.domain.application;version="1.0.0",com.conx.logistics.mdm.
+ domain.geolocation;version="1.0.0",com.conx.logistics.mdm.domain.task
+ ;version="1.0.0",com.vaadin;version="[6.7.0,7.0.0)",com.vaadin.ui;ver
+ sion="[6.7.0,7.0.0)",javax.naming,javax.persistence;version="0",javax
+ .transaction,org.drools.definition.process;version="[5.4.0,5.5.0)",or
+ g.jboss.bpm.console.client.model;version="2.3.2.SNAPSHOT",org.jbpm.ma
+ rshalling.impl;version="[5.3.0,5.4.0)",org.jbpm.task;version="[5.3.0,
+ 5.4.0)",org.jbpm.task.query;version="[5.3.0,5.4.0)",org.jbpm.task.ser
+ vice;version="[5.3.0,5.4.0)",org.jbpm.workflow.core.node;version="[5.
+ 3.0,5.4.0)",org.slf4j;version="[1.6.0,1.7.0)",org.springframework.jnd
+ i;version="[3.0,3.1)",org.springframework.transaction;version="[3.0,3
+ .1)",org.springframework.transaction.support;version="[3.0,3.1)",org.
+ vaadin.mvp.eventbus;version="0.9.2.SNAPSHOT",org.vaadin.mvp.eventbus.
+ annotation;version="0.9.2.SNAPSHOT",org.vaadin.mvp.presenter;version=
+ "0.9.2.SNAPSHOT",org.vaadin.teemu.wizards;version="0.4.4"
+Bundle-SymbolicName: com.conx.logistics.kernel.pageflow.engine
+
