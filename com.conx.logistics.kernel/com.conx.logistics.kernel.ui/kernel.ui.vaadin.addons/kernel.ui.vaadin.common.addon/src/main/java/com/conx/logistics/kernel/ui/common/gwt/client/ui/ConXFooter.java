@@ -42,6 +42,6 @@ public class ConXFooter extends HorizontalLayout {
 	}
 	
 	public void setCustomerName(String customerName) {
-		customer.setCaption("Licenced by  <b style=\"color: #000;\">" + customerName + "</b>");
+		customer.setCaption("Licenced by " + customerName);
 	}
 }

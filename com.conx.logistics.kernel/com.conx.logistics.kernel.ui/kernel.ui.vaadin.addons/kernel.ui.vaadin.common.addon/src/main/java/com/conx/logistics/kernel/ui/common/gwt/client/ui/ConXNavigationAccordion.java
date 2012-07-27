@@ -1,21 +1,27 @@
 package com.conx.logistics.kernel.ui.common.gwt.client.ui;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import com.vaadin.data.Item;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.VerticalLayout;
 
-public class ConXNavigationAccordion extends VerticalLayout {
+public class ConXNavigationAccordion extends VerticalLayout implements ValueChangeListener {
 	private static final long serialVersionUID = 3370715870286189986L;
 
 	private Accordion accordion;
+	private HashSet<ValueChangeListener> navigationListeners;
+	private Object currentValue;
 
 	public ConXNavigationAccordion() {
 		setSizeFull();
 		setMargin(false, false, true, false);
 
+		navigationListeners = new HashSet<ValueChangeListener>();
 		accordion = new Accordion();
 		accordion.setStyleName("conx-navigation-accordion");
 		accordion.setSizeFull();
@@ -24,53 +30,43 @@ public class ConXNavigationAccordion extends VerticalLayout {
 	}
 
 	public void addCategory(ConXNavigationTree subTree, String title) {
+		subTree.setNavigationListener(this);
 		accordion.addTab(subTree, title);
 	}
 
 	public void setContainer(HierarchicalContainer container) {
 		removeAllComponents();
-		Collection<?> rootIds = container.rootItemIds();
-		for (Object rootId : rootIds) {
-			Item currentItem = container.getItem(rootId);
-			Object nameProperty = currentItem.getItemProperty("name").getValue();
-			if (nameProperty instanceof String) {
+		Collection<?> ids = container.rootItemIds();
+		for (Object id : ids) {
+			Item currentItem = container.getItem(id);
+			Object name = currentItem.getItemProperty("Name").getValue();
+			if (name instanceof String) {
 				ConXNavigationTree tree = new ConXNavigationTree();
-				Collection<?> treeRootIds = container.getChildren(rootId);
-				for (Object treeRootId : treeRootIds) {
-					populateTree(container, tree, null, treeRootId);
-				}
+				tree.setNavigationContainer(container, "Name", id);
+				addCategory(tree, (String) name);
 			}
 		}
 	}
+	
+	public void addNavigationListener(ValueChangeListener listener) {
+		navigationListeners.add(listener);
+	}
+	
+	public void clearNavigationListeners() {
+		navigationListeners.clear();
+	}
 
-	private void populateTree(HierarchicalContainer container, ConXNavigationTree tree, Integer parentId, Object currentId) {
-		Item current = container.getItem(currentId);
-		if (current != null) {
-			Object iconUrl = current.getItemProperty("iconUrl").getValue(), caption = current.getItemProperty("caption").getValue();
-			if (!(iconUrl instanceof String) || !(caption instanceof String)) {
-				return;
-			} else {
-				ConXNavigationTreeItem item;
-				if (parentId != null) {
-					item = tree.addConXNavigationTreeItem((String) caption, (String) iconUrl, parentId);
-				} else {
-					item = tree.addConXNavigationTreeItem((String) caption, (String) iconUrl);
-				}
-
-				Collection<?> childIds = container.getChildren(currentId);
-				for (Object childId : childIds) {
-					if (container.hasChildren(childId)) {
-						populateTree(container, tree, item.getId(), childId);
-					} else {
-						Item childItem = container.getItem(childId);
-						iconUrl = childItem.getItemProperty("iconUrl").getValue();
-						caption = childItem.getItemProperty("caption").getValue();
-						if ((iconUrl instanceof String) && (caption instanceof String)) {
-							tree.addConXNavigationTreeItem((String) caption, (String) iconUrl, item.getId());
-						} 
-					}
-				}
-			}
+	public void valueChange(ValueChangeEvent event) {
+		for (ValueChangeListener listener : navigationListeners) {
+			listener.valueChange(event);
 		}
+	}
+
+	public Object getValue() {
+		return currentValue;
+	}
+
+	public void setValue(Object currentValue) {
+//		this.currentValue = currentValue;
 	}
 }

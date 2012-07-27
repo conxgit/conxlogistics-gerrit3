@@ -161,6 +161,7 @@ public class ConXHeader extends HorizontalLayout {
 				if (caption instanceof String && icon instanceof Resource) {
 					final Property idProperty = item.getItemProperty(idPropertyId);
 					applicationButton.addItem((String) caption, (Resource) icon, new Command() {
+						private static final long serialVersionUID = 1675454000875L;
 
 						public void menuSelected(MenuItem selectedItem) {
 							for (ValueChangeListener listener : applicationSelectionListeners) {

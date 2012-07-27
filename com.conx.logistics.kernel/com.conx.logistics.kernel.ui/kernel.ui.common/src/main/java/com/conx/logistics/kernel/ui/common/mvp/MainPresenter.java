@@ -109,9 +109,9 @@ public class MainPresenter extends BasePresenter<IMainView, MainEventBus>
 			appSelectionContainer.addContainerProperty("launchable", Component.class, null);
 			Filter filter = new Not(new SimpleStringFilter("id","KERNEL.WORKSPACE", true, false));
 			appSelectionContainer.addContainerFilter(filter);
-			this.view.setAppSelectionContainer(appSelectionContainer, "id", "name", "icon");
 			AppMenuEntry[] menuEntries = this.application.createAppMenuEntries();	
 			updateAppSelectContainer(menuEntries);
+			this.view.setAppSelectionContainer(appSelectionContainer, "id", "name", "icon");
 			this.initialized  = true;
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();

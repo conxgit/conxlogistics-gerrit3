@@ -3,6 +3,8 @@ package com.conx.logistics.kernel.workspace.ui.navigation;
 import org.vaadin.mvp.presenter.BasePresenter;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
+import com.conx.logistics.kernel.ui.common.gwt.client.ui.ConXNavigationAccordion;
+import com.conx.logistics.kernel.ui.common.gwt.client.ui.ConXNavigationTree;
 import com.conx.logistics.kernel.ui.common.ui.feature.Feature;
 import com.conx.logistics.kernel.ui.common.ui.feature.FeatureSet;
 import com.conx.logistics.kernel.workspace.ui.WorkspaceEventBus;
@@ -11,7 +13,6 @@ import com.conx.logistics.kernel.workspace.ui.navigation.view.WorkspaceNavigatio
 import com.vaadin.data.Property;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field.ValueChangeEvent;
 import com.vaadin.ui.Tree;
 
@@ -22,7 +23,7 @@ public class WorkspaceNavigationPresenter extends
 	private FeatureSet allFeatures;
 	private final ObjectProperty<Feature> currentFeature = new ObjectProperty<Feature>(
 			null, Feature.class);
-	private Tree navigationTree;
+	private ConXNavigationAccordion navigationTree;
 
 	@Override
 	public void bind() {
@@ -32,8 +33,8 @@ public class WorkspaceNavigationPresenter extends
 		this.view.getMainLayout().addComponent(navigationTree);
 	}
 
-	private Tree createMenuTree() {
-		final Tree tree = new Tree();
+	private ConXNavigationAccordion createMenuTree() {
+		final ConXNavigationAccordion tree = new ConXNavigationAccordion();
 		try {
 			// -- Create datasource
 			Feature userInfo = new Feature("KERNEL.WORKSPACE.PROFILE.BASICVIEW","Basic", "Basic User Details", null,Feature.Version.V67);
@@ -45,8 +46,7 @@ public class WorkspaceNavigationPresenter extends
 
 			// -- Populate tree
 			tree.setImmediate(true);
-			tree.setStyleName("menu");
-			tree.setContainerDataSource(allFeatures.getContainer(true));
+			tree.setContainer(allFeatures.getContainer(true));
 			currentFeature.addListener(new Property.ValueChangeListener() {
 				@Override
 				public void valueChange(
@@ -58,11 +58,7 @@ public class WorkspaceNavigationPresenter extends
 					}
 				}
 			});
-			for (int i = 0; i < allFeatures.getFeatures().length; i++) {
-				tree.expandItemsRecursively(allFeatures.getFeatures()[i]);
-			}
-			tree.expandItemsRecursively(allFeatures);
-			tree.addListener(new Tree.ValueChangeListener() {
+			tree.addNavigationListener(new Property.ValueChangeListener() {
 				@Override
 				public void valueChange(
 						com.vaadin.data.Property.ValueChangeEvent event) {
@@ -70,18 +66,7 @@ public class WorkspaceNavigationPresenter extends
 					setFeature(f);
 				}
 			});
-			tree.setItemStyleGenerator(new Tree.ItemStyleGenerator() {
-				@Override
-				public String getStyle(Object itemId) {
-					Feature f = (Feature) itemId;
-					if (f.getSinceVersion().isNew()) {
-						return "new";
-					}
-					return null;
-				}
-			});
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return tree;
