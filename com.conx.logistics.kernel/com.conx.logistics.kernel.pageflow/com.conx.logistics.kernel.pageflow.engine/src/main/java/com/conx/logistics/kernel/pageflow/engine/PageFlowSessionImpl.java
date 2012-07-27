@@ -20,16 +20,19 @@ import org.jbpm.task.Status;
 import org.jbpm.task.Task;
 import org.jbpm.task.service.ContentData;
 import org.jbpm.workflow.core.node.HumanTaskNode;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.conx.logistics.common.utils.Validator;
 import com.conx.logistics.kernel.bpm.services.IBPMProcessInstance;
 import com.conx.logistics.kernel.bpm.services.IBPMService;
 import com.conx.logistics.kernel.pageflow.engine.ui.TaskWizard;
+import com.conx.logistics.kernel.pageflow.services.IPageFlowManager;
 import com.conx.logistics.kernel.pageflow.services.IPageFlowSession;
 import com.conx.logistics.kernel.pageflow.services.PageFlowPage;
 import com.conx.logistics.mdm.domain.application.Feature;
 import com.vaadin.ui.Component;
 
+@Deprecated
 public class PageFlowSessionImpl implements IPageFlowSession {
 	private static final int WAIT_DELAY = 1000;
 
@@ -236,7 +239,7 @@ public class PageFlowSessionImpl implements IPageFlowSession {
 		return processVars;
 	}
 
-	public void executeNext(UserTransaction ut, Object param) throws Exception {
+	public boolean executeNext(UserTransaction ut, Object param) throws Exception {
 		// 1. Complete the current task first
 		try {
 			ut.begin();
@@ -321,7 +324,7 @@ public class PageFlowSessionImpl implements IPageFlowSession {
 				throw e;
 			}
 		}
-
+		return false;
 	}
 
 	private PageFlowPage getNextPage(PageFlowPage currentPage) {
@@ -447,6 +450,24 @@ public class PageFlowSessionImpl implements IPageFlowSession {
 		}		
 		
 		return procInstVars;
+	}
+
+	@Override
+	public EntityManagerFactory getConXEntityManagerfactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PlatformTransactionManager getJTAGlobalTransactionManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IPageFlowManager getPageFlowEngine() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

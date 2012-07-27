@@ -46,6 +46,11 @@ public interface IPageFlowManager {
 	 */
 	public void setMainApplication(IMainApplication mainApp);
 	
+	/**
+	 * Get the Main App
+	 */
+	public IMainApplication getMainApplication();
+	
 	
 	/**
 	 * Other

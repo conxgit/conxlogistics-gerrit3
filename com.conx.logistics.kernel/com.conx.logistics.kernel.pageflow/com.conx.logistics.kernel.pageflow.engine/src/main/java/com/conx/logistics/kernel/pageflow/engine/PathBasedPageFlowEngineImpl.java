@@ -47,6 +47,11 @@ public class PathBasedPageFlowEngineImpl implements IPageFlowManager {
 
 	private JndiTemplate jndiTemplate;
 	private UserTransaction userTransaction;
+	
+	/** EntityManagerFactories */
+	private final Map<String, Map<String,PageFlowPage>> pageCache = Collections
+			.synchronizedMap(new HashMap<String, Map<String,PageFlowPage>>());
+	private IMainApplication mainApp;
 
 	public PathBasedPageFlowEngineImpl() {
 		this.sessions = new ArrayList<IPageFlowSession>();
@@ -99,13 +104,6 @@ public class PathBasedPageFlowEngineImpl implements IPageFlowManager {
 
 	public void stop() {
 	}
-
-	/** EntityManagerFactories */
-	private final Map<String, Map<String,PageFlowPage>> pageCache = Collections
-			.synchronizedMap(new HashMap<String, Map<String,PageFlowPage>>());
-	private IMainApplication mainApp;
-
-	
 
 	public IMainApplication getMainApp() {
 		return mainApp;
@@ -325,5 +323,10 @@ public class PathBasedPageFlowEngineImpl implements IPageFlowManager {
 	@Override
 	public IBPMService getBPMService() {
 		return bpmService;
+	}
+
+	@Override
+	public IMainApplication getMainApplication() {
+		return mainApp;
 	}
 }

@@ -32,6 +32,7 @@ import com.conx.logistics.kernel.ui.service.contribution.IMainApplication;
 import com.conx.logistics.mdm.domain.application.Feature;
 import com.conx.logistics.mdm.domain.task.TaskDefinition;
 
+@Deprecated
 public class PageFlowEngineImpl implements IPageFlowManager {
 
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -233,7 +234,8 @@ public class PageFlowEngineImpl implements IPageFlowManager {
 		}			
 		
 		// 4. Create wizard
-		TaskWizard wizard = new TaskWizard(session, this,onCompletionCompletionFeature,onCompletionCompletionViewPresenter);
+//		TaskWizard wizard = new TaskWizard(session, this, onCompletionCompletionFeature,onCompletionCompletionViewPresenter);
+		TaskWizard wizard = new TaskWizard(session);
 		wizard.setSizeFull();
 		if (session.getOrderedPageList() != null) {
 			for (PageFlowPage page : session.getOrderedPageList()) {
@@ -299,6 +301,30 @@ public class PageFlowEngineImpl implements IPageFlowManager {
 	@Override
 	public void setMainApplication(IMainApplication mainApp) {
 		this.mainApp = mainApp;
+	}
+
+	@Override
+	public EntityManagerFactory getConXEntityManagerfactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PlatformTransactionManager getJTAGlobalTransactionManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IBPMService getBPMService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IMainApplication getMainApplication() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

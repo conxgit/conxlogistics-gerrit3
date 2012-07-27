@@ -422,4 +422,9 @@ public class PathBasedPageFlowSessionImpl implements IPageFlowSession {
 		return engine.getConXEntityManagerfactory();
 	}
 
+	@Override
+	public IPageFlowManager getPageFlowEngine() {
+		return engine;
+	}
+
 }

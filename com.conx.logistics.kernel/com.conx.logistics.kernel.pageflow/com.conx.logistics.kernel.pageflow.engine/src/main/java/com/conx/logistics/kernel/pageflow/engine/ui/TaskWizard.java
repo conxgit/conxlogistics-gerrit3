@@ -23,6 +23,7 @@ import com.conx.logistics.kernel.pageflow.engine.PageFlowSessionImpl;
 import com.conx.logistics.kernel.pageflow.event.IPageFlowPageChangedEventHandler;
 import com.conx.logistics.kernel.pageflow.event.IPageFlowPageChangedListener;
 import com.conx.logistics.kernel.pageflow.event.PageFlowPageChangedEvent;
+import com.conx.logistics.kernel.pageflow.services.IPageFlowManager;
 import com.conx.logistics.kernel.pageflow.services.IPageFlowSession;
 import com.conx.logistics.kernel.pageflow.services.ITaskWizard;
 import com.conx.logistics.kernel.pageflow.services.PageFlowPage;
@@ -39,7 +40,7 @@ public class TaskWizard extends Wizard implements ITaskWizard, IPageFlowPageChan
 	private static final long serialVersionUID = 8417208260717324494L;
 	
 	private IPageFlowSession session;
-	private PageFlowEngineImpl engine;
+	private IPageFlowManager engine;
 
 	private Feature onCompletionCompletionFeature;
 
@@ -47,17 +48,15 @@ public class TaskWizard extends Wizard implements ITaskWizard, IPageFlowPageChan
 	
 	private final Set<IPageFlowPageChangedListener> pageFlowPageChangedListenerCache = Collections
 			.synchronizedSet(new HashSet<IPageFlowPageChangedListener>());
-	
+		
 	private boolean nextButtonBlocked = false;
 	private boolean backButtonBlocked = false;
 
 	private boolean processPageFlowPageChangedEvents;
 	
 	public TaskWizard(IPageFlowSession session) {
-		this.engine = engine;
 		this.session = session;
-		this.onCompletionCompletionFeature = onCompletionCompletionFeature;
-		this.onCompletionCompletionViewPresenter = onCompletionCompletionViewPresenter;
+		this.engine = session.getPageFlowEngine();
 		
 		getNextButton().setImmediate(true);
 		getBackButton().setImmediate(true);
@@ -166,7 +165,7 @@ public class TaskWizard extends Wizard implements ITaskWizard, IPageFlowPageChan
 			return;
 		}
 		
-    	IMainApplication mainApp = this.engine.getMainApp();
+    	IMainApplication mainApp = this.engine.getMainApplication();
     	if (Validator.isNotNull(mainApp))
     	{
     		com.conx.logistics.mdm.domain.application.Application parentApp = onCompletionCompletionFeature.getParentApplication();
@@ -174,7 +173,7 @@ public class TaskWizard extends Wizard implements ITaskWizard, IPageFlowPageChan
     		IApplicationViewContribution avc = mainApp.getApplicationContributionByCode(parentApp.getCode());
 
 			String viewCode = onCompletionCompletionFeature.getCode();
-			IViewContribution vc = this.engine.getMainApp().getViewContributionByCode(viewCode);
+			IViewContribution vc = mainApp.getViewContributionByCode(viewCode);
 			if (avc != null)
 			{
 				Method featureViewerMethod = null;

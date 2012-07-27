@@ -9,7 +9,6 @@ import javax.transaction.UserTransaction;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.conx.logistics.kernel.bpm.services.IBPMProcessInstance;
-import com.conx.logistics.kernel.bpm.services.IBPMService;
 import com.conx.logistics.mdm.domain.application.Feature;
 import com.vaadin.ui.Component;
 
@@ -25,7 +24,7 @@ public interface IPageFlowSession {
 	public Map<String, Object> getProcessVars();
 	public EntityManagerFactory getConXEntityManagerfactory();
 	public PlatformTransactionManager getJTAGlobalTransactionManager();
-	
+	public IPageFlowManager getPageFlowEngine();
 	
 	public void completeProcess(UserTransaction userTransaction, Object data) throws Exception;
 	public boolean executeNext(UserTransaction userTransaction, Object data) throws Exception;

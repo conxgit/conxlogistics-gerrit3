@@ -74,14 +74,6 @@ public class TextAreaRepresentation extends FormItemRepresentation {
         this.value = value;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     @Override
     public Map<String, Object> getDataMap() {
         Map<String, Object> data = super.getDataMap();
