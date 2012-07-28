@@ -7,6 +7,7 @@ import org.vaadin.mvp.presenter.IPresenter;
 import org.vaadin.mvp.presenter.IPresenterFactory;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
+import com.conx.logistics.kernel.ui.common.gwt.client.ui.ConXEntityToolStrip;
 import com.conx.logistics.kernel.ui.common.mvp.MainMVPApplication;
 import com.conx.logistics.kernel.ui.common.mvp.MainPresenter;
 import com.conx.logistics.kernel.ui.common.mvp.view.feature.FeatureView;
@@ -45,8 +46,12 @@ public class WorkspacePresenter extends BasePresenter<IWorkspaceView, WorkspaceE
 	this.view.setNavigation(navView);
     
     //load fv
-	fv = new FeatureView(this.application,this);
-    this.view.setContent(this.fv);
+//	fv = new FeatureView(this.application,this);
+	VerticalLayout viewOne = new VerticalLayout();
+	viewOne.setSizeFull();
+	viewOne.addComponent(new ConXEntityToolStrip());
+//    this.view.setContent(this.fv);
+	this.view.setContent(viewOne);
   }
   
   public void onOpenModule(Class<? extends BasePresenter<?, ? extends EventBus>> presenter) {

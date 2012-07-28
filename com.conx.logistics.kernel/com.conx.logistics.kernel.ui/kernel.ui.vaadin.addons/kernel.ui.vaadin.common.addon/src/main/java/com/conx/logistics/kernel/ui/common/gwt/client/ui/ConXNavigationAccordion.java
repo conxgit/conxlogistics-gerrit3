@@ -35,8 +35,8 @@ public class ConXNavigationAccordion extends VerticalLayout implements ValueChan
 	}
 
 	public void setContainer(HierarchicalContainer container) {
-		removeAllComponents();
 		Collection<?> ids = container.rootItemIds();
+		
 		for (Object id : ids) {
 			Item currentItem = container.getItem(id);
 			Object name = currentItem.getItemProperty("Name").getValue();

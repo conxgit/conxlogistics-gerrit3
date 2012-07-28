@@ -4441,14 +4441,19 @@ td.v-datefield-calendarpanel-nextyear {
   background-image: url(common/img/horizontal-sprites.png);
   background-position: -0px top;
 }
+.v-splitpanel-hsplitter {
+	width: 5px;
+	background-image: none;
+}
 .v-splitpanel-hsplitter div {
-	width: 7px;
-	height: 100%; /* for Opera */
+	width: 5px;
+	height: 100%;
 	background: transparent;
 	background-repeat: no-repeat;
 	background-position: 50%;
-  background-image: url(common/img/horizontal-sprites.png);
-  background-position: -7px center;
+	background-image: none;
+	background-position: -7px center;
+	border-right: 1px solid #DDD;
 }
 .v-splitpanel-vsplitter,
 .v-splitpanel-vsplitter-locked {
@@ -6254,4 +6259,7 @@ textarea.v-textarea-readonly,
 }
 .conx-tree-nav .v-selected .v-table-cell-content {
 	border-right: none;
+}
+.v-table-conx-tree-nav .v-table-body {
+	border: none;
 }
