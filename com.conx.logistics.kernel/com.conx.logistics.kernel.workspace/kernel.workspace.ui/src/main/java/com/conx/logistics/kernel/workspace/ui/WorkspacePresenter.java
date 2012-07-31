@@ -23,6 +23,7 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Window;
 
 @Presenter(view = WorkspaceView.class)
@@ -56,19 +57,30 @@ public class WorkspacePresenter extends BasePresenter<IWorkspaceView, WorkspaceE
 	container.addContainerProperty("Meow", String.class, "Cat");
 	container.addContainerProperty("Squeak", String.class, "Mouse");
 	container.addContainerProperty("Oink", String.class, "Pig");
-	Item item = container.addItem("BEEP");
-	item.addItemProperty("Moo", null);
-	item.addItemProperty("Meow", null);
-	item.addItemProperty("Squeak", null);
-	item.addItemProperty("Oink", null);
+	Item item = container.addItem(0);
+	item.getItemProperty("Moo").setValue("Cow");
+	item.getItemProperty("Meow").setValue("Cat");
+	item.getItemProperty("Squeak").setValue("Mouse");
+	item.getItemProperty("Oink").setValue("Pig");
+	Item item1 = container.addItem(1);
+	item1.getItemProperty("Moo").setValue("Cow");
+	item1.getItemProperty("Meow").setValue("Cat");
+	item1.getItemProperty("Squeak").setValue("Mouse");
+	item1.getItemProperty("Oink").setValue("Pig");
+	
 	ConXEntityGrid grid = new ConXEntityGrid(container);
 	VerticalLayout viewOne = new VerticalLayout();
 	viewOne.setSizeFull();
 	viewOne.addComponent(new ConXEntityToolStrip());
 	viewOne.addComponent(grid);
 	viewOne.setExpandRatio(grid, 1.0f);
+	VerticalSplitPanel splitPanel = new VerticalSplitPanel();
+	splitPanel.setSizeFull();
+	splitPanel.setFirstComponent(viewOne);
+	splitPanel.setSecondComponent(new VerticalLayout());
+	splitPanel.setSplitPosition(20, true);
 //    this.view.setContent(this.fv);
-	this.view.setContent(viewOne);
+	this.view.setContent(splitPanel);
   }
   
   public void onOpenModule(Class<? extends BasePresenter<?, ? extends EventBus>> presenter) {

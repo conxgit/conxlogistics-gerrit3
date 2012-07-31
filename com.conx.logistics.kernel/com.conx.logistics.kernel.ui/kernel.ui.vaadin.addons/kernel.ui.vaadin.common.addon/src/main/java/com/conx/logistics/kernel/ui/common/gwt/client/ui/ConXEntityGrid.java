@@ -21,6 +21,8 @@ public class ConXEntityGrid extends VerticalLayout implements FilterDecorator, F
 		grid.setContainerDataSource(container);
 		grid.setFilterDecorator(this);
 		grid.setFilterGenerator(this);
+		grid.setFiltersVisible(true);
+		setStyleName("conx-entity-grid");
 		addComponent(grid);
 		setExpandRatio(grid, 1.0f);
 	}

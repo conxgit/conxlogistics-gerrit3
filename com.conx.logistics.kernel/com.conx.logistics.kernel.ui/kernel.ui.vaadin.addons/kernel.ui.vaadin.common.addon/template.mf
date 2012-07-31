@@ -14,7 +14,9 @@ Import-Package:
   com.vaadin.data;version="[6.7.0,7.0.0)",
   com.vaadin.data.util;version="[6.7.0,7.0.0)",
   com.vaadin.event;version="[6.7.0,7.0.0)",
-  com.conx.logistics.kernel.ui.filteredtable.gwt.client.ui;version="1.0.0"
+  com.conx.logistics.kernel.ui.filteredtable.gwt.client.ui;version="1.0.0",
+  com.vaadin.addon.jpacontainer;version="2.0.0",
+  com.vaadin.addon.jpacontainer.provider;version="2.0.0"
 Excluded-Imports: com.google.gwt.core.client,
   com.google.gwt.dom.client,
   com.google.gwt.event.dom.client,

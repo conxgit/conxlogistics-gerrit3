@@ -8,30 +8,28 @@ import javax.persistence.TypedQuery;
 import org.vaadin.mvp.presenter.BasePresenter;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
-import com.conx.logistics.app.whse.dao.services.IWarehouseDAOService;
 import com.conx.logistics.app.whse.data.HierarchicalFeatureContainer;
 import com.conx.logistics.app.whse.ui.WarehouseEventBus;
-import com.conx.logistics.app.whse.ui.navigation.view.WarehouseNavigationView;
 import com.conx.logistics.app.whse.ui.navigation.view.IWarehouseNavigationView;
+import com.conx.logistics.app.whse.ui.navigation.view.WarehouseNavigationView;
 import com.conx.logistics.kernel.system.dao.services.application.IApplicationDAOService;
+import com.conx.logistics.kernel.ui.common.gwt.client.ui.ConXNavigationAccordion;
 import com.conx.logistics.kernel.ui.common.mvp.MainMVPApplication;
 import com.conx.logistics.mdm.domain.application.Application;
 import com.conx.logistics.mdm.domain.application.Feature;
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Field.ValueChangeEvent;
 import com.vaadin.ui.Tree;
-
-import com.vaadin.data.util.filter.Compare;
 
 @Presenter(view = WarehouseNavigationView.class)
 public class WarehouseNavigationPresenter extends
 		BasePresenter<IWarehouseNavigationView, WarehouseEventBus> {
 
 	private final ObjectProperty<Feature> currentFeature = new ObjectProperty<Feature>(null, Feature.class);
-	private Tree navigationTree;
+	private ConXNavigationAccordion navigationTree;
 	private MainMVPApplication mainApp;
 	private EntityManagerFactory kernelSystemEntityManagerFactory;
 	private EntityManager kernelSystemEntityManager;
@@ -71,8 +69,8 @@ public class WarehouseNavigationPresenter extends
 		this.view.getMainLayout().addComponent(navigationTree);
 	}
 
-	private Tree createMenuTree() {
-		final Tree tree = new Tree();
+	private ConXNavigationAccordion createMenuTree() {
+		final ConXNavigationAccordion tree = new ConXNavigationAccordion();
 		try {
 			// -- Create datasource
 			/*
@@ -85,9 +83,8 @@ public class WarehouseNavigationPresenter extends
 			*/
 			// -- Populate tree
 			tree.setImmediate(true);
-			tree.setStyleName("menu");
-			tree.setItemCaptionPropertyId("name");
-			tree.setContainerDataSource(this.controlPanelFeatures);
+			tree.setNamePropertyId("name");
+			tree.setContainer(this.controlPanelFeatures);
 			currentFeature.addListener(new Property.ValueChangeListener() {
 				@Override
 				public void valueChange(
@@ -99,26 +96,13 @@ public class WarehouseNavigationPresenter extends
 					}
 				}
 			});
-			for (Object iid : this.controlPanelFeatures.getItemIds()) {
-				tree.expandItemsRecursively(iid);
-			}
 			//tree.expandItemsRecursively(allFeatures);
-			tree.addListener(new Tree.ValueChangeListener() {
+			tree.addNavigationListener(new Tree.ValueChangeListener() {
 				@Override
 				public void valueChange(
 						com.vaadin.data.Property.ValueChangeEvent event) {
 					Feature f = (Feature) WarehouseNavigationPresenter.this.controlPanelFeatures.getItem(event.getProperty().getValue()).getEntity();
 					setFeature(f);
-				}
-			});
-			tree.setItemStyleGenerator(new Tree.ItemStyleGenerator() {
-				@Override
-				public String getStyle(Object itemId) {
-					Feature f = (Feature) WarehouseNavigationPresenter.this.controlPanelFeatures.getItem(itemId).getEntity();
-					//if (f.getSinceVersion().isNew()) {
-					//	return "new";
-					//}
-					return "new";
 				}
 			});
 		} catch (Exception e) {

@@ -46,6 +46,7 @@ public class WorkspaceNavigationPresenter extends
 
 			// -- Populate tree
 			tree.setImmediate(true);
+			tree.setNamePropertyId("Name");
 			tree.setContainer(allFeatures.getContainer(true));
 			currentFeature.addListener(new Property.ValueChangeListener() {
 				@Override
