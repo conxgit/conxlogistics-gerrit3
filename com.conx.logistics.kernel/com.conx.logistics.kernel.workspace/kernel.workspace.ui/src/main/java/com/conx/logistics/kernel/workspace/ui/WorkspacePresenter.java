@@ -1,21 +1,25 @@
 package com.conx.logistics.kernel.workspace.ui;
 
 import org.vaadin.mvp.eventbus.EventBus;
-import org.vaadin.mvp.eventbus.annotation.Event;
 import org.vaadin.mvp.presenter.BasePresenter;
 import org.vaadin.mvp.presenter.IPresenter;
 import org.vaadin.mvp.presenter.IPresenterFactory;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
+import com.conx.logistics.kernel.ui.common.gwt.client.ui.ConXEntityGrid;
 import com.conx.logistics.kernel.ui.common.gwt.client.ui.ConXEntityToolStrip;
 import com.conx.logistics.kernel.ui.common.mvp.MainMVPApplication;
-import com.conx.logistics.kernel.ui.common.mvp.MainPresenter;
 import com.conx.logistics.kernel.ui.common.mvp.view.feature.FeatureView;
 import com.conx.logistics.kernel.workspace.ui.navigation.WorkspaceNavigationPresenter;
 import com.conx.logistics.kernel.workspace.ui.navigation.view.IWorkspaceNavigationView;
 import com.conx.logistics.kernel.workspace.ui.view.IWorkspaceView;
 import com.conx.logistics.kernel.workspace.ui.view.WorkspaceView;
 import com.conx.logistics.mdm.domain.application.Feature;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ConversionException;
+import com.vaadin.data.Property.ReadOnlyException;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.VerticalLayout;
@@ -47,9 +51,22 @@ public class WorkspacePresenter extends BasePresenter<IWorkspaceView, WorkspaceE
     
     //load fv
 //	fv = new FeatureView(this.application,this);
+	IndexedContainer container = new IndexedContainer();
+	container.addContainerProperty("Moo", String.class, "Cow");
+	container.addContainerProperty("Meow", String.class, "Cat");
+	container.addContainerProperty("Squeak", String.class, "Mouse");
+	container.addContainerProperty("Oink", String.class, "Pig");
+	Item item = container.addItem("BEEP");
+	item.addItemProperty("Moo", null);
+	item.addItemProperty("Meow", null);
+	item.addItemProperty("Squeak", null);
+	item.addItemProperty("Oink", null);
+	ConXEntityGrid grid = new ConXEntityGrid(container);
 	VerticalLayout viewOne = new VerticalLayout();
 	viewOne.setSizeFull();
 	viewOne.addComponent(new ConXEntityToolStrip());
+	viewOne.addComponent(grid);
+	viewOne.setExpandRatio(grid, 1.0f);
 //    this.view.setContent(this.fv);
 	this.view.setContent(viewOne);
   }

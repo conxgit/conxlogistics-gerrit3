@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Export-Package: com.conx.logistics.kernel.ui.filteredtable.gwt.client.
+ ui;version="1.0.0";uses:="com.google.gwt.event.dom.client,com.google.
+ gwt.user.client.ui,com.vaadin.data,com.vaadin.event,com.vaadin.termin
+ al,com.vaadin.terminal.gwt.client,com.vaadin.terminal.gwt.client.ui,c
+ om.vaadin.ui,org.vaadin.hene.popupbutton",com.vaadin.terminal.gwt.cli
+ ent.ui;version="1.0.0";uses:="com.google.gwt.core.client,com.google.g
+ wt.dom.client,com.google.gwt.event.dom.client,com.google.gwt.user.cli
+ ent,com.google.gwt.user.client.ui,com.vaadin.terminal.gwt.client,com.
+ vaadin.terminal.gwt.client.ui.dd",com.vaadin.ui;version="1.0.0";uses:
+ ="com.vaadin.data,com.vaadin.event,com.vaadin.event.dd,com.vaadin.eve
+ nt.dd.acceptcriteria,com.vaadin.terminal,com.vaadin.terminal.gwt.clie
+ nt"
+Implementation-Title: Vaadin Widget
+Implementation-Version: 1.0.0
+Built-By: mdu
+Vaadin-Widgetsets: com.conx.logistics.kernel.ui.filteredtable.gwt.Kern
+ elUIFilteredTableWidgetset
+Class-Path: vaadin-6.7.5.jar
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: ConX kernel UI Filtered Table Vaadin Addon
+Created-By: Maven Integration for Eclipse
+Bundle-Vendor: ConX
+Fragment-Host: com.vaadin
+Implementation-Vendor-Id: com.conx.logistics
+Vaadin-Package-Version: 1
+Build-Jdk: 1.6.0_33
+Bundle-Version: 1.0.0
+Bundle-ManifestVersion: 2
+Import-Package: org.vaadin.hene.popupbutton;version="1.2.1"
+Bundle-SymbolicName: com.conx.logistics.kernel.ui.vaadin.filteredtable
+ .addon
+

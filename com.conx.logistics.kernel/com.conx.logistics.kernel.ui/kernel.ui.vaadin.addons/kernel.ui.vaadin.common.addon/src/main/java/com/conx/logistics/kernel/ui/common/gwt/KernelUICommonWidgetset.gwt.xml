@@ -27,4 +27,10 @@
   	<set-property name="user.agent" value="gecko1_8"/>
 
     <!-- <inherits name="com.conx.logistics.gwt.MyWidgetSet" /> -->
+
+    
+
+    <inherits name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
+
+    <inherits name="com.conx.logistics.kernel.ui.filteredtable.gwt.KernelUIFilteredTableWidgetset" />
 </module>

@@ -11,5 +11,6 @@
   <packaging>pom</packaging>
   <modules>
     <module>kernel.ui.vaadin.common.addon</module>
+    <module>kernel.ui.vaadin.filteredtable.addon</module>
   </modules>
 </project>

@@ -7,9 +7,9 @@
     <version>1.0.0</version>
   </parent>
   <groupId>com.conx.logistics</groupId>
-  <artifactId>com.conx.logistics.kernel.ui.vaadin.common.addon</artifactId>
+  <artifactId>com.conx.logistics.kernel.ui.vaadin.filteredtable.addon</artifactId>
   <packaging>jar</packaging>
-  <name>com.conx.logistics.kernel.ui.vaadin.common.addon</name>
+  <name>com.conx.logistics.kernel.ui.vaadin.filteredtable.addon</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -77,7 +77,7 @@
             port -->
           <!--extraJvmArgs>-Xmx512M -Xss1024k -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8998</extraJvmArgs -->
           <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
-          <runTarget>kernel.ui.vaadin.common.addon</runTarget>
+          <runTarget>kernel.ui.vaadin.filteredtable.addon</runTarget>
           <hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
           <noServer>true</noServer>
           <port>8080</port>
@@ -118,7 +118,7 @@
         </executions>
       </plugin>
 
-      <!-- A simple Jetty test server at http://localhost:8080/kernel.ui.vaadin.common.addon can be launched with the Maven goal jetty:run 
+      <!-- A simple Jetty test server at http://localhost:8080/kernel.ui.vaadin.filteredtable.addon can be launched with the Maven goal jetty:run 
         and stopped with jetty:stop -->
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
@@ -126,12 +126,12 @@
         <version>6.1.24</version>
         <configuration>
           <stopPort>9966</stopPort>
-          <stopKey>kernel.ui.vaadin.common.addon</stopKey>
+          <stopKey>kernel.ui.vaadin.filteredtable.addon</stopKey>
           <!-- Redeploy every x seconds if changes are detected, 0 for no automatic redeployment -->
           <scanIntervalSeconds>0</scanIntervalSeconds>
           <!-- make sure Jetty also finds the widgetset -->
           <webAppConfig>
-            <contextPath>/kernel.ui.vaadin.common.addon</contextPath>
+            <contextPath>/kernel.ui.vaadin.filteredtable.addon</contextPath>
             <baseResource implementation="org.mortbay.resource.ResourceCollection">
               <!-- Workaround for Maven/Jetty issue http://jira.codehaus.org/browse/JETTY-680 -->
               <!-- <resources>src/main/webapp,${project.build.directory}/${project.build.finalName}</resources> -->
@@ -241,11 +241,9 @@
 	</dependency>
 
     <dependency>
-    	<groupId>com.conx.logistics</groupId>
-    	<artifactId>
-    		com.conx.logistics.kernel.ui.vaadin.filteredtable.addon
-    	</artifactId>
-    	<version>1.0.0</version>
+    	<groupId>org.vaadin.addons</groupId>
+    	<artifactId>popupbutton</artifactId>
+    	<version>1.2.1</version>
     </dependency>
   </dependencies>
 
