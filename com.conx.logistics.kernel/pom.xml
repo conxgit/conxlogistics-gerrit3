@@ -25,5 +25,8 @@
   	<module>persistence.dynaconfiguration</module>
   	<module>persistence.services</module>
   	<module>com.conx.logistics.data</module>
+  	<module>criteria</module>
+  	<module>metamodel</module>
+  	<module>datasource</module>
   </modules>
 </project>

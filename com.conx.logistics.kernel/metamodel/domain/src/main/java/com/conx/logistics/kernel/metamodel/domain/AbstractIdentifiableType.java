@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+import javax.persistence.metamodel.Type.PersistenceType;
 
 @Entity
 public abstract class AbstractIdentifiableType extends AbstractManagedType {
@@ -25,14 +27,14 @@ public abstract class AbstractIdentifiableType extends AbstractManagedType {
 	}
 	
 	public AbstractIdentifiableType(String name, Class javaType,
-			AbstractManagedType superType) {
-		super(name, javaType, superType);
+			AbstractManagedType superType,PersistenceType persistentType) {
+		super(name, javaType, superType,persistentType);
 	}
 	
 	public AbstractIdentifiableType(String name, Class javaType,
 			AbstractManagedType superType,
-			SingularAttribute id, SingularAttribute version) {
-		super(name, javaType, superType);
+			SingularAttribute id, SingularAttribute version,PersistenceType persistentType) {
+		super(name, javaType, superType,persistentType);
 		this.idAttribute = id;
 		this.versionAttribute = version;		
 	}

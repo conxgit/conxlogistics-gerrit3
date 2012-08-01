@@ -4,20 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+import javax.persistence.metamodel.Type.PersistenceType;
 
 @Entity
 public class BasicType extends AbstractType {
-	
-	@Enumerated(EnumType.STRING)
-	protected PersistentAttributeType persistentAttributeType;	
-	
 	public BasicType(){
+		super();
 	}	
 
-	public BasicType(String name, Class javaType,
-			PersistentAttributeType persistentAttributeType) {
-		super(name, javaType, javaType.getName(), javaType.getSimpleName());
-		this.persistentAttributeType = persistentAttributeType;
+	public BasicType(String name, Class javaType) {
+		super(name, javaType, javaType.getName(), javaType.getSimpleName(),PersistenceType.BASIC);
 	}
 
 }

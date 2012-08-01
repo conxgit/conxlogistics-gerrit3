@@ -1,0 +1,34 @@
+Manifest-Version: 1.0
+Export-Package: com.conx.logistics.kernel.datasource.dao.services.impl
+ ;version="1.0.0";uses:="com.conx.logistics.kernel.datasource.dao.serv
+ ices,com.conx.logistics.kernel.datasource.domain,javax.persistence,or
+ g.springframework.stereotype,org.springframework.transaction.annotati
+ on"
+Bundle-Vendor: ConX
+Build-Jdk: 1.6.0_33
+Built-By: mdu
+Bundle-Version: 1.0.0
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: ConX DataSource
+Bundle-ManifestVersion: 2
+Created-By: Maven Integration for Eclipse
+Bundle-SymbolicName: com.conx.logistics.kernel.datasource.dao.jpa.pers
+ istence
+Import-Package: com.conx.logistics.common.utils;version="1.0.0",com.co
+ nx.logistics.kernel.datasource.dao.services;version="1.0.0",com.conx.
+ logistics.kernel.datasource.domain;version="1.0.0",javax.persistence;
+ version="0",javax.persistence.criteria;version="0",javax.persistence.
+ metamodel;version="0",javax.transaction;version="0",org.aopalliance.a
+ op;version="1.0.0",org.hibernate.hql.ast;version="3.6.0.Final",org.sl
+ f4j;version="[1.6.1,1.7.0)",org.springframework.aop;version="[3.0,3.1
+ )",org.springframework.aop.framework;version="[3.0,3.1)",org.springfr
+ amework.beans.factory.annotation;version="[3.0,3.1)",org.springframew
+ ork.dao;version="[3.0,3.1)",org.springframework.dao.annotation;versio
+ n="[3.0,3.1)",org.springframework.dao.support;version="[3.0,3.1)",org
+ .springframework.orm.jpa;version="[3.0,3.1)",org.springframework.orm.
+ jpa.vendor;version="[3.0,3.1)",org.springframework.stereotype;version
+ ="[3.0,3.1)",org.springframework.transaction;version="[3.0,3.1)",org.
+ springframework.transaction.annotation;version="[3.0,3.1)",org.spring
+ framework.transaction.aspectj;version="[3.0,3.1)",org.springframework
+ .transaction.jta;version="[3.0,3.1)"
+

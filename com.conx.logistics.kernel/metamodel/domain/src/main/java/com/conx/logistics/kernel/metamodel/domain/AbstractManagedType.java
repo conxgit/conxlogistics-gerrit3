@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+import javax.persistence.metamodel.Type.PersistenceType;
 
 @Entity
 public abstract class AbstractManagedType extends AbstractType {
@@ -36,8 +38,8 @@ public abstract class AbstractManagedType extends AbstractType {
 			= new HashSet<PluralAttribute>();*/
 
 	public AbstractManagedType(String name, Class javaType,
-			AbstractManagedType superType) {
-		super(name, javaType, javaType.getName(), javaType.getSimpleName());
+			AbstractManagedType superType,PersistenceType persistentType) {
+		super(name, javaType, javaType.getName(), javaType.getSimpleName(),persistentType);
 		this.superType = superType;
 	}
 

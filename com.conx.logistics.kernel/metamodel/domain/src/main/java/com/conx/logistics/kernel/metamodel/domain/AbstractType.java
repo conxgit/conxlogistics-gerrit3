@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+import javax.persistence.metamodel.Type.PersistenceType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -42,6 +43,8 @@ public abstract class AbstractType {
 	
 	protected String entityJavaType;
     protected String entityJavaSimpleType;
+
+	private PersistenceType persistentType;
     
 	public Long getId() {
 		return id;
@@ -99,17 +102,25 @@ public abstract class AbstractType {
 		this.entityJavaSimpleType = entityJavaSimpleType;
 	}
 	
-	public AbstractType() {
-		super();
-	}	
+	public PersistenceType getPersistentType() {
+		return persistentType;
+	}
+
+	public void setPersistentType(PersistenceType persistentType) {
+		this.persistentType = persistentType;
+	}
+
+	public AbstractType(){
+	}
 
 	public AbstractType(String name, Class javaType, String entityJavaType,
-			String entityJavaSimpleType) {
+			String entityJavaSimpleType,PersistenceType persistentType) {
 		super();
 		this.name = name;
 		this.javaType = javaType;
 		this.entityJavaType = entityJavaType;
 		this.entityJavaSimpleType = entityJavaSimpleType;
+		this.persistentType = persistentType;
 	}
 	
 	
