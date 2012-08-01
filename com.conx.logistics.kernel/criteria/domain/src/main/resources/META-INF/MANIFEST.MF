@@ -1,0 +1,37 @@
+Manifest-Version: 1.0
+Export-Package: com.conx.logistics.kernel.criteria.domain;version="1.0
+ .0";uses:="com.conx.logistics.kernel.criteria.domain.compile,com.conx
+ .logistics.kernel.criteria.domain.expression,javax.persistence,javax.
+ persistence.criteria,javax.persistence.metamodel",com.conx.logistics.
+ kernel.criteria.domain.collection;version="1.0.0",com.conx.logistics.
+ kernel.criteria.domain.compile;version="1.0.0";uses:="javax.persisten
+ ce.criteria",com.conx.logistics.kernel.criteria.domain.expression;ver
+ sion="1.0.0";uses:="com.conx.logistics.kernel.criteria.domain,com.con
+ x.logistics.kernel.criteria.domain.compile,com.conx.logistics.kernel.
+ criteria.domain.path,javax.persistence.criteria,javax.persistence.met
+ amodel",com.conx.logistics.kernel.criteria.domain.expression.function
+ ;version="1.0.0";uses:="com.conx.logistics.kernel.criteria.domain,com
+ .conx.logistics.kernel.criteria.domain.compile,com.conx.logistics.ker
+ nel.criteria.domain.expression,javax.persistence.criteria",com.conx.l
+ ogistics.kernel.criteria.domain.path;version="1.0.0";uses:="com.conx.
+ logistics.kernel.criteria.domain,com.conx.logistics.kernel.criteria.d
+ omain.collection,com.conx.logistics.kernel.criteria.domain.compile,co
+ m.conx.logistics.kernel.criteria.domain.expression,javax.persistence.
+ criteria,javax.persistence.metamodel",com.conx.logistics.kernel.crite
+ ria.domain.predicate;version="1.0.0";uses:="com.conx.logistics.kernel
+ .criteria.domain,com.conx.logistics.kernel.criteria.domain.compile,co
+ m.conx.logistics.kernel.criteria.domain.expression,com.conx.logistics
+ .kernel.criteria.domain.path,javax.persistence.criteria"
+Bundle-Vendor: ConX
+Build-Jdk: 1.6.0_33
+Built-By: mdu
+Bundle-Version: 1.0.0
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: ConX Query Domain
+Bundle-ManifestVersion: 2
+Created-By: Maven Integration for Eclipse
+Bundle-SymbolicName: com.conx.logistics.kernel.criteria.domain
+Import-Package: com.conx.logistics.mdm.domain;version="[1.0.0,2.0.0)",
+ javax.persistence;version="0",javax.persistence.criteria;version="0",
+ javax.persistence.metamodel;version="0"
+
