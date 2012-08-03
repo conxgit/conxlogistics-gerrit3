@@ -27,7 +27,7 @@ public interface IDataSourceDAOService {
 
 	public DataSource add(DataSource record);
 	
-	public DataSource provide(IdentifiableType jpaEntityType) throws ClassNotFoundException;
+	public DataSource provide(EntityType entityType) throws ClassNotFoundException;
 
 	public void delete(DataSource record);
 

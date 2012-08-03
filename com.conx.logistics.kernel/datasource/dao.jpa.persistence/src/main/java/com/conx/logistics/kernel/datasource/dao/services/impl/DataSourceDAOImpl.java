@@ -20,6 +20,8 @@ import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+import javax.persistence.metamodel.Type.PersistenceType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,7 @@ import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.metamodel.domain.AbstractAttribute;
 import com.conx.logistics.kernel.metamodel.domain.BasicType;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
+import com.conx.logistics.kernel.metamodel.domain.EntityTypeAttribute;
 
 
 
@@ -95,55 +98,22 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 	}
 	
 	@Override
-	public DataSource provide(IdentifiableType jpaDataSource) throws ClassNotFoundException {
-		System.out.println("providing DataSource for ("+jpaDataSource.getJavaType().getName()+")");
+	public DataSource provide(EntityType entityType) throws ClassNotFoundException {
+		System.out.println("providing DataSource for ("+entityType.getJpaEntityName()+")");
 		
     	DataSource targetDS = null;
-    	boolean isMappedSuperClass = false;
+
+    	Set<EntityTypeAttribute> entityTypeAttrs = entityType.getDeclaredAttributes();
     	
-    	EntityType entityType = entityTypeDao.provide(jpaDataSource);
-    	List<AbstractAttribute> entityTypeAttrs = entityTypeDao.getAllAttributesByEntityType(entityType);
-    	
-    	String simpleType = jpaDataSource.getJavaType().getSimpleName();
+    	String simpleType = entityType.getJavaType().getSimpleName();
     	simpleType = simpleType.substring(0,1).toLowerCase()+simpleType.substring(1);
     	
     	targetDS = getByCode(simpleType);
     	if (targetDS == null)
     	{
-    		javax.persistence.metamodel.ManagedType mt = null;
-    		
-			Metamodel mm = em.getMetamodel();
-	    	try {
-				mt = mm.managedType(jpaDataSource.getJavaType());
-			} catch (Exception e) {
-				StringWriter sw = new StringWriter();
-				e.printStackTrace(new PrintWriter(sw));
-				String stacktrace = sw.toString();
-				logger.error(stacktrace);
-			}
-
-	    	
-	    	//Create dataSource
-	    	DataSource st = null;
-	    	if (mt != null)
-	    	{
-		    	if (mt instanceof javax.persistence.metamodel.EntityType)
-		    	{
-		    		EntityType targetEntityType = entityTypeDao.provide((IdentifiableType)mt);  
-		        	simpleType = targetEntityType.getJavaType().getSimpleName();
-		        	simpleType = simpleType.substring(0,1).toLowerCase()+simpleType.substring(1);
-		    		targetDS = new DataSource(simpleType,targetEntityType);
-		    	}
-		    	else
-		    	{
-		    		targetDS = null;
-		    	}
-		    	
-		    	//Save 
-		    	targetDS = em.merge(targetDS);
-		    	
-		    	targetDS = updateDataSourceFields(targetDS,(IdentifiableType)mt);  		    	
-	    	}
+    		targetDS = new DataSource(simpleType,entityType);
+    		targetDS = em.merge(targetDS);
+    		targetDS = updateDataSourceFields(targetDS);
     	}
     	
 		return targetDS;
@@ -167,82 +137,65 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 
 
 	private DataSource updateDataSourceFields(
-			DataSource targetDataSource, IdentifiableType jpaDataSource) throws ClassNotFoundException {
+			DataSource targetDataSource) throws ClassNotFoundException {
 		//Process attributes
-		Set aattrs = jpaDataSource.getDeclaredAttributes();
-		
-		Set<SingularAttribute> sattrs = jpaDataSource.getDeclaredSingularAttributes();
-		
-		Set<PluralAttribute> pattrs = jpaDataSource.getDeclaredPluralAttributes();
-		
 		PersistentAttributeType at;
 		DataSource et;
 		com.conx.logistics.kernel.metamodel.domain.AbstractAttribute attr;
-		DataSource attrDataSource;
-		for (SingularAttribute sattr : sattrs)
+		DataSource attrDataSource;	
+		
+		Set<EntityTypeAttribute> aattrs = targetDataSource.getEntityType().getDeclaredAttributes();
+		PersistenceType pt;
+		EntityType pet;
+		for (EntityTypeAttribute aattr : aattrs)
 		{
-			attr = null;
-			at = sattr.getPersistentAttributeType();
-			if (at == PersistentAttributeType.BASIC)
+			pt = aattr.getAttribute().getPersistenceType();
+			if (pt == PersistenceType.BASIC)
 			{
-				try {
-					//- provide BasicType
-					BasicType basicType = basicTypeDao.provide(sattr.getJavaType());
-					
-					//- create DataSourceField
-					DataSourceField dsField = new DataSourceField(sattr.getName(),targetDataSource,basicType, sattr.getName());
-					dsField = em.merge(dsField);
-					targetDataSource.getDSFields().add(dsField);
-					
-					System.out.println("Adding Basic-type DataSourceField ("+sattr.getName()+") of type ("+basicType.getEntityJavaType()+")");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				//- provide BasicType
+				BasicType basicType = basicTypeDao.provide(aattr.getAttribute().getJavaType());
+				
+				//- create DataSourceField
+				DataSourceField dsField = new DataSourceField(aattr.getAttribute().getName(),targetDataSource,basicType, aattr.getAttribute().getName());
+				dsField = em.merge(dsField);
+				targetDataSource.getDSFields().add(dsField);
+				
+				System.out.println("Adding Basic-type DataSourceField ("+aattr.getAttribute().getName()+") of type ("+basicType.getEntityJavaType()+")");				
 			}
-			else if ((at == PersistentAttributeType.ONE_TO_ONE) || (at == PersistentAttributeType.MANY_TO_ONE))
+			else if (pt == PersistenceType.ENTITY)
 			{
-				try {
+				if (aattr.getAttribute() instanceof com.conx.logistics.kernel.metamodel.domain.SingularAttribute)
+				{
 					//- provide DataSource for entity type
-					attrDataSource = provide((IdentifiableType)sattr.getType());
+					EntityType entityType = aattr.getAttribute().getEntityType();
+					attrDataSource = provide(aattr.getAttribute().getEntityType());
 					
-					//- provide EntityType
-					EntityType entityType = entityTypeDao.provide((IdentifiableType)sattr.getType());
 					
 					//- create Entity attribute
-					DataSourceField entityDSField = new DataSourceField(sattr.getName(),targetDataSource,attrDataSource,entityType,sattr.getName(),at);
+					DataSourceField entityDSField = new DataSourceField(aattr.getAttribute().getName(),targetDataSource,attrDataSource,entityType,aattr.getAttribute().getName(),((com.conx.logistics.kernel.metamodel.domain.SingularAttribute)aattr.getAttribute()).getAttributeType());
 					entityDSField = em.merge(entityDSField);
 					targetDataSource.getDSFields().add(entityDSField);
 					
-					System.out.println("Adding Entity-type DataSourceField ("+sattr.getName()+") of type ("+entityType.getEntityJavaType()+")");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}			
-			}		
-		}
-		
-		com.conx.logistics.kernel.metamodel.domain.PluralAttribute pattr_;
-		for (PluralAttribute pattr : pattrs)
-		{
-			pattr_ = null;
-			at = pattr.getPersistentAttributeType();
-			if (at == PersistentAttributeType.ONE_TO_MANY || at == PersistentAttributeType.MANY_TO_MANY)
-			{
-				//- provide DataSource for entity type
-				attrDataSource = provide((IdentifiableType)pattr.getElementType());
-				
-				//- provide EntityType
-				EntityType entityType = entityTypeDao.provide((IdentifiableType)pattr.getElementType());
-				
-				//- create Entity attribute
-				DataSourceField entityDSField = new DataSourceField(pattr.getName(),targetDataSource,attrDataSource,entityType,pattr.getName(),at);
-				entityDSField = em.merge(entityDSField);
-				targetDataSource.getDSFields().add(entityDSField);
-				
-				System.out.println("Adding Collection Entity-type DataSourceField ("+pattr.getName()+") of type ("+entityType.getEntityJavaType()+")");			
+					System.out.println("Adding Entity-type DataSourceField ("+aattr.getAttribute().getName()+") of type ("+entityType.getEntityJavaType()+")");			
+					
+				}
+				else if (aattr.getAttribute() instanceof com.conx.logistics.kernel.metamodel.domain.PluralAttribute)
+				{
+					//- provide DataSource for entity type
+					EntityType entityType = aattr.getAttribute().getEntityType();
+					attrDataSource = provide(aattr.getAttribute().getEntityType());
+					
+					
+					//- create Entity attribute
+					DataSourceField entityDSField = new DataSourceField(aattr.getAttribute().getName(),targetDataSource,attrDataSource,entityType,aattr.getAttribute().getName(),((com.conx.logistics.kernel.metamodel.domain.PluralAttribute)aattr.getAttribute()).getAttributeType());
+					entityDSField = em.merge(entityDSField);
+					targetDataSource.getDSFields().add(entityDSField);
+					
+					System.out.println("Adding Collection Entity-type DataSourceField ("+aattr.getAttribute().getName()+") of type ("+entityType.getEntityJavaType()+")");						
+				}
 			}
 		}
+		
 		
 		targetDataSource = em.merge(targetDataSource);
 		
