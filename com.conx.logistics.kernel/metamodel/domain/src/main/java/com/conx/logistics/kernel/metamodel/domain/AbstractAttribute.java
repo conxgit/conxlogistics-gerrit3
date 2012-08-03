@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+import javax.persistence.metamodel.Type.PersistenceType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -43,6 +44,8 @@ public abstract class AbstractAttribute {
 	
 	protected String entityJavaType;
     protected String entityJavaSimpleType;
+    
+    protected PersistenceType persistenceType;
     
 	@OneToOne
 	private EntityType entityType;
@@ -74,8 +77,22 @@ public abstract class AbstractAttribute {
 		this.name = name;
 	}
 
-	public Class getJavaType() {
-		return javaType;
+	public Class getJavaType() throws ClassNotFoundException {
+		if (this.javaType == null)
+		{
+			if (entityJavaType.equals("byte")) return byte.class;
+			if (entityJavaType.equals("short")) return short.class;
+			if (entityJavaType.equals("int")) return int.class;
+			if (entityJavaType.equals("long")) return long.class;
+			if (entityJavaType.equals("char")) return char.class;
+			if (entityJavaType.equals("float")) return float.class;
+			if (entityJavaType.equals("double")) return double.class;
+			if (entityJavaType.equals("boolean")) return boolean.class;
+			if (entityJavaType.equals("void")) return void.class;
+			else
+				return Class.forName(entityJavaType);
+		}
+		return this.javaType;
 	}
 
 	public void setJavaType(Class javaType) {
@@ -96,6 +113,16 @@ public abstract class AbstractAttribute {
 
 	public void setEntityJavaSimpleType(String entityJavaSimpleType) {
 		this.entityJavaSimpleType = entityJavaSimpleType;
+	}
+	
+	
+
+	public PersistenceType getPersistenceType() {
+		return persistenceType;
+	}
+
+	public void setPersistenceType(PersistenceType persistenceType) {
+		this.persistenceType = persistenceType;
 	}
 
 	public AbstractAttribute(String name, Class javaType,
