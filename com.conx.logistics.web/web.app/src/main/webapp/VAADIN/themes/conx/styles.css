@@ -6268,7 +6268,8 @@ textarea.v-textarea-readonly,
 	background-color: #D4D7D9;
 	width: 90000px;
 	overflow: hidden;
-	height: 23px;
+	height: 22px;
+	border-top: 1px solid #aaa;
 }
 .filters-panel .v-button,
 .filters-panel .v-textfield,
@@ -6334,4 +6335,115 @@ textarea.v-textarea-readonly,
 	padding:0;
 	font-size:12px;
 	font-weight: normal;
+}
+.v-tabsheet-tabcontainer-conx-entity-editor-detail-tabsheet {
+	background-color: #bcbcbc;
+	padding-left: 4px;
+}
+.v-tabsheet-tabcontainer-conx-entity-editor-detail-tabsheet .v-caption .v-captiontext {
+	color: white;
+	text-shadow: #444 0 1px 0;
+}
+.v-tabsheet-tabcontainer-conx-entity-editor-detail-tabsheet .v-tabsheet-tabitem {
+	background-image: url('tabsheet/img/custom/conx-secondary-tabsheet-tab-unselected-background.png');
+}
+.v-tabsheet-tabcontainer-conx-entity-editor-detail-tabsheet .v-tabsheet-tabitem-selected {
+	background-image: url('tabsheet/img/custom/conx-tabsheet-tab-selected-background.png');
+}
+.v-splitpanel-vsplitter-conx-entity-editor {
+	height: 7px;
+	background-repeat: repeat-x;
+	background-image: none;
+	background-color: transparent;
+	border-bottom: 3px solid #bcbcbc;
+	border-top: none;
+}
+.v-splitpanel-vsplitter-conx-entity-editor div {
+	border-bottom: 1px solid #a9a9a9;
+	background-image: url(splitpanel/img/custom/conx-entity-editor-split.png);
+	background-color: transparent;
+	background-position: center;
+}
+.conx-entity-grid .v-table-body {
+	border: none;
+	padding-left: 1px;
+}
+.filters-wrap .v-textfield {
+	border-left: none;
+	border-top: none;
+	border-bottom: none;
+}
+.v-horizontallayout-conx-entity-editor-form-header {
+	background: url(formlayout/img/custom/conx-form-header-background.png) repeat-x;
+}
+.v-caption-conx-entity-editor-form-header-action {
+	font-weight: bold;
+    padding-top: 2px;
+    font-size: 12px;
+    text-align: left;
+    color: #222222;
+    text-shadow: 0 1px 0 #F3F5F8;
+    text-transform: uppercase;
+}
+.v-caption-conx-entity-editor-form-header-title { 
+    padding-top: 2px;
+    font-size: 12px;
+    text-align: left;
+    color: #222222;
+    text-shadow: 0 1px 0 #F3F5F8;
+}
+.conx-entity-editor-form-header-pager {
+    background: none repeat scroll 0% 0% transparent;
+    padding: 0px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.conx-entity-editor-form-header-pager .v-button-wrap, 
+.conx-entity-editor-form-header .v-disabled.v-button .v-button-wrap {
+    display: block;
+    height: 22px;
+    padding: 2px 8px 2px 9px;
+    padding-top: 6px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-image: none;
+    background-position: top left;
+}
+.conx-entity-editor-form-header .v-button, .conx-entity-editor-form-header .v-disabled.v-button {
+    background-image: none;
+    outline: medium none;
+}
+.conx-entity-editor-form-header .v-button:focus {
+  	background-image: none;
+	outline: none;
+}
+.conx-entity-editor-form-header .v-button:focus .v-button-wrap {
+ 	background-image: none;
+	outline: none;
+}
+.conx-entity-editor-form-header .v-button:active,
+.conx-entity-editor-form-header .v-button.v-pressed {
+	background-color: #ddd;
+	background-image: none;
+	outline: none;
+}
+.conx-entity-editor-form-header .v-button:active .v-button-wrap,
+.conx-entity-editor-form-header .v-button.v-pressed .v-button-wrap {
+	background-color: #ddd;
+	background-image: none;
+	outline: none;
+}
+.conx-entity-editor-form-header .v-button,
+.conx-entity-editor-form-header .v-disabled.v-button {
+	background-image: none;
+	outline: none;
+}
+.conx-entity-editor-form-header .v-button-wrap,
+.conx-entity-editor-form-header .v-disabled.v-button .v-button-wrap {
+	background-image: none;
+	outline: none;
+}
+.conx-entity-editor-form-header .v-button:hover {
+	background-color: #ccc;
+	outline: none;
 }

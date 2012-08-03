@@ -7,10 +7,20 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.terminal.Resource;
+import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.CustomTable;
+import com.vaadin.ui.CustomTable.ColumnGenerator;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
-public class ConXEntityGrid extends VerticalLayout implements FilterDecorator, FilterGenerator {
+public class ConXEntityGrid extends VerticalLayout implements FilterDecorator, FilterGenerator, ColumnGenerator {
 	private static final long serialVersionUID = -19074647254L;
+	private static final String EDIT_ICON_URL = "toolstrip/img/edit-disabled.png";
+	private static final String NEW_ICON_URL = "toolstrip/img/new-disabled.png";
 	
 	private FilterTable grid;
 	
@@ -18,80 +28,107 @@ public class ConXEntityGrid extends VerticalLayout implements FilterDecorator, F
 		setSizeFull();
 		grid = new FilterTable();
 		grid.setSizeFull();
+		grid.setSelectable(true);
 		grid.setContainerDataSource(container);
 		grid.setFilterDecorator(this);
 		grid.setFilterGenerator(this);
 		grid.setFiltersVisible(true);
+		grid.addGeneratedColumn("actions", this);
 		setStyleName("conx-entity-grid");
 		addComponent(grid);
 		setExpandRatio(grid, 1.0f);
 	}
 
 	public String getEnumFilterDisplayName(Object propertyId, Object value) {
-		// TODO Auto-generated method stub
 		return "wooot";
 	}
 
 	public Resource getEnumFilterIcon(Object propertyId, Object value) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String getBooleanFilterDisplayName(Object propertyId, boolean value) {
-		// TODO Auto-generated method stub
 		return "BOOL";
 	}
 
 	public Resource getBooleanFilterIcon(Object propertyId, boolean value) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public boolean isTextFilterImmediate(Object propertyId) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	public int getTextChangeTimeout(Object propertyId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public String getFromCaption() {
-		// TODO Auto-generated method stub
 		return "from";
 	}
 
 	public String getToCaption() {
-		// TODO Auto-generated method stub
 		return "to";
 	}
 
 	public String getSetCaption() {
-		// TODO Auto-generated method stub
 		return "caption";
 	}
 
 	public String getClearCaption() {
-		// TODO Auto-generated method stub
 		return "clear";
 	}
 
 	@SuppressWarnings("serial")
 	public Filter generateFilter(Object propertyId, Object value) {
-		// TODO Auto-generated method stub
 		return new Filter() {
 			
 			public boolean passesFilter(Object itemId, Item item)
 					throws UnsupportedOperationException {
-				// TODO Auto-generated method stub
 				return false;
 			}
 			
 			public boolean appliesToProperty(Object propertyId) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		};
+	}
+
+	public Object generateCell(CustomTable customTable, Object itemId,
+			Object columnId) {
+		return new CheckBox();
+	}
+
+	private class ConXEntityGridActionPanel extends HorizontalLayout {
+		private static final long serialVersionUID = 1004774389384738L;
+
+		public ConXEntityGridActionPanel(final Object itemId) {
+			Button edit = new Button();
+			edit.setIcon(new ThemeResource(EDIT_ICON_URL));
+			edit.setStyleName("conx-grid-action");
+			edit.addListener(new ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				public void buttonClick(ClickEvent event) {
+					onEdit(itemId);
+				}
+			});
+			Button create = new Button();
+			create.setIcon(new ThemeResource(NEW_ICON_URL));
+			create.setStyleName("conx-grid-action");
+			create.addListener(new ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				public void buttonClick(ClickEvent event) {
+					onCreate(itemId);
+				}
+			});
+		}
+	}
+	
+	private void onEdit(Object itemId) {
+	}
+	
+	private void onCreate(Object itemId) {
 	}
 }
