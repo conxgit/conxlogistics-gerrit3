@@ -1,4 +1,16 @@
 Manifest-Version: 1.0
+Export-Package: com.conx.logistics.kernel.ui.editors.domain.model;vers
+ ion="1.0.0";uses:="com.conx.logistics.mdm.domain,javax.persistence",c
+ om.conx.logistics.kernel.ui.editors.domain.model.layout;version="1.0.
+ 0";uses:="com.conx.logistics.kernel.ui.editors.domain.model,com.conx.
+ logistics.mdm.domain,javax.persistence",com.conx.logistics.kernel.ui.
+ editors.domain.model.masterdetail;version="1.0.0";uses:="com.conx.log
+ istics.kernel.ui.editors.domain.model,javax.persistence",com.conx.log
+ istics.kernel.ui.editors.domain.model.tabbed;version="1.0.0";uses:="c
+ om.conx.logistics.kernel.ui.editors.domain.model,javax.persistence",c
+ om.conx.logistics.kernel.ui.editors.domain.model.table;version="1.0.0
+ ";uses:="com.conx.logistics.kernel.metamodel.domain,com.conx.logistic
+ s.kernel.ui.editors.domain.model,javax.persistence"
 Bundle-Vendor: ConX
 Build-Jdk: 1.6.0_33
 Built-By: mdu
@@ -8,6 +20,8 @@ Bundle-Name: ConX UI Editors Domain
 Bundle-ManifestVersion: 2
 Created-By: Maven Integration for Eclipse
 Bundle-SymbolicName: com.conx.logistics.kernel.ui.editors.domain
-Import-Package: com.conx.logistics.mdm.domain;version="[1.0.0,2.0.0)",
- javax.persistence;version="0"
+Import-Package: com.conx.logistics.kernel.metamodel.domain;version="[1
+ .0.0,2.0.0)",com.conx.logistics.mdm.domain;version="[1.0.0,2.0.0)",co
+ m.conx.logistics.mdm.domain.metadata;version="[1.0.0,2.0.0)",javax.pe
+ rsistence;version="0"
 

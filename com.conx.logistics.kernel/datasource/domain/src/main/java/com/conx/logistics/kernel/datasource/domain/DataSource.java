@@ -47,6 +47,7 @@ public class DataSource extends MultitenantBaseEntity {
 	public DataSource(String code, EntityType entityType) {
 		super();
 		setCode(code);
+		setName(code);
 		this.entityType = entityType;
 	}
 	

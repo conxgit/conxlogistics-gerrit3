@@ -14,7 +14,7 @@ Export-Package: com.conx.logistics.kernel.pageflow.engine;version="1.0
  tics.kernel.pageflow.services,com.conx.logistics.mdm.domain.applicati
  on,com.vaadin.ui,org.vaadin.teemu.wizards"
 Bundle-Version: 1.0.0
-Tool: Bundlor 1.1.0.BUILD-20101220120024
+Tool: Bundlor 1.0.0.RELEASE
 Bundle-Name: ConX kernel PageFlow Engine
 Bundle-ManifestVersion: 2
 Import-Package: com.conx.logistics.common.utils;version="1.0.0",com.co
@@ -27,17 +27,18 @@ Import-Package: com.conx.logistics.common.utils;version="1.0.0",com.co
  istics.mdm.domain.application;version="1.0.0",com.conx.logistics.mdm.
  domain.geolocation;version="1.0.0",com.conx.logistics.mdm.domain.task
  ;version="1.0.0",com.vaadin;version="[6.7.0,7.0.0)",com.vaadin.ui;ver
- sion="[6.7.0,7.0.0)",javax.naming,javax.persistence;version="0",javax
- .transaction,org.drools.definition.process;version="[5.4.0,5.5.0)",or
- g.jboss.bpm.console.client.model;version="2.3.2.SNAPSHOT",org.jbpm.ma
- rshalling.impl;version="[5.3.0,5.4.0)",org.jbpm.task;version="[5.3.0,
- 5.4.0)",org.jbpm.task.query;version="[5.3.0,5.4.0)",org.jbpm.task.ser
- vice;version="[5.3.0,5.4.0)",org.jbpm.workflow.core.node;version="[5.
- 3.0,5.4.0)",org.slf4j;version="[1.6.0,1.7.0)",org.springframework.jnd
- i;version="[3.0,3.1)",org.springframework.transaction;version="[3.0,3
- .1)",org.springframework.transaction.support;version="[3.0,3.1)",org.
- vaadin.mvp.eventbus;version="0.9.2.SNAPSHOT",org.vaadin.mvp.eventbus.
- annotation;version="0.9.2.SNAPSHOT",org.vaadin.mvp.presenter;version=
- "0.9.2.SNAPSHOT",org.vaadin.teemu.wizards;version="0.4.4"
+ sion="[6.7.0,7.0.0)",javax.naming;version="0",javax.persistence;versi
+ on="0",javax.transaction;version="0",org.drools.definition.process;ve
+ rsion="[5.4.0,5.5.0)",org.jboss.bpm.console.client.model;version="2.3
+ .2.SNAPSHOT",org.jbpm.marshalling.impl;version="[5.3.0,5.4.0)",org.jb
+ pm.task;version="[5.3.0,5.4.0)",org.jbpm.task.query;version="[5.3.0,5
+ .4.0)",org.jbpm.task.service;version="[5.3.0,5.4.0)",org.jbpm.workflo
+ w.core.node;version="[5.3.0,5.4.0)",org.slf4j;version="[1.6.0,1.7.0)"
+ ,org.springframework.jndi;version="[3.0,3.1)",org.springframework.tra
+ nsaction;version="[3.0,3.1)",org.springframework.transaction.support;
+ version="[3.0,3.1)",org.vaadin.mvp.eventbus;version="0.9.2.SNAPSHOT",
+ org.vaadin.mvp.eventbus.annotation;version="0.9.2.SNAPSHOT",org.vaadi
+ n.mvp.presenter;version="0.9.2.SNAPSHOT",org.vaadin.teemu.wizards;ver
+ sion="0.4.4"
 Bundle-SymbolicName: com.conx.logistics.kernel.pageflow.engine
 

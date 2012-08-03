@@ -1,11 +1,12 @@
 Manifest-Version: 1.0
 Export-Package: com.conx.logistics.kernel.datasource.domain;version="1
  .0.0";uses:="com.conx.logistics.kernel.metamodel.domain,com.conx.logi
- stics.mdm.domain,javax.persistence",com.conx.logistics.kernel.datasou
- rce.domain.formatters;version="1.0.0";uses:="com.conx.logistics.mdm.d
- omain,javax.persistence",com.conx.logistics.kernel.datasource.domain.
- validators;version="1.0.0";uses:="com.conx.logistics.kernel.datasourc
- e.domain,com.conx.logistics.mdm.domain,javax.persistence"
+ stics.mdm.domain,javax.persistence,javax.persistence.metamodel",com.c
+ onx.logistics.kernel.datasource.domain.formatters;version="1.0.0";use
+ s:="com.conx.logistics.mdm.domain,javax.persistence",com.conx.logisti
+ cs.kernel.datasource.domain.validators;version="1.0.0";uses:="com.con
+ x.logistics.kernel.datasource.domain,com.conx.logistics.mdm.domain,ja
+ vax.persistence"
 Bundle-Vendor: ConX
 Build-Jdk: 1.6.0_33
 Built-By: mdu

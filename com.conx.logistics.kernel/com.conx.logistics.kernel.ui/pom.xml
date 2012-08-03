@@ -17,5 +17,6 @@
   	<module>kernel.ui.forms</module>
   	<module>kernel.ui.editors</module>
   	<module>kernel.ui.vaadin.addons</module>
+  	<module>kernel.ui.components</module>
   </modules>
 </project>
