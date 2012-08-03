@@ -80,8 +80,10 @@ public class DataSourceDAOTests extends AbstractTestNGSpringContextTests {
     	EntityType<Product> prodET = mm.entity(Product.class);
     	Assert.assertNotNull(prodET);
     	
+    	com.conx.logistics.kernel.metamodel.domain.EntityType prodET_ = entityTypeDAOService.provide(prodET);
+    	
    
-    	DataSource ds = dsDAOService.provide(prodET);
+    	DataSource ds = dsDAOService.provide(prodET_);
     	Assert.assertNotNull(ds);
     	
     	

@@ -2,6 +2,7 @@ package com.conx.logistics.kernel.metamodel.domain;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.metamodel.Attribute.PersistentAttributeType;
 import javax.persistence.metamodel.Type;
 import javax.persistence.metamodel.Type.PersistenceType;
 
@@ -12,7 +13,7 @@ public class SingularAttribute
 	private boolean isIdentifier;
 	private boolean isVersion;
 	private boolean isOptional;
-	private PersistenceType attributeType;
+	private PersistentAttributeType attributeType;
 	
 	public SingularAttribute(){
 	}
@@ -23,12 +24,13 @@ public class SingularAttribute
 			boolean isIdentifier,
 			boolean isVersion,
 			boolean isOptional,
-			PersistenceType attributeType) {
+			PersistentAttributeType attributeType) {
 		super(name, javaType,javaType.getName(),javaType.getSimpleName());
 		this.isIdentifier = isIdentifier;
 		this.isVersion = isVersion;
 		this.isOptional = isOptional;
 		this.attributeType = attributeType;
+		this.persistenceType = PersistenceType.ENTITY;
 	}
 	
 	public SingularAttribute(
@@ -37,7 +39,7 @@ public class SingularAttribute
 			boolean isIdentifier,
 			boolean isVersion,
 			boolean isOptional,
-			PersistenceType attributeType,
+			PersistentAttributeType attributeType,
 			EntityType entityType) {
 		super(name, javaType,javaType.getName(),javaType.getSimpleName());
 		super.setEntityType(entityType);
@@ -45,6 +47,7 @@ public class SingularAttribute
 		this.isVersion = isVersion;
 		this.isOptional = isOptional;
 		this.attributeType = attributeType;
+		this.persistenceType = PersistenceType.ENTITY;
 	}
 	
 
@@ -69,12 +72,6 @@ public class SingularAttribute
 		return isOptional;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public PersistenceType getType() {
-		return attributeType;
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -88,5 +85,13 @@ public class SingularAttribute
 	 */
 	public boolean isCollection() {
 		return false;
+	}
+
+	public PersistentAttributeType getAttributeType() {
+		return attributeType;
+	}
+
+	public void setAttributeType(PersistentAttributeType attributeType) {
+		this.attributeType = attributeType;
 	}
 }

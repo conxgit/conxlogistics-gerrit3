@@ -12,10 +12,10 @@ public class BasicAttribute
 	private boolean isIdentifier;
 	private boolean isVersion;
 	private boolean isOptional;
-	private PersistenceType attributeType;
 	
 	public BasicAttribute() {
 		super();
+		super.persistenceType = PersistenceType.BASIC;
 	}
 
 	public BasicAttribute(
@@ -24,6 +24,7 @@ public class BasicAttribute
 			EntityType parentEntityType) {
 		super(name, javaType,javaType.getName(),javaType.getSimpleName());
 		setParentEntityType(parentEntityType);
+		this.persistenceType = PersistenceType.BASIC;
 	}
 	
 
@@ -52,7 +53,7 @@ public class BasicAttribute
 	 * {@inheritDoc}
 	 */
 	public PersistenceType getType() {
-		return attributeType;
+		return persistenceType;
 	}
 
 	/**
