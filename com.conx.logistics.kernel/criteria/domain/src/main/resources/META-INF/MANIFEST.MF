@@ -2,26 +2,28 @@ Manifest-Version: 1.0
 Export-Package: com.conx.logistics.kernel.criteria.domain;version="1.0
  .0";uses:="com.conx.logistics.kernel.criteria.domain.compile,com.conx
  .logistics.kernel.criteria.domain.expression,javax.persistence,javax.
- persistence.criteria,javax.persistence.metamodel",com.conx.logistics.
- kernel.criteria.domain.collection;version="1.0.0",com.conx.logistics.
- kernel.criteria.domain.compile;version="1.0.0";uses:="javax.persisten
- ce.criteria",com.conx.logistics.kernel.criteria.domain.expression;ver
- sion="1.0.0";uses:="com.conx.logistics.kernel.criteria.domain,com.con
- x.logistics.kernel.criteria.domain.compile,com.conx.logistics.kernel.
- criteria.domain.path,javax.persistence.criteria,javax.persistence.met
- amodel",com.conx.logistics.kernel.criteria.domain.expression.function
- ;version="1.0.0";uses:="com.conx.logistics.kernel.criteria.domain,com
- .conx.logistics.kernel.criteria.domain.compile,com.conx.logistics.ker
- nel.criteria.domain.expression,javax.persistence.criteria",com.conx.l
- ogistics.kernel.criteria.domain.path;version="1.0.0";uses:="com.conx.
- logistics.kernel.criteria.domain,com.conx.logistics.kernel.criteria.d
- omain.collection,com.conx.logistics.kernel.criteria.domain.compile,co
- m.conx.logistics.kernel.criteria.domain.expression,javax.persistence.
- criteria,javax.persistence.metamodel",com.conx.logistics.kernel.crite
- ria.domain.predicate;version="1.0.0";uses:="com.conx.logistics.kernel
- .criteria.domain,com.conx.logistics.kernel.criteria.domain.compile,co
- m.conx.logistics.kernel.criteria.domain.expression,com.conx.logistics
- .kernel.criteria.domain.path,javax.persistence.criteria"
+ persistence.criteria,javax.persistence.metamodel,org.springframework.
+ format.annotation",com.conx.logistics.kernel.criteria.domain.collecti
+ on;version="1.0.0",com.conx.logistics.kernel.criteria.domain.compile;
+ version="1.0.0";uses:="javax.persistence.criteria",com.conx.logistics
+ .kernel.criteria.domain.expression;version="1.0.0";uses:="com.conx.lo
+ gistics.kernel.criteria.domain,com.conx.logistics.kernel.criteria.dom
+ ain.compile,com.conx.logistics.kernel.criteria.domain.path,javax.pers
+ istence,javax.persistence.criteria,javax.persistence.metamodel",com.c
+ onx.logistics.kernel.criteria.domain.expression.function;version="1.0
+ .0";uses:="com.conx.logistics.kernel.criteria.domain,com.conx.logisti
+ cs.kernel.criteria.domain.compile,com.conx.logistics.kernel.criteria.
+ domain.expression,javax.persistence.criteria",com.conx.logistics.kern
+ el.criteria.domain.path;version="1.0.0";uses:="com.conx.logistics.ker
+ nel.criteria.domain,com.conx.logistics.kernel.criteria.domain.collect
+ ion,com.conx.logistics.kernel.criteria.domain.compile,com.conx.logist
+ ics.kernel.criteria.domain.expression,javax.persistence,javax.persist
+ ence.criteria,javax.persistence.metamodel",com.conx.logistics.kernel.
+ criteria.domain.predicate;version="1.0.0";uses:="com.conx.logistics.k
+ ernel.criteria.domain,com.conx.logistics.kernel.criteria.domain.compi
+ le,com.conx.logistics.kernel.criteria.domain.expression,com.conx.logi
+ stics.kernel.criteria.domain.path,javax.persistence,javax.persistence
+ .criteria"
 Bundle-Vendor: ConX
 Build-Jdk: 1.6.0_33
 Built-By: mdu
@@ -33,5 +35,6 @@ Created-By: Maven Integration for Eclipse
 Bundle-SymbolicName: com.conx.logistics.kernel.criteria.domain
 Import-Package: com.conx.logistics.mdm.domain;version="[1.0.0,2.0.0)",
  javax.persistence;version="0",javax.persistence.criteria;version="0",
- javax.persistence.metamodel;version="0"
+ javax.persistence.metamodel;version="0",org.springframework.format.an
+ notation;version="[3.0,3.1)"
 

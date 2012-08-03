@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
 Export-Package: com.conx.logistics.kernel.datasource.dao.services;vers
- ion="1.0.0";uses:="com.conx.logistics.kernel.datasource.domain"
+ ion="1.0.0";uses:="com.conx.logistics.kernel.datasource.domain,com.co
+ nx.logistics.kernel.metamodel.domain"
 Bundle-Vendor: ConX
 Build-Jdk: 1.6.0_33
 Built-By: mdu
@@ -11,6 +12,6 @@ Bundle-ManifestVersion: 2
 Created-By: Maven Integration for Eclipse
 Bundle-SymbolicName: com.conx.logistics.kernel.datasource.dao.services
 Import-Package: com.conx.logistics.kernel.datasource.domain;version="1
- .0.0",javax.persistence;version="0",javax.persistence.metamodel;versi
- on="0"
+ .0.0",com.conx.logistics.kernel.metamodel.domain;version="1.0.0",java
+ x.persistence;version="0",javax.persistence.metamodel;version="0"
 

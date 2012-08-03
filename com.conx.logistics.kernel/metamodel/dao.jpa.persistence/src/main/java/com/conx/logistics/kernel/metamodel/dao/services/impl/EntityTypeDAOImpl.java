@@ -289,7 +289,7 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 			else if ((at == PersistentAttributeType.ONE_TO_ONE) || (at == PersistentAttributeType.MANY_TO_ONE))
 			{
 				attrEntityType = provide((IdentifiableType)sattr.getType());
-				attr = new com.conx.logistics.kernel.metamodel.domain.SingularAttribute(sattr.getName(), sattr.getJavaType(), sattr.isId(), sattr.isVersion(), sattr.isOptional(),PersistenceType.ENTITY,attrEntityType);
+				attr = new com.conx.logistics.kernel.metamodel.domain.SingularAttribute(sattr.getName(), sattr.getJavaType(), sattr.isId(), sattr.isVersion(), sattr.isOptional(),at,attrEntityType);
 				attr.setParentEntityType(targetEntityType);
 				attr = em.merge(attr);
 				System.out.println("["+entity+"] Adding ONE_TO_ONE/MANY_TO_ONE attr ("+attr.getName()+")");
@@ -308,21 +308,21 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 				et = provide((IdentifiableType)pattr.getElementType());
 				if (pattr.getCollectionType() == CollectionType.LIST)
 				{
-					pattr_ = new ListAttribute(pattr.getName(), et, targetEntityType);
+					pattr_ = new ListAttribute(pattr.getName(), et, targetEntityType,at);
 					pattr_ = em.merge(pattr_);
 					System.out.println("["+entity+"] Adding LIST attr ("+pattr_.getName()+")");
 					targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,pattr_));	
 				}
 				else if (pattr.getCollectionType() == CollectionType.MAP)
 				{
-					pattr_ = new MapAttribute(pattr.getName(), et, targetEntityType);
+					pattr_ = new MapAttribute(pattr.getName(), et, targetEntityType,at);
 					pattr_ = em.merge(pattr_);
 					System.out.println("["+entity+"] Adding MAP attr ("+pattr_.getName()+")");
 					targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,pattr_));
 				}				
 				else if (pattr.getCollectionType() == CollectionType.SET)
 				{
-					pattr_ = new SetAttribute(pattr.getName(), et, targetEntityType);
+					pattr_ = new SetAttribute(pattr.getName(), et, targetEntityType,at);
 					pattr_ = em.merge(pattr_);
 					System.out.println("["+entity+"] Adding SET attr ("+pattr_.getName()+")");
 					targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,pattr_));
