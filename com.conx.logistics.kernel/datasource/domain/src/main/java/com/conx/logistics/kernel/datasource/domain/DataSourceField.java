@@ -9,10 +9,14 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.metamodel.Attribute.PersistentAttributeType;
+import javax.persistence.metamodel.IdentifiableType;
+import javax.persistence.metamodel.Type.PersistenceType;
 
 import com.conx.logistics.kernel.datasource.domain.formatters.DateDisplayFormatter;
 import com.conx.logistics.kernel.datasource.domain.validators.Validator;
 import com.conx.logistics.kernel.metamodel.domain.AbstractType;
+import com.conx.logistics.kernel.metamodel.domain.EntityType;
 import com.conx.logistics.mdm.domain.MultitenantBaseEntity;
 
 /**
@@ -28,16 +32,39 @@ public class DataSourceField extends MultitenantBaseEntity {
     }
 
 
-    public DataSourceField(String name, AbstractType dataType, String title) {
+    public DataSourceField(String name, DataSource parentDataSource, AbstractType dataType, String title) {
         setName(name);
         this.title = title;
+        this.parentDataSource = parentDataSource;
         this.dataType = dataType;
+        this.multiple = false;
     }
 
 
     // ********************* Properties / Attributes ***********************
 
-    /**
+    public DataSourceField(String name, 
+    					   DataSource parentDataSource, 
+    					   DataSource dataSource, 
+    					   EntityType entityType, 
+    					   String title, 
+    					   PersistentAttributeType at) {
+		this(name,parentDataSource,entityType,title);
+		
+		this.dataSource = dataSource;
+		
+		if (at == PersistentAttributeType.MANY_TO_ONE || at == PersistentAttributeType.ONE_TO_ONE)
+		{
+			this.multiple = false;
+		}
+		else //Collection
+		{
+			this.multiple = true;
+		}
+	}
+
+
+	/**
      * Controls whether, by default, dataBoundComponents consider this field editable. <P> Set to <code>false</code> to draw
      * this field read-only.   <P> This attribute may not effect all dataBoundComponents - the  {@link
      * com.smartgwt.client.widgets.DataBoundComponent#getCanEditFieldAttribute canEditFieldAttribute} may be set at the
@@ -279,7 +306,7 @@ public class DataSourceField extends MultitenantBaseEntity {
      * @param group . See {@link com.smartgwt.client.docs.String String}. Default value is null
      * @see com.smartgwt.client.docs.ComponentSchema ComponentSchema overview and related methods
      */
-    private String group;
+    private String groupName;
 
 
 
@@ -823,6 +850,14 @@ public class DataSourceField extends MultitenantBaseEntity {
      */
     @ManyToOne
     private DataSource dataSource;
+    
+    /**
+     * The parent data source
+     * 
+     * @param dataSource the parent data source
+     */
+    @ManyToOne
+    private DataSource parentDataSource;    
 
  
     /**
@@ -976,13 +1011,13 @@ public class DataSourceField extends MultitenantBaseEntity {
 	}
 
 
-	public String getGroup() {
-		return group;
+	public String getGroupName() {
+		return groupName;
 	}
 
 
-	public void setGroup(String group) {
-		this.group = group;
+	public void setGroupName(String group) {
+		this.groupName = group;
 	}
 
 
@@ -1185,6 +1220,16 @@ public class DataSourceField extends MultitenantBaseEntity {
 	}
 
 
+	public DataSource getParentDataSource() {
+		return parentDataSource;
+	}
+
+
+	public void setParentDataSource(DataSource parentDataSource) {
+		this.parentDataSource = parentDataSource;
+	}
+
+
 	public String getPrompt() {
 		return prompt;
 	}
@@ -1193,6 +1238,27 @@ public class DataSourceField extends MultitenantBaseEntity {
 	public void setPrompt(String prompt) {
 		this.prompt = prompt;
 	}
+	
+	public String toString()
+	{
+		int indent = 0;
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(DataSource.indent(indent)+"{\n");
+		
+		sb.append(DataSource.indent(indent+1)+"name: "+getName());
+		
+		if (getDataType().getPersistentType() == PersistenceType.BASIC)
+			sb.append(DataSource.indent(indent+1)+"type: "+getDataType().getEntityJavaType());
+		else
+			sb.append(DataSource.indent(indent+1)+"type: "+getDataSource().getEntityType().getJpaEntityName());
+			
+
+		
+		sb.append(DataSource.indent(indent)+"}\n");
+		
+		return sb.toString();
+	}	
 }
 
 

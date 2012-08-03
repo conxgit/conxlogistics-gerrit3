@@ -73,19 +73,18 @@ public class DataSourceDAOTests extends AbstractTestNGSpringContextTests {
 	}
 	
     @Test
-    public void testDSCreation() throws Exception {
+    public void testAutoGeneration() throws Exception {
     	Metamodel mm = em.getMetamodel();
     	Assert.assertNotNull(mm);
     	
     	EntityType<Product> prodET = mm.entity(Product.class);
     	Assert.assertNotNull(prodET);
     	
-    	DataSource ds = new DataSource();
-    	com.conx.logistics.kernel.metamodel.domain.EntityType et = entityTypeDAOService.provide(prodET);
-    	Assert.assertNotNull(et);
-    	ds.setEntityType(et);
-    	
-    	ds = dsDAOService.add(ds);
+   
+    	DataSource ds = dsDAOService.provide(prodET);
     	Assert.assertNotNull(ds);
+    	
+    	
+    	Assert.assertTrue(ds.getDSFields().size() > 0);
     }
 }

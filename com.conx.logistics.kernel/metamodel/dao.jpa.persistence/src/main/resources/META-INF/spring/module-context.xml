@@ -34,4 +34,5 @@
 		PersistenceExceptions will be auto-translated due to @Repository.
 	-->
 	<bean id="entityTypeDao" class="com.conx.logistics.kernel.metamodel.dao.services.impl.EntityTypeDAOImpl"/>
+	<bean id="basicTypeDao" class="com.conx.logistics.kernel.metamodel.dao.services.impl.BasicTypeDAOImpl"/>
 </beans>

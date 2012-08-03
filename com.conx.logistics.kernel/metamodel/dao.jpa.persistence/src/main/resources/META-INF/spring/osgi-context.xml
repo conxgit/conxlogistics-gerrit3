@@ -20,4 +20,5 @@
 	
 	<!-- export internal interfaces -->
 	<osgi:service ref="entityTypeDao" interface="com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService"/>
+	<osgi:service ref="basicTypeDao" interface="com.conx.logistics.kernel.metamodel.dao.services.IBasicTypeDAOService"/>
 </beans>

@@ -78,7 +78,9 @@ public abstract class AbstractType {
 		this.name = name;
 	}
 
-	public Class getJavaType() {
+	public Class getJavaType() throws ClassNotFoundException {
+		if (javaType == null)
+			javaType = Class.forName(entityJavaType);
 		return javaType;
 	}
 

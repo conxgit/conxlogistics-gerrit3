@@ -2,8 +2,11 @@ package com.conx.logistics.kernel.datasource.dao.services;
 
 import java.util.List;
 
+import javax.persistence.metamodel.IdentifiableType;
+
 import com.conx.logistics.kernel.datasource.domain.DataSource;
 import com.conx.logistics.kernel.datasource.domain.DataSourceField;
+import com.conx.logistics.kernel.metamodel.domain.EntityType;
 
 
 
@@ -23,6 +26,8 @@ public interface IDataSourceDAOService {
 	public DataSource deleteFields(Long DataSourceId, List<DataSourceField> fields);		
 
 	public DataSource add(DataSource record);
+	
+	public DataSource provide(IdentifiableType jpaEntityType) throws ClassNotFoundException;
 
 	public void delete(DataSource record);
 

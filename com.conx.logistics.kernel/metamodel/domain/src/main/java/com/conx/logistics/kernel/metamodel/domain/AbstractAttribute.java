@@ -47,7 +47,7 @@ public abstract class AbstractAttribute {
 	@OneToOne
 	private EntityType entityType;
 	
-	@OneToOne
+	@ManyToOne
 	private EntityType parentEntityType;	
 
 	public EntityType getEntityType() {

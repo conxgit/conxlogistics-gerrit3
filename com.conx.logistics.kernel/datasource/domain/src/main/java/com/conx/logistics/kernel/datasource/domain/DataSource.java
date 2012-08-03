@@ -33,11 +33,52 @@ public class DataSource extends MultitenantBaseEntity {
 		this.entityType = entityType;
 	}
 
-	public Set<DataSourceField> getDSfields() {
+	public Set<DataSourceField> getDSFields() {
 		return dSfields;
 	}
+	
+	public DataSource() {
+	}
 
-	public void setDSfields(Set<DataSourceField> dSfields) {
+	public void setDSFields(Set<DataSourceField> dSfields) {
 		this.dSfields = dSfields;
+	}
+
+	public DataSource(String code, EntityType entityType) {
+		super();
+		setCode(code);
+		this.entityType = entityType;
+	}
+	
+	public String toString()
+	{
+		int indent = 0;
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(indent(indent)+"{\n");
+		
+		sb.append(indent(indent+1)+"name: "+getName());
+		sb.append(indent(indent+1)+"type: "+getEntityType().getJpaEntityName());
+		
+		sb.append(indent(indent+1)+"fields : [\n");
+		
+		for (DataSourceField dsf : getDSFields())
+		{
+			sb.append(indent(indent+2)+dsf.toString()+";");
+		}
+		
+		sb.append(indent(indent+1)+"]");
+		
+		sb.append(indent(indent)+"}\n");
+		
+		return sb.toString();
+	}
+
+	static String indent(int indent) {
+		String res = "";
+		for (int i = 0; i<indent; i++)
+			res += res+"\t";
+		
+		return res;
 	}
 }

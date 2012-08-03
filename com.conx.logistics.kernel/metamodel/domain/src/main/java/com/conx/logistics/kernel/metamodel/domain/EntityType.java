@@ -34,4 +34,9 @@ public class EntityType extends AbstractIdentifiableType {
 	public void setJpaEntityName(String jpaEntityName) {
 		this.jpaEntityName = jpaEntityName;
 	}
+	
+	public String getNameAsDataSourceName()
+	{
+		return this.name.substring(0,1).toLowerCase()+this.name.substring(1);
+	}
 }

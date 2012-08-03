@@ -11,6 +11,7 @@
 		<class>com.conx.logistics.kernel.metamodel.domain.BasicType</class>
 		<class>com.conx.logistics.kernel.metamodel.domain.CollectionAttribute</class>
 		<class>com.conx.logistics.kernel.metamodel.domain.EntityType</class>	
+		<class>com.conx.logistics.kernel.metamodel.domain.EntityTypeAttribute</class>
 		<class>com.conx.logistics.kernel.metamodel.domain.IdentifierAttribute</class>
 		<class>com.conx.logistics.kernel.metamodel.domain.ListAttribute</class>
 		<class>com.conx.logistics.kernel.metamodel.domain.MapAttribute</class>

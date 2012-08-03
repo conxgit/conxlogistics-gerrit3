@@ -33,9 +33,11 @@ import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.metamodel.domain.AbstractAttribute;
 import com.conx.logistics.kernel.metamodel.domain.BasicAttribute;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
+import com.conx.logistics.kernel.metamodel.domain.EntityTypeAttribute;
 import com.conx.logistics.kernel.metamodel.domain.ListAttribute;
 import com.conx.logistics.kernel.metamodel.domain.MapAttribute;
 import com.conx.logistics.kernel.metamodel.domain.SetAttribute;
+import com.conx.logistics.mdm.domain.metadata.DefaultEntityMetadata;
 
 
 /**
@@ -163,7 +165,8 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 
 	@Override
 	public EntityType provide(IdentifiableType jpaEntityType) {
-		System.out.println("providing type for ("+jpaEntityType.getJavaType().getName()+")");
+		String entity = jpaEntityType.getJavaType().getSimpleName();
+		System.out.println("providing type for ("+entity+")");
 		
     	EntityType targetEntityType = null;
     	boolean isMappedSuperClass = false;
@@ -191,7 +194,10 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 		    	if (mt instanceof javax.persistence.metamodel.EntityType)
 		    	{
 		    		if (((javax.persistence.metamodel.EntityType)mt).getSupertype() != null)
-		    			st = createMappedSupperClass(((javax.persistence.metamodel.EntityType)mt).getSupertype());    		
+		    		{
+		    			st = createMappedSupperClass(((javax.persistence.metamodel.EntityType)mt).getSupertype());
+		    			System.out.println("["+entity+"] Provided for Super EntityType ("+st.getEntityJavaSimpleType()+")");
+		    		}
 		    		targetEntityType = new EntityType(((javax.persistence.metamodel.EntityType)mt).getName(),
 			    			       mt.getJavaType(),
 			    			       st,
@@ -202,7 +208,10 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 		    	else if (mt instanceof MappedSuperclassType)
 		    	{
 		    		if (((MappedSuperclassType) mt).getSupertype() != null)
-		    			st = createMappedSupperClass((((MappedSuperclassType) mt).getSupertype()));      		
+		    		{
+		    			st = createMappedSupperClass((((MappedSuperclassType) mt).getSupertype()));
+		    			System.out.println("["+entity+"] Provided for Super EntityType ("+st.getEntityJavaSimpleType()+")");		    			
+		    		}
 		    		targetEntityType = new EntityType(((EntityType)mt).getName(),
 		 			       mt.getJavaType(),
 		 			       st,
@@ -217,8 +226,9 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 		    	
 		    	//Save 
 		    	targetEntityType = em.merge(targetEntityType);
+		    	em.flush();
 		    	
-		    	targetEntityType = updateEntityTypeAttributes(targetEntityType,(IdentifiableType)mt);  		    	
+		    	targetEntityType = updateEntityTypeAttributes(targetEntityType,st,(IdentifiableType)mt);  		    	
 	    	}
 	    	else
 	    	{
@@ -238,7 +248,7 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 			    	targetEntityType = em.merge(targetEntityType);
 			    	em.flush();
 			    	
-			    	targetEntityType = updateEntityTypeAttributes(targetEntityType,jpaEntityType);
+			    	targetEntityType = updateEntityTypeAttributes(targetEntityType,st,jpaEntityType);
 	    		}
 	    	}
     	}
@@ -248,8 +258,14 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 
 
 	private EntityType updateEntityTypeAttributes(
-			EntityType targetEntityType, IdentifiableType jpaEntityType) {
+			EntityType targetEntityType, EntityType superTargetEntityType, IdentifiableType jpaEntityType) {
 		//Process attributes
+		String entity = targetEntityType.getEntityJavaSimpleType();
+		if ("Commodity".equals(entity))
+		{
+			System.out.println("Stop!");
+		}
+
 		Set<SingularAttribute> sattrs = jpaEntityType.getDeclaredSingularAttributes();
 		
 		Set<PluralAttribute> pattrs = jpaEntityType.getDeclaredPluralAttributes();
@@ -267,8 +283,8 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 				attr = new com.conx.logistics.kernel.metamodel.domain.BasicAttribute(sattr.getName(), sattr.getJavaType(),targetEntityType);
 				attr.setParentEntityType(targetEntityType);
 				attr = em.merge(attr);
-				System.out.println("Adding BASIC attr ("+attr.getName()+")");
-				//targetEntityType.getDeclaredAttributes().add((BasicAttribute)attr);
+				System.out.println("["+entity+"] Adding BASIC attr ("+attr.getName()+")");
+				targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,(BasicAttribute)attr));
 			}
 			else if ((at == PersistentAttributeType.ONE_TO_ONE) || (at == PersistentAttributeType.MANY_TO_ONE))
 			{
@@ -276,8 +292,8 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 				attr = new com.conx.logistics.kernel.metamodel.domain.SingularAttribute(sattr.getName(), sattr.getJavaType(), sattr.isId(), sattr.isVersion(), sattr.isOptional(),PersistenceType.ENTITY,attrEntityType);
 				attr.setParentEntityType(targetEntityType);
 				attr = em.merge(attr);
-				System.out.println("Adding ONE_TO_ONE/MANY_TO_ONE attr ("+attr.getName()+")");
-				//targetEntityType.getDeclaredAttributes().add((com.conx.logistics.kernel.metamodel.domain.SingularAttribute)attr);				
+				System.out.println("["+entity+"] Adding ONE_TO_ONE/MANY_TO_ONE attr ("+attr.getName()+")");
+				targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,(com.conx.logistics.kernel.metamodel.domain.SingularAttribute)attr));				
 			}
 			
 		}
@@ -294,27 +310,35 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 				{
 					pattr_ = new ListAttribute(pattr.getName(), et, targetEntityType);
 					pattr_ = em.merge(pattr_);
-					System.out.println("Adding LIST attr ("+pattr_.getName()+")");
-					//targetEntityType.getDeclaredAttributes().add(pattr_);	
+					System.out.println("["+entity+"] Adding LIST attr ("+pattr_.getName()+")");
+					targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,pattr_));	
 				}
 				else if (pattr.getCollectionType() == CollectionType.MAP)
 				{
 					pattr_ = new MapAttribute(pattr.getName(), et, targetEntityType);
 					pattr_ = em.merge(pattr_);
-					System.out.println("Adding MAP attr ("+pattr_.getName()+")");
-					//targetEntityType.getDeclaredAttributes().add(pattr_);
+					System.out.println("["+entity+"] Adding MAP attr ("+pattr_.getName()+")");
+					targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,pattr_));
 				}				
 				else if (pattr.getCollectionType() == CollectionType.SET)
 				{
 					pattr_ = new SetAttribute(pattr.getName(), et, targetEntityType);
 					pattr_ = em.merge(pattr_);
-					System.out.println("Adding SET attr ("+pattr_.getName()+")");
-					//targetEntityType.getDeclaredAttributes().add(pattr_);
+					System.out.println("["+entity+"] Adding SET attr ("+pattr_.getName()+")");
+					targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,pattr_));
 				}
-				
-				
 			}
 		}
+
+		if (superTargetEntityType != null)
+		{
+			 Set<EntityTypeAttribute> ssAttrs = superTargetEntityType.getDeclaredAttributes();
+			 for (EntityTypeAttribute ssAttr : ssAttrs)
+			 {
+				 System.out.println("["+entity+"] Adding SuperClass attr ("+ssAttr.getAttribute().getName()+") for EntityType("+targetEntityType.getJpaEntityName()+")");
+				 targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,ssAttr.getAttribute()));
+			 }
+		}		
 		
 		targetEntityType = em.merge(targetEntityType);
 		
@@ -322,27 +346,37 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 	}
 
 	private EntityType createMappedSupperClass(IdentifiableType supertype) {
-		EntityType record = getByClass(supertype.getJavaType());
-		if (record == null)
-		{
-			IdentifiableType sst = supertype.getSupertype();
-			EntityType sst_ = null;
-			if (sst != null)
+		EntityType record = null;
+		System.out.println("providing SuperMappedClass["+supertype.getJavaType().getSimpleName()+"] ...");
+		
+		try {
+			record = getByClass(supertype.getJavaType());
+			if (record == null)
 			{
-				sst_ = provide(sst);
+				//SuperType
+				IdentifiableType sst = supertype.getSupertype();
+				EntityType sst_ = null;
+				if (sst != null)
+				{
+					sst_ = provide(sst);
+	    			System.out.println("["+supertype.getJavaType().getSimpleName()+"] Provided for Super EntityType ("+sst_.getEntityJavaSimpleType()+")");
+				}
+				
+				record = new EntityType(supertype.getJavaType().getName(),
+							supertype.getJavaType(),
+							sst_,
+					       null,//SingularAttribute id, 
+					       null,//SingularAttribute version,
+					       supertype.getJavaType().getName());
+				
+				//Save 
+				record = em.merge(record);
+				
+				record = updateEntityTypeAttributes(record,sst_,supertype);
 			}
-			
-			record = new EntityType(supertype.getJavaType().getName(),
-						supertype.getJavaType(),
-						sst_,
-				       null,//SingularAttribute id, 
-				       null,//SingularAttribute version,
-				       supertype.getJavaType().getName());
-			
-	    	//Save 
-	    	record = em.merge(record);
-	    	
-	    	record = updateEntityTypeAttributes(record,supertype);     	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return record;
 	}

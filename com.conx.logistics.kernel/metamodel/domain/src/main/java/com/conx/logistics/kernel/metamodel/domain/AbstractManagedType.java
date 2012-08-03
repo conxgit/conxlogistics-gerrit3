@@ -1,18 +1,14 @@
 package com.conx.logistics.kernel.metamodel.domain;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.MapKey;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.metamodel.Attribute.PersistentAttributeType;
 import javax.persistence.metamodel.Type.PersistenceType;
 
 @Entity
@@ -22,8 +18,8 @@ public abstract class AbstractManagedType extends AbstractType {
 	private  AbstractManagedType superType;
 
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	private final Set<AbstractAttribute> declaredAttributes
-			= new HashSet<AbstractAttribute>();
+	private Set<EntityTypeAttribute> declaredAttributes
+			= new HashSet<EntityTypeAttribute>();
     
 /*    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private final Set<BasicAttribute> basicAttributes
@@ -51,7 +47,7 @@ public abstract class AbstractManagedType extends AbstractType {
 		this.superType = superType;
 	}
 
-	public Set<AbstractAttribute> getDeclaredAttributes() {
+	public Set<EntityTypeAttribute> getDeclaredAttributes() {
 		return declaredAttributes;
 	}
 
