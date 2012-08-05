@@ -6447,3 +6447,23 @@ textarea.v-textarea-readonly,
 	background-color: #ccc;
 	outline: none;
 }
+.conx-entity-editor-form .v-gridlayout .v-captiontext {
+	font-weight: bold;
+	font-size: 11px;
+	padding-bottom: 4px;
+}
+.conx-entity-editor-form .v-gridlayout .v-textfield {
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	background-image: none;
+}
+.conx-entity-editor-form-header-left {
+	padding-left: 6px;
+}
+.conx-entity-editor-form-separator-arrow {
+	background: url(../base/treetable/img/arrow-down.png) right center no-repeat;
+}
+.conx-entity-editor-form-separator-arrow-expanded {
+	background: url(../base/treetable/img/arrow-right.png) right center no-repeat;
+}

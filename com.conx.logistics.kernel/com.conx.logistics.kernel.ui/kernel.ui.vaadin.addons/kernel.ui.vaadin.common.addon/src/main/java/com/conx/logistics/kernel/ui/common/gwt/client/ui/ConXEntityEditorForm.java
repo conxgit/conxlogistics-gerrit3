@@ -1,21 +1,28 @@
 package com.conx.logistics.kernel.ui.common.gwt.client.ui;
 
-import com.vaadin.ui.Form;
-import com.vaadin.ui.GridLayout;
+import java.util.ArrayList;
 
-public class ConXEntityEditorForm extends Form {
-	private static final long serialVersionUID = 100000002L;
+import com.vaadin.ui.VerticalLayout;
 
-	private GridLayout layout;
+public class ConXEntityEditorForm extends VerticalLayout {
+	private static final long serialVersionUID = 2980988998881L;
+
+	private ArrayList<ConXEntityEditorFormSeparator> separators;
+	private ArrayList<ConXEntityEditorFormSection> sections;
 	
 	public ConXEntityEditorForm() {
-		layout = new GridLayout(4, 1);
-		layout.setSizeFull();
-		layout.setSpacing(true);
-		layout.setMargin(true);
-		setLayout(layout);
-		setWriteThrough(false); // False so that commit() must be called explicitly
-		setInvalidCommitted(false);
-		setFormFieldFactory(new ConXEntityEditorFormFieldFactory());
+		separators = new ArrayList<ConXEntityEditorFormSeparator>();
+		sections = new ArrayList<ConXEntityEditorFormSection>();
+		setSizeFull();
+		setSpacing(true);
+	}
+	
+	public void addFormSection(String title, ConXEntityEditorFormSection section) {
+		ConXEntityEditorFormSeparator separator = new ConXEntityEditorFormSeparator(title, section);
+		addComponent(separator);
+		addComponent(section);
+		
+		separators.add(separator);
+		sections.add(section);
 	}
 }

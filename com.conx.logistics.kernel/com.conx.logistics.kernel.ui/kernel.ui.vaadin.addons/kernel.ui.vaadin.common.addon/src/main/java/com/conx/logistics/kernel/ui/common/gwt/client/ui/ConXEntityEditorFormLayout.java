@@ -8,6 +8,7 @@ public class ConXEntityEditorFormLayout extends VerticalLayout {
 	
 	private ConXEntityEditorFormHeader header;
 	private ConXEntityEditorForm form;
+	private ConXEntityEditorFormSection formSection;
 	
 	public ConXEntityEditorFormLayout(Item item) {
 		setSizeFull();
@@ -17,10 +18,12 @@ public class ConXEntityEditorFormLayout extends VerticalLayout {
 
 	private void initialize(Item item) {
 		this.header = new ConXEntityEditorFormHeader();
-		addComponent(header);
 		this.form = new ConXEntityEditorForm();
-		form.setItemDataSource(item);
-		form.setSizeFull();
+		addComponent(header);
+		this.formSection = new ConXEntityEditorFormSection();
+		formSection.setItemDataSource(item);
+		formSection.setWidth("100%");
+		form.addFormSection("That Form Swag", formSection);
 		addComponent(form);
 		setExpandRatio(form, 1.0f);
 	}

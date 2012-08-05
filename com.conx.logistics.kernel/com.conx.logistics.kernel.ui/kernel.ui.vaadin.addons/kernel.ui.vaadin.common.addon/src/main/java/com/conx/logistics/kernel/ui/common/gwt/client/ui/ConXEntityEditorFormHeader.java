@@ -34,6 +34,7 @@ public class ConXEntityEditorFormHeader extends HorizontalLayout {
 		HorizontalLayout leftPanel = new HorizontalLayout();
 		leftPanel.setHeight("38px");
 		leftPanel.setSpacing(true);
+		leftPanel.setStyleName("conx-entity-editor-form-header-left");
 		leftPanel.setMargin(false, false, false, true);
 		leftPanel.addComponent(action);
 		leftPanel.addComponent(title);
