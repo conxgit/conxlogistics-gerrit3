@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-Vendor: ConX
+Build-Jdk: 1.6.0_33
+Built-By: mdu
+Bundle-Version: 1.0.0
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: ConX UI Component
+Bundle-ManifestVersion: 2
+Created-By: Maven Integration for Eclipse
+Bundle-SymbolicName: com.conx.logistics.kernel.ui.components.dao.jpa.p
+ ersistence
+Import-Package: com.conx.logistics.common.utils;version="1.0.0",com.co
+ nx.logistics.kernel.datasource.dao.services;version="1.0.0",com.conx.
+ logistics.kernel.datasource.domain;version="1.0.0",com.conx.logistics
+ .kernel.metamodel.dao.services;version="1.0.0",com.conx.logistics.ker
+ nel.metamodel.domain;version="1.0.0",javax.persistence;version="0",ja
+ vax.persistence.criteria;version="0",javax.persistence.metamodel;vers
+ ion="0",org.aopalliance.aop;version="1.0.0",org.hibernate.hql.ast;ver
+ sion="3.6.0.Final",org.slf4j;version="[1.6.1,1.7.0)",org.springframew
+ ork.aop;version="[3.0,3.1)",org.springframework.aop.framework;version
+ ="[3.0,3.1)",org.springframework.beans.factory.annotation;version="[3
+ .0,3.1)",org.springframework.dao;version="[3.0,3.1)",org.springframew
+ ork.dao.annotation;version="[3.0,3.1)",org.springframework.dao.suppor
+ t;version="[3.0,3.1)",org.springframework.orm.jpa;version="[3.0,3.1)"
+ ,org.springframework.orm.jpa.vendor;version="[3.0,3.1)",org.springfra
+ mework.stereotype;version="[3.0,3.1)",org.springframework.transaction
+ ;version="[3.0,3.1)",org.springframework.transaction.annotation;versi
+ on="[3.0,3.1)",org.springframework.transaction.aspectj;version="[3.0,
+ 3.1)",org.springframework.transaction.jta;version="[3.0,3.1)"
+

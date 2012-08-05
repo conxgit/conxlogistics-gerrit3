@@ -1,0 +1,7 @@
+Eclipse Notes
+
+If you use the WTP and Eclipse's Servers to run your web application inside Eclipse you will get errors from your Tomcat at startup along the lines of "java.lang.NoSuchMethodException: org.apache.catalina.deploy.WebXml addServlet"
+
+This happens because your pom includes the Tomcat jars so they are being seen twice which causes your Eclipse Tomcat to not load correctly. The Maven Eclipse plug-in doesn't have a way to customize the Deployment Assembly on your project to exclude these for the Eclipse project. You have to go into your project properties, Deployment Assembly, and remove all the "org/apache/tomcat/..." entries. Everytime you mvn eclipse:eclipse you'll have to do this again. You could do a work around and write a custom Maven command in your pom that modifies the ".settings/org.eclipse.wst.common.component" file I suppose.
+
+Another option would be to make a separate project and pom just for Tomcat embedding. You could then attach the projects at the correct build stage in Maven so your Eclipse project would be cleaner. 

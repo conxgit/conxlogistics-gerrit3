@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Export-Package: com.conx.logistics.kernel.ui.components.domain;version
+ ="1.0.0";uses:="com.conx.logistics.mdm.domain,javax.persistence",com.
+ conx.logistics.kernel.ui.components.domain.databound;version="1.0.0";
+ uses:="com.conx.logistics.kernel.ui.components.domain,javax.persisten
+ ce",com.conx.logistics.kernel.ui.components.domain.form;version="1.0.
+ 0";uses:="com.conx.logistics.kernel.ui.components.domain.databound,co
+ m.conx.logistics.mdm.domain,javax.persistence",com.conx.logistics.ker
+ nel.ui.components.domain.form.graph;version="1.0.0",com.conx.logistic
+ s.kernel.ui.components.domain.form.items;version="1.0.0";uses:="com.c
+ onx.logistics.kernel.ui.components.domain.form,javax.persistence",com
+ .conx.logistics.kernel.ui.components.domain.form.menu;version="1.0.0"
+ ;uses:="com.conx.logistics.kernel.ui.components.domain.form",com.conx
+ .logistics.kernel.ui.components.domain.tabbed;version="1.0.0";uses:="
+ com.conx.logistics.kernel.ui.components.domain,javax.persistence",com
+ .conx.logistics.kernel.ui.components.domain.table;version="1.0.0";use
+ s:="com.conx.logistics.kernel.metamodel.domain,com.conx.logistics.ker
+ nel.ui.components.domain.databound,javax.persistence"
+Bundle-Vendor: ConX
+Build-Jdk: 1.6.0_33
+Built-By: mdu
+Bundle-Version: 1.0.0
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: ConX UI Components Domain
+Bundle-ManifestVersion: 2
+Created-By: Maven Integration for Eclipse
+Bundle-SymbolicName: com.conx.logistics.kernel.ui.components.domain
+Import-Package: com.conx.logistics.kernel.datasource.domain;version="[
+ 1.0.0,2.0.0)",com.conx.logistics.kernel.metamodel.domain;version="[1.
+ 0.0,2.0.0)",com.conx.logistics.mdm.domain;version="[1.0.0,2.0.0)",com
+ .conx.logistics.mdm.domain.metadata;version="[1.0.0,2.0.0)",javax.per
+ sistence;version="0"
+
