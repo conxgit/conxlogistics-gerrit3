@@ -20,25 +20,67 @@
 			<artifactId>com.conx.logistics.mdm.dao.services</artifactId>
 			<version>1.0.0</version>
 		</dependency>		
-		
+
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.domain</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+				
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.app.whse.dao.services</artifactId>
 			<version>1.0.0</version>
-		</dependency>				
+		</dependency>	
 		
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.app.whse.rcv.asn.domain</artifactId>
 			<version>1.0.0</version>
-		</dependency>			
+		</dependency>
 		
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
-			<artifactId>com.conx.logistics.app.whse.domain</artifactId>
-			<version>1.0.0</version>
-		</dependency>			
+			<artifactId>com.conx.logistics.app.whse.rcv.asn.dao.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
 
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.rcv.domain</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.rcv.dao.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.metamodel.domain</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.metamodel.dao.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>		
+			
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.datasource.domain</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.datasource.dao.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
 		<!-- Spring etc -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

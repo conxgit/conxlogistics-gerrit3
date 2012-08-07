@@ -14,5 +14,7 @@
   	<module>dao.jpa.persistence</module>
   	<module>pageflow</module>
   	<module>workitems</module>
+  	<module>domain.persistence.config</module>
+  	<module>domain.tests</module>
   </modules>
 </project>

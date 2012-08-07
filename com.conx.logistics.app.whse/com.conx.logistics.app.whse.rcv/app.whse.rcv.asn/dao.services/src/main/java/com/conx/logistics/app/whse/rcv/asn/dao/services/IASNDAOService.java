@@ -25,4 +25,6 @@ public interface IASNDAOService {
 	public ASN update(ASN record);
 
 	public ASN get(long id);
+
+	public ASN getByCode(String string);
 }

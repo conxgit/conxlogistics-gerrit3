@@ -1,12 +1,14 @@
 package com.conx.logistics.kernel.datasource.dao.services;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.metamodel.IdentifiableType;
 
 import com.conx.logistics.kernel.datasource.domain.DataSource;
 import com.conx.logistics.kernel.datasource.domain.DataSourceField;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
+import com.conx.logistics.kernel.metamodel.domain.EntityTypeAttribute;
 
 
 
@@ -34,4 +36,17 @@ public interface IDataSourceDAOService {
 	public DataSource update(DataSource record);
 
 	public List<DataSourceField> getFields(DataSource parentDataSource);
+
+	public DataSourceField provideDataSourceField(DataSource targetDataSource,
+			EntityTypeAttribute aattr) throws ClassNotFoundException;
+
+	public DataSourceField getFieldByName(DataSource parentDataSource, String attrName);
+
+	public DataSourceField provideDataSourceFieldByAttrName(
+			DataSource targetDataSource, String aattrName)
+			throws ClassNotFoundException;
+
+	public DataSource addField(DataSource record, DataSourceField dsf);
+
+	public DataSource addFields(DataSource record, Set<DataSourceField> dsfs);
 }

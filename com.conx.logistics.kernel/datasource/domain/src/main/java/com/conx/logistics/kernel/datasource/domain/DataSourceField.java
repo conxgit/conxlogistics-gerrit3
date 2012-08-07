@@ -13,7 +13,7 @@ import javax.persistence.metamodel.Attribute.PersistentAttributeType;
 import javax.persistence.metamodel.IdentifiableType;
 import javax.persistence.metamodel.Type.PersistenceType;
 
-import com.conx.logistics.kernel.datasource.domain.formatters.DateDisplayFormatter;
+import com.conx.logistics.common.utils.StringUtil;
 import com.conx.logistics.kernel.datasource.domain.validators.Validator;
 import com.conx.logistics.kernel.metamodel.domain.AbstractType;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
@@ -29,6 +29,11 @@ public class DataSourceField extends MultitenantBaseEntity {
 	
     public DataSourceField(){
         
+    }
+    
+    public DataSourceField(Boolean primarykey, String name, DataSource parentDataSource, AbstractType dataType, String title) {
+    	this(name,parentDataSource,dataType, title);
+    	this.primaryKey = primarykey;
     }
 
 
@@ -468,7 +473,7 @@ public class DataSourceField extends MultitenantBaseEntity {
      * @param primaryKey primaryKey Default value is false
      * @see com.smartgwt.client.docs.DataSourceRelations DataSourceRelations overview and related methods
      */
-    private Boolean primaryKey;
+    private Boolean primaryKey = false;
 
 
     /**
@@ -1169,6 +1174,20 @@ public class DataSourceField extends MultitenantBaseEntity {
 		this.validators = validators;
 	}
 
+	public String getJPAPath() {
+		if (com.conx.logistics.common.utils.Validator.isNotNull(valueXPath))
+			return getName()+"."+valueXPath.replace('/', '.');
+		else
+			return null;
+	}	
+	
+	public Boolean isNestedAttribute()
+	{
+		if (com.conx.logistics.common.utils.Validator.isNotNull(getJPAPath()) && StringUtil.contains(getJPAPath(),"."))
+			return true;
+		else
+			return false;
+	}
 
 	public String getValueXPath() {
 		return valueXPath;

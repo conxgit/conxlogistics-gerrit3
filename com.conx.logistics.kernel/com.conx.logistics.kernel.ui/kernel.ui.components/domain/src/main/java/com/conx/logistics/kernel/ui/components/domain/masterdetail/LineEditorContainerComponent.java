@@ -1,22 +1,28 @@
 package com.conx.logistics.kernel.ui.components.domain.masterdetail;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
-import com.conx.logistics.kernel.metamodel.domain.EntityType;
-import com.conx.logistics.kernel.ui.components.domain.BaseComponent;
-import com.conx.logistics.kernel.ui.components.domain.databound.DataSourceBoundComponent;
+import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 
 @Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-@Table(name="sysuilineeditorcontainercomponent")
-public class LineEditorContainerComponent extends BaseComponent {  
+public class LineEditorContainerComponent extends AbstractConXComponent {
+	
+	@OneToMany
+	private Set<LineEditorComponent> lineEditors = new HashSet<LineEditorComponent>();
+
+	public LineEditorContainerComponent() {
+		super("lineeditorcontainercomponent");
+	}
+
+	public Set<LineEditorComponent> getLineEditors() {
+		return lineEditors;
+	}
+
+	public void setLineEditors(Set<LineEditorComponent> lineEditors) {
+		this.lineEditors = lineEditors;
+	}  
 }

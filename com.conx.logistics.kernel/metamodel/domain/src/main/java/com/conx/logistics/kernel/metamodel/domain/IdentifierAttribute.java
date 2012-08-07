@@ -20,6 +20,6 @@ public class IdentifierAttribute extends SingularAttribute {
 			Class javaType,
 			PersistenceType attributeType,
 			PersistentAttributeType persistentAttributeType) {
-		super( name, javaType, true, false, false, attributeType );
+		super( name, javaType, true, false, false, persistentAttributeType );
 	}
 }

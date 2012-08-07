@@ -18,7 +18,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.conx.logistics.kernel.metamodel.dao.services.impl.EntityTypeFactory;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.metamodel.dao.services.impl.EntityTypeDAOImpl;
 import com.conx.logistics.kernel.metamodel.domain.AbstractAttribute;

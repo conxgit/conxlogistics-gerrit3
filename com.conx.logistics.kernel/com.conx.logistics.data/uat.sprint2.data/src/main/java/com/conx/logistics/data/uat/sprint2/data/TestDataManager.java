@@ -25,6 +25,8 @@ import com.conx.logistics.app.whse.rcv.asn.domain.ASN;
 import com.conx.logistics.app.whse.rcv.asn.domain.ASNDropOff;
 import com.conx.logistics.app.whse.rcv.asn.domain.ASNLine;
 import com.conx.logistics.app.whse.rcv.asn.domain.ASNPickup;
+import com.conx.logistics.app.whse.rcv.rcv.dao.services.IReceiveDAOService;
+import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
 import com.conx.logistics.mdm.dao.services.IAddressDAOService;
 import com.conx.logistics.mdm.dao.services.IContactDAOService;
 import com.conx.logistics.mdm.dao.services.ICountryDAOService;
@@ -88,6 +90,8 @@ public class TestDataManager {
 	
 	private IReferenceNumberTypeDAOService referenceNumberTypeDaoService;
 	private IReferenceNumberDAOService referenceNumberDaoService;
+	
+	private IReceiveDAOService rcvDaoService;
 	
 	public void setOrgDaoService(IOrganizationDAOService orgDaoService) {
 		this.orgDaoService = orgDaoService;
@@ -163,6 +167,28 @@ public class TestDataManager {
 	public void start() {
 		EntityManager em = conxlogisticsEMF.createEntityManager();
 		
+		createPrint1Data();
+		
+		createPrint2Data();
+	}
+	private void createPrint2Data() {
+		ASN asn = asnDaoService.getByCode("ASN1");
+		Receive rcv = rcvDaoService.process(asn);
+		
+		/**
+		 * 
+		 * ASN Arrival
+		 * 
+		 */
+		
+		
+		/**
+		 * 
+		 * Dynamic Arrival
+		 * 
+		 */
+	}
+	private void createPrint1Data() {
 		/**
 		 * Org Data: TD ORG 1.0, 4.0, 6.0, 7.0
 		 * 
@@ -388,9 +414,6 @@ public class TestDataManager {
 			
 			this.globalTransactionManager.rollback(status);
 		}
-		
-
-		
 	}
 	
 	public void stop() {

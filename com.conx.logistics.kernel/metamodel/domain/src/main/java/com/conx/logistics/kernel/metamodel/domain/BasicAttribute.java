@@ -12,19 +12,26 @@ public class BasicAttribute
 	private boolean isIdentifier;
 	private boolean isVersion;
 	private boolean isOptional;
+	private boolean isId;
 	
 	public BasicAttribute() {
+	}
+	
+	public BasicAttribute(String string, Class class1, EntityType targetEntityType) {
 		super();
 		super.persistenceType = PersistenceType.BASIC;
+		this.isId = false;
 	}
 
 	public BasicAttribute(
+			boolean isid,
 			String name,
 			Class javaType,
 			EntityType parentEntityType) {
 		super(name, javaType,javaType.getName(),javaType.getSimpleName());
 		setParentEntityType(parentEntityType);
 		this.persistenceType = PersistenceType.BASIC;
+		this.isId = isid;
 	}
 	
 
@@ -69,4 +76,10 @@ public class BasicAttribute
 	public boolean isCollection() {
 		return false;
 	}
+
+	public void setId(boolean isId) {
+		this.isId = isId;
+	}
+	
+	
 }

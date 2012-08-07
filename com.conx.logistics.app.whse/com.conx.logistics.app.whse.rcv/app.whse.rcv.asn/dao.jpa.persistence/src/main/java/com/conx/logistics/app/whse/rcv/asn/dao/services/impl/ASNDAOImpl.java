@@ -6,7 +6,13 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +30,7 @@ import com.conx.logistics.common.utils.Validator;
 import com.conx.logistics.mdm.dao.services.IEntityMetadataDAOService;
 import com.conx.logistics.mdm.dao.services.referencenumber.IReferenceNumberDAOService;
 import com.conx.logistics.mdm.domain.metadata.DefaultEntityMetadata;
+import com.conx.logistics.mdm.domain.organization.Organization;
 import com.conx.logistics.mdm.domain.product.Product;
 import com.conx.logistics.mdm.domain.referencenumber.ReferenceNumber;
 import com.conx.logistics.mdm.domain.referencenumber.ReferenceNumberType;
@@ -172,6 +179,46 @@ public class ASNDAOImpl implements IASNDAOService {
 			logger.error(stacktrace);
 			
 			throw e;
+		}		
+		
+		return asn;
+	}
+
+	@Override
+	public ASN getByCode(String code) {
+		ASN asn = null;
+		
+		try
+		{
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<ASN> query = builder.createQuery(ASN.class);
+			Root<ASN> rootEntity = query.from(ASN.class);
+			ParameterExpression<String> p = builder.parameter(String.class);
+			query.select(rootEntity).where(builder.equal(rootEntity.get("code"), p));
+
+			TypedQuery<ASN> typedQuery = em.createQuery(query);
+			typedQuery.setParameter(p, code);
+			
+			asn = typedQuery.getSingleResult();
+/*			TypedQuery<Organization> q = em.createQuery("select o from com.conx.logistics.mdm.domain.organization.Organization o WHERE o.code = :code",Organization.class);
+			q.setParameter("code", code);
+						
+			org = q.getSingleResult();*/
+		}
+		catch(NoResultException e){}
+		catch(Exception e)
+		{
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			logger.error(stacktrace);
+		}
+		catch(Error e)
+		{
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			logger.error(stacktrace);
 		}		
 		
 		return asn;

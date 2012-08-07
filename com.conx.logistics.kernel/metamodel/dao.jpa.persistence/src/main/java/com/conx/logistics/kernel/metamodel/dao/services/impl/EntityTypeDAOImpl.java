@@ -280,7 +280,7 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 			at = sattr.getPersistentAttributeType();
 			if (at == PersistentAttributeType.BASIC)
 			{
-				attr = new com.conx.logistics.kernel.metamodel.domain.BasicAttribute(sattr.getName(), sattr.getJavaType(),targetEntityType);
+				attr = new com.conx.logistics.kernel.metamodel.domain.BasicAttribute(sattr.isId(),sattr.getName(), sattr.getJavaType(),targetEntityType);
 				attr.setParentEntityType(targetEntityType);
 				attr = em.merge(attr);
 				System.out.println("["+entity+"] Adding BASIC attr ("+attr.getName()+")");

@@ -51,6 +51,7 @@ public abstract class AbstractManagedType extends AbstractType {
 		return declaredAttributes;
 	}
 
+	
 /*	public Set<SingularAttribute> getDeclaredSingularAttributes() {
 		return declaredSingularAttributes;
 	}

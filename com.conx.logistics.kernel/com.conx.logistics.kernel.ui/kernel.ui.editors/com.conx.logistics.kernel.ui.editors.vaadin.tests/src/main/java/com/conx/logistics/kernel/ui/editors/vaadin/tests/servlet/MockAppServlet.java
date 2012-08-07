@@ -24,7 +24,7 @@ public class MockAppServlet extends AbstractApplicationServlet {
 
 	protected final Logger log = LoggerFactory.getLogger(getClass().getName());
 	
-	static private MockApp mainApp;
+	static private MockApp mainApp = new MockApp();
 
 	public MockApp getMainApp() {
 		return mainApp;

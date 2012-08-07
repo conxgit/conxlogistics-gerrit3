@@ -7,6 +7,74 @@
     <relativePath>..</relativePath>
   </parent>
   <artifactId>com.conx.logistics.app.whse.rcv.rcv.dao.jpa.persistence</artifactId>
+	<dependencies>
+		<!-- ConX -->
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.common.utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.mdm.domain</artifactId>
+			<version>${project.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.mdm.dao.services</artifactId>
+			<version>1.0.0</version>
+		</dependency>			
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.asn.domain</artifactId>
+			<version>${project.version}</version>
+		</dependency>				
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.asn.dao.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.rcv.domain</artifactId>
+			<version>${project.version}</version>
+		</dependency>				
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.rcv.dao.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>			
+		<!-- Spring and AspectJ -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.spring-library</artifactId>
+			<type>libd</type>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>org.aspectj-library</artifactId>
+			<type>libd</type>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.instrument</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.aspects</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.context</artifactId>
+			<scope>provided</scope>
+		</dependency>			
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -33,5 +101,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>    
+	</build>      
 </project>

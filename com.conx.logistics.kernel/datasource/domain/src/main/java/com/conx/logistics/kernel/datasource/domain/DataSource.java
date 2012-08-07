@@ -11,6 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
 import com.conx.logistics.mdm.domain.MultitenantBaseEntity;
@@ -19,6 +20,9 @@ import com.conx.logistics.mdm.domain.MultitenantBaseEntity;
 @Table(name="sysdsdatasource")
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
 public class DataSource extends MultitenantBaseEntity {
+	@Transient
+	private Set<String> visibleFieldNames = null;
+	
 	@ManyToOne
 	private EntityType entityType;
 	
@@ -50,6 +54,23 @@ public class DataSource extends MultitenantBaseEntity {
 		setName(code);
 		this.entityType = entityType;
 	}
+	
+	public Set<String> getVisibleFieldNames()
+	{
+		if (visibleFieldNames == null)
+		{
+			visibleFieldNames = new HashSet<String>();
+			Set<DataSourceField> dsFields = getDSFields();
+			for (DataSourceField dsf : dsFields)
+			{
+				if (!dsf.getHidden())
+				{
+					visibleFieldNames.add(dsf.getName());
+				}
+			}
+		}
+		return visibleFieldNames;
+	}	
 	
 	public String toString()
 	{

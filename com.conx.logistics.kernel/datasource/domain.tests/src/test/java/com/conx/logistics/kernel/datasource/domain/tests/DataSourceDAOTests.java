@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 
 import com.conx.logistics.kernel.datasource.dao.services.impl.DataSourceDAOImpl;
 import com.conx.logistics.kernel.datasource.domain.DataSource;
-import com.conx.logistics.kernel.metamodel.dao.services.impl.EntityTypeFactory;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.metamodel.dao.services.impl.EntityTypeDAOImpl;
 import com.conx.logistics.kernel.metamodel.domain.AbstractAttribute;

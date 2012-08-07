@@ -20,6 +20,6 @@ public class VersionAttribute extends SingularAttribute {
 			Class javaType,
 			PersistenceType attributeType,
 			PersistentAttributeType persistentAttributeType) {
-		super( name, javaType, false, true, false, attributeType );
+		super( name, javaType, false, true, false, persistentAttributeType );
 	}
 }

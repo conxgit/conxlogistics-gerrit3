@@ -34,6 +34,7 @@ import com.conx.logistics.kernel.datasource.domain.DataSourceField;
 import com.conx.logistics.kernel.metamodel.dao.services.IBasicTypeDAOService;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.metamodel.domain.AbstractAttribute;
+import com.conx.logistics.kernel.metamodel.domain.BasicAttribute;
 import com.conx.logistics.kernel.metamodel.domain.BasicType;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
 import com.conx.logistics.kernel.metamodel.domain.EntityTypeAttribute;
@@ -89,6 +90,13 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 		return q.getResultList();
 	}		
 
+	@Override
+	public DataSourceField getFieldByName(DataSource parentDataSource, String attrName) {
+		TypedQuery<DataSourceField> q = em.createQuery("select o from com.conx.logistics.kernel.datasource.domain.DataSourceField o WHERE o.parentDataSource = :parentDataSource AND o.name = :name",DataSourceField.class);
+		q.setParameter("parentDataSource",parentDataSource);
+		q.setParameter("name",attrName);
+		return q.getSingleResult();
+	}		
 
 	@Override
 	public DataSource add(DataSource record) {
@@ -96,6 +104,22 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 		
 		return record;
 	}
+	
+	@Override
+	public DataSource addField(DataSource record, DataSourceField dsf) {
+		record = em.merge(record);
+		record.getDSFields().add(dsf);
+		
+		return em.merge(record);
+	}	
+	
+	@Override
+	public DataSource addFields(DataSource record, Set<DataSourceField> dsfs) {
+		record = em.merge(record);
+		record.getDSFields().addAll(dsfs);
+		
+		return em.merge(record);
+	}	
 	
 	@Override
 	public DataSource provide(EntityType entityType) throws ClassNotFoundException {
@@ -139,61 +163,12 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 	private DataSource updateDataSourceFields(
 			DataSource targetDataSource) throws ClassNotFoundException {
 		//Process attributes
-		PersistentAttributeType at;
-		DataSource et;
-		com.conx.logistics.kernel.metamodel.domain.AbstractAttribute attr;
-		DataSource attrDataSource;	
-		
 		Set<EntityTypeAttribute> aattrs = targetDataSource.getEntityType().getDeclaredAttributes();
-		PersistenceType pt;
-		EntityType pet;
+		DataSourceField entityDSField = null;
 		for (EntityTypeAttribute aattr : aattrs)
 		{
-			pt = aattr.getAttribute().getPersistenceType();
-			if (pt == PersistenceType.BASIC)
-			{
-				//- provide BasicType
-				BasicType basicType = basicTypeDao.provide(aattr.getAttribute().getJavaType());
-				
-				//- create DataSourceField
-				DataSourceField dsField = new DataSourceField(aattr.getAttribute().getName(),targetDataSource,basicType, aattr.getAttribute().getName());
-				dsField = em.merge(dsField);
-				targetDataSource.getDSFields().add(dsField);
-				
-				System.out.println("Adding Basic-type DataSourceField ("+aattr.getAttribute().getName()+") of type ("+basicType.getEntityJavaType()+")");				
-			}
-			else if (pt == PersistenceType.ENTITY)
-			{
-				if (aattr.getAttribute() instanceof com.conx.logistics.kernel.metamodel.domain.SingularAttribute)
-				{
-					//- provide DataSource for entity type
-					EntityType entityType = aattr.getAttribute().getEntityType();
-					attrDataSource = provide(aattr.getAttribute().getEntityType());
-					
-					
-					//- create Entity attribute
-					DataSourceField entityDSField = new DataSourceField(aattr.getAttribute().getName(),targetDataSource,attrDataSource,entityType,aattr.getAttribute().getName(),((com.conx.logistics.kernel.metamodel.domain.SingularAttribute)aattr.getAttribute()).getAttributeType());
-					entityDSField = em.merge(entityDSField);
-					targetDataSource.getDSFields().add(entityDSField);
-					
-					System.out.println("Adding Entity-type DataSourceField ("+aattr.getAttribute().getName()+") of type ("+entityType.getEntityJavaType()+")");			
-					
-				}
-				else if (aattr.getAttribute() instanceof com.conx.logistics.kernel.metamodel.domain.PluralAttribute)
-				{
-					//- provide DataSource for entity type
-					EntityType entityType = aattr.getAttribute().getEntityType();
-					attrDataSource = provide(aattr.getAttribute().getEntityType());
-					
-					
-					//- create Entity attribute
-					DataSourceField entityDSField = new DataSourceField(aattr.getAttribute().getName(),targetDataSource,attrDataSource,entityType,aattr.getAttribute().getName(),((com.conx.logistics.kernel.metamodel.domain.PluralAttribute)aattr.getAttribute()).getAttributeType());
-					entityDSField = em.merge(entityDSField);
-					targetDataSource.getDSFields().add(entityDSField);
-					
-					System.out.println("Adding Collection Entity-type DataSourceField ("+aattr.getAttribute().getName()+") of type ("+entityType.getEntityJavaType()+")");						
-				}
-			}
+			entityDSField = provideDataSourceField(targetDataSource, aattr);
+			targetDataSource.getDSFields().add(entityDSField);
 		}
 		
 		
@@ -202,48 +177,73 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 		return targetDataSource;
 	}
 
-
 	@Override
-	public void delete(DataSource record) {
-		em.remove(record);
-	}
-
-	@Override
-	public DataSource update(DataSource record) {
-		return em.merge(record);
-	}
-
-	@Override
-	public DataSourceField getField(Long dataSourceId, String name) {
-		DataSourceField record = null;
-		
-		try
+	public DataSourceField provideDataSourceField(DataSource targetDataSource,
+			EntityTypeAttribute aattr) throws ClassNotFoundException {
+		DataSourceField entityDSField = null;
+		DataSource attrDataSource;
+		PersistenceType pt;
+		pt = aattr.getAttribute().getPersistenceType();
+		if (pt == PersistenceType.BASIC)
 		{
-			CriteriaBuilder builder = em.getCriteriaBuilder();
-			CriteriaQuery<DataSourceField> query = builder.createQuery(DataSourceField.class);
-			Root<DataSourceField> rootEntity = query.from(DataSourceField.class);
-			ParameterExpression<String> p = builder.parameter(String.class);
-			query.select(rootEntity).where(builder.equal(rootEntity.get("name"), p));
-
-			TypedQuery<DataSourceField> typedQuery = em.createQuery(query);
-			typedQuery.setParameter(p, name);
+			//- provide BasicType
+			BasicType basicType = basicTypeDao.provide(aattr.getAttribute().getJavaType());
 			
-			return typedQuery.getSingleResult();
+			//- create DataSourceField
+			entityDSField = new DataSourceField(((BasicAttribute)aattr.getAttribute()).isId(),aattr.getAttribute().getName(),targetDataSource,basicType, aattr.getAttribute().getName());
+			entityDSField = em.merge(entityDSField);
+			//targetDataSource.getDSFields().add(entityDSField);
+			
+			System.out.println("Adding Basic-type DataSourceField ("+aattr.getAttribute().getName()+") of type ("+basicType.getEntityJavaType()+")");				
 		}
-		catch(NoResultException e){}
-		catch(Exception e)
+		else if (pt == PersistenceType.ENTITY)
 		{
-			e.printStackTrace();
+			if (aattr.getAttribute() instanceof com.conx.logistics.kernel.metamodel.domain.SingularAttribute)
+			{
+				//- provide DataSource for entity type
+				EntityType entityType = aattr.getAttribute().getEntityType();
+				attrDataSource = provide(aattr.getAttribute().getEntityType());
+				
+				
+				//- create Entity attribute
+				entityDSField = new DataSourceField(aattr.getAttribute().getName(),targetDataSource,attrDataSource,entityType,aattr.getAttribute().getName(),((com.conx.logistics.kernel.metamodel.domain.SingularAttribute)aattr.getAttribute()).getAttributeType());
+				entityDSField = em.merge(entityDSField);
+				//targetDataSource.getDSFields().add(entityDSField);
+				
+				System.out.println("Adding Entity-type DataSourceField ("+aattr.getAttribute().getName()+") of type ("+entityType.getEntityJavaType()+")");			
+				
+			}
+			else if (aattr.getAttribute() instanceof com.conx.logistics.kernel.metamodel.domain.PluralAttribute)
+			{
+				//- provide DataSource for entity type
+				EntityType entityType = aattr.getAttribute().getEntityType();
+				attrDataSource = provide(aattr.getAttribute().getEntityType());
+				
+				
+				//- create Entity attribute
+				entityDSField = new DataSourceField(aattr.getAttribute().getName(),targetDataSource,attrDataSource,entityType,aattr.getAttribute().getName(),((com.conx.logistics.kernel.metamodel.domain.PluralAttribute)aattr.getAttribute()).getAttributeType());
+				entityDSField = em.merge(entityDSField);
+				//targetDataSource.getDSFields().add(entityDSField);
+				
+				System.out.println("Adding Collection Entity-type DataSourceField ("+aattr.getAttribute().getName()+") of type ("+entityType.getEntityJavaType()+")");						
+			}
 		}
-		catch(Error e)
-		{
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			String stacktrace = sw.toString();
-			logger.error(stacktrace);
-		}		
 		
-		return record;
+		return entityDSField;
+	}
+	
+	@Override
+	public DataSourceField provideDataSourceFieldByAttrName(DataSource targetDataSource,
+			String aattrName) throws ClassNotFoundException {
+		DataSourceField entityDSField = getFieldByName(targetDataSource, aattrName);
+		
+		if (entityDSField == null)
+		{
+			AbstractAttribute attr = entityTypeDao.getAttribute(targetDataSource.getEntityType().getId(), aattrName);
+			entityDSField = provideDataSourceField(targetDataSource,new EntityTypeAttribute(targetDataSource.getEntityType(), attr));
+		}
+
+		return entityDSField;
 	}
 
 
@@ -289,5 +289,25 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 		ds = em.merge(ds);
 		
 		return ds;
+	}
+
+
+	@Override
+	public DataSourceField getField(Long dataSourceId, String name) {
+		DataSource ds = em.getReference(DataSource.class, dataSourceId);
+		return getFieldByName(ds, name);
+	}
+
+
+	@Override
+	public void delete(DataSource record) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public DataSource update(DataSource record) {
+		return em.merge(record);
 	}	
 }

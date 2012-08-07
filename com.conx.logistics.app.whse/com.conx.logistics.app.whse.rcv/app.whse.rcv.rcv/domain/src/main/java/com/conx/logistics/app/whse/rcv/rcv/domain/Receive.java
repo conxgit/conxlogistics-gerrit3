@@ -39,6 +39,14 @@ import com.conx.logistics.mdm.domain.product.WeightUnit;
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @Table(name="whreceive")
 public class Receive extends MultitenantBaseEntity {
+    @OneToOne(targetEntity = Pickup.class, fetch = FetchType.EAGER)
+    @JoinColumn
+    private Pickup pickUp;
+    
+    @OneToOne(targetEntity = DropOff.class, fetch = FetchType.EAGER)
+    @JoinColumn
+    private DropOff dropOff;
+    
     @OneToOne(targetEntity = PackUnit.class, fetch = FetchType.EAGER)
     @JoinColumn
     private PackUnit outerPackUnit;
@@ -119,8 +127,6 @@ public class Receive extends MultitenantBaseEntity {
     @Enumerated(EnumType.STRING)
     private RECEIVETYPE rcvType;
 
-    private Long dlFolderId;
-
     private String asnId;
 
     @Enumerated(EnumType.STRING)
@@ -137,9 +143,6 @@ public class Receive extends MultitenantBaseEntity {
     private Date dateLastImportUpdated;
 
 
-    /**
-     * Pickup and Delivery
-     */
     @OneToOne(targetEntity = ASN.class, fetch = FetchType.LAZY)
     @JoinColumn
     private ASN asn;
@@ -168,5 +171,317 @@ public class Receive extends MultitenantBaseEntity {
     private Date lastUpdatedDate;
 
     @Enumerated(EnumType.STRING)
-    private DROPMODE dropMode;	
+    private DROPMODE dropMode;
+
+	public PackUnit getOuterPackUnit() {
+		return outerPackUnit;
+	}
+
+	public void setOuterPackUnit(PackUnit outerPackUnit) {
+		this.outerPackUnit = outerPackUnit;
+	}
+
+	public WeightUnit getWeightUnit() {
+		return weightUnit;
+	}
+
+	public void setWeightUnit(WeightUnit weightUnit) {
+		this.weightUnit = weightUnit;
+	}
+
+	public DimUnit getDimUnit() {
+		return dimUnit;
+	}
+
+	public void setDimUnit(DimUnit dimUnit) {
+		this.dimUnit = dimUnit;
+	}
+
+	public DimUnit getVolUnit() {
+		return volUnit;
+	}
+
+	public void setVolUnit(DimUnit volUnit) {
+		this.volUnit = volUnit;
+	}
+
+	public Organization getShippedFrom() {
+		return shippedFrom;
+	}
+
+	public void setShippedFrom(Organization shippedFrom) {
+		this.shippedFrom = shippedFrom;
+	}
+
+	public Organization getBillTo() {
+		return billTo;
+	}
+
+	public void setBillTo(Organization billTo) {
+		this.billTo = billTo;
+	}
+
+	public Organization getConsignee() {
+		return consignee;
+	}
+
+	public void setConsignee(Organization consignee) {
+		this.consignee = consignee;
+	}
+
+	public Address getConsigneeDocAddress() {
+		return consigneeDocAddress;
+	}
+
+	public void setConsigneeDocAddress(Address consigneeDocAddress) {
+		this.consigneeDocAddress = consigneeDocAddress;
+	}
+
+	public Address getConsigneeDelAddress() {
+		return consigneeDelAddress;
+	}
+
+	public void setConsigneeDelAddress(Address consigneeDelAddress) {
+		this.consigneeDelAddress = consigneeDelAddress;
+	}
+
+	public Organization getConsignor() {
+		return consignor;
+	}
+
+	public void setConsignor(Organization consignor) {
+		this.consignor = consignor;
+	}
+
+	public Address getShipperAddress() {
+		return shipperAddress;
+	}
+
+	public void setShipperAddress(Address shipperAddress) {
+		this.shipperAddress = shipperAddress;
+	}
+
+	public Set<ReceiveLine> getRcvLines() {
+		return rcvLines;
+	}
+
+	public void setRcvLines(Set<ReceiveLine> rcvLines) {
+		this.rcvLines = rcvLines;
+	}
+
+	public Set<Arrival> getArrivals() {
+		return arrivals;
+	}
+
+	public void setArrivals(Set<Arrival> arrivals) {
+		this.arrivals = arrivals;
+	}
+
+	public CommercialRecord getCommercialRecord() {
+		return commercialRecord;
+	}
+
+	public void setCommercialRecord(CommercialRecord commercialRecord) {
+		this.commercialRecord = commercialRecord;
+	}
+
+	public Integer getExpectedTotalOuterPackCount() {
+		return expectedTotalOuterPackCount;
+	}
+
+	public void setExpectedTotalOuterPackCount(Integer expectedTotalOuterPackCount) {
+		this.expectedTotalOuterPackCount = expectedTotalOuterPackCount;
+	}
+
+	public Double getExpectedTotalweight() {
+		return expectedTotalweight;
+	}
+
+	public void setExpectedTotalweight(Double expectedTotalweight) {
+		this.expectedTotalweight = expectedTotalweight;
+	}
+
+	public Double getExpectedTotalLen() {
+		return expectedTotalLen;
+	}
+
+	public void setExpectedTotalLen(Double expectedTotalLen) {
+		this.expectedTotalLen = expectedTotalLen;
+	}
+
+	public Double getExpectedTotalWidth() {
+		return expectedTotalWidth;
+	}
+
+	public void setExpectedTotalWidth(Double expectedTotalWidth) {
+		this.expectedTotalWidth = expectedTotalWidth;
+	}
+
+	public Double getExpectedTotalHeight() {
+		return expectedTotalHeight;
+	}
+
+	public void setExpectedTotalHeight(Double expectedTotalHeight) {
+		this.expectedTotalHeight = expectedTotalHeight;
+	}
+
+	public Double getExpectedTotalVolume() {
+		return expectedTotalVolume;
+	}
+
+	public void setExpectedTotalVolume(Double expectedTotalVolume) {
+		this.expectedTotalVolume = expectedTotalVolume;
+	}
+
+	public Date getEstimatedFirstArrival() {
+		return estimatedFirstArrival;
+	}
+
+	public void setEstimatedFirstArrival(Date estimatedFirstArrival) {
+		this.estimatedFirstArrival = estimatedFirstArrival;
+	}
+
+	public Date getActualFirstArrival() {
+		return actualFirstArrival;
+	}
+
+	public void setActualFirstArrival(Date actualFirstArrival) {
+		this.actualFirstArrival = actualFirstArrival;
+	}
+
+	public TRANSMODE getMode() {
+		return mode;
+	}
+
+	public void setMode(TRANSMODE mode) {
+		this.mode = mode;
+	}
+
+	public RECEIVETYPE getRcvType() {
+		return rcvType;
+	}
+
+	public void setRcvType(RECEIVETYPE rcvType) {
+		this.rcvType = rcvType;
+	}
+
+	public String getAsnId() {
+		return asnId;
+	}
+
+	public void setAsnId(String asnId) {
+		this.asnId = asnId;
+	}
+
+	public RECEIVESTATUS getStatus() {
+		return status;
+	}
+
+	public void setStatus(RECEIVESTATUS status) {
+		this.status = status;
+	}
+
+	public boolean isMaster() {
+		return master;
+	}
+
+	public void setMaster(boolean master) {
+		this.master = master;
+	}
+
+	public Date getDateImported() {
+		return dateImported;
+	}
+
+	public void setDateImported(Date dateImported) {
+		this.dateImported = dateImported;
+	}
+
+	public Date getDateLastImportUpdated() {
+		return dateLastImportUpdated;
+	}
+
+	public void setDateLastImportUpdated(Date dateLastImportUpdated) {
+		this.dateLastImportUpdated = dateLastImportUpdated;
+	}
+
+	public ASN getAsn() {
+		return asn;
+	}
+
+	public void setAsn(ASN asn) {
+		this.asn = asn;
+	}
+
+	public Organization getBookingBranch() {
+		return bookingBranch;
+	}
+
+	public void setBookingBranch(Organization bookingBranch) {
+		this.bookingBranch = bookingBranch;
+	}
+
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	public String getBookedByUserCode() {
+		return bookedByUserCode;
+	}
+
+	public void setBookedByUserCode(String bookedByUserCode) {
+		this.bookedByUserCode = bookedByUserCode;
+	}
+
+	public Date getBookingDate() {
+		return bookingDate;
+	}
+
+	public void setBookingDate(Date bookingDate) {
+		this.bookingDate = bookingDate;
+	}
+
+	public String getLastUpdatedByUserCode() {
+		return lastUpdatedByUserCode;
+	}
+
+	public void setLastUpdatedByUserCode(String lastUpdatedByUserCode) {
+		this.lastUpdatedByUserCode = lastUpdatedByUserCode;
+	}
+
+	public Date getLastUpdatedDate() {
+		return lastUpdatedDate;
+	}
+
+	public void setLastUpdatedDate(Date lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
+	public DROPMODE getDropMode() {
+		return dropMode;
+	}
+
+	public void setDropMode(DROPMODE dropMode) {
+		this.dropMode = dropMode;
+	}
+
+	public Pickup getPickUp() {
+		return pickUp;
+	}
+
+	public void setPickUp(Pickup pickUp) {
+		this.pickUp = pickUp;
+	}
+
+	public DropOff getDropOff() {
+		return dropOff;
+	}
+
+	public void setDropOff(DropOff dropOff) {
+		this.dropOff = dropOff;
+	}	
 }
