@@ -1,69 +1,63 @@
 package com.conx.logistics.kernel.ui.editors.vaadin.tests;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.vaadin.mvp.eventbus.EventBus;
+import org.vaadin.mvp.eventbus.EventBusManager;
+import org.vaadin.mvp.presenter.IPresenter;
+import org.vaadin.mvp.presenter.PresenterFactory;
 
-import com.conx.logistics.kernel.pageflow.services.IPageFlowManager;
-import com.conx.logistics.kernel.pageflow.services.IPageFlowSession;
-import com.conx.logistics.mdm.domain.task.TaskDefinition;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorEventBus;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorPresenter;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.view.IMultiLevelEntityEditorView;
 import com.vaadin.Application;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Window;
 
 @Service
 @Transactional
 public class MockApp extends Application {
 	private static final long serialVersionUID = -5470222303880854277L;
-	private IPageFlowSession pfs;
-	private IPageFlowManager defaultPageFlowEngine;
-	
-	@Autowired
-	private PlatformTransactionManager globalJtaTransactionManager;
-
-	public void start() {
-	}
-	
-	public void stop() {
-	}
 
 	@Override
 	public void init() {
-		Window w = new Window();
+		setTheme("conx");
+		
+		EventBusManager ebm = new EventBusManager();
+		PresenterFactory presenterFactory = new PresenterFactory(ebm, getLocale());
+		IPresenter<?, ? extends EventBus> mainPresenter = presenterFactory.createPresenter(MultiLevelEntityEditorPresenter.class);
+		MultiLevelEntityEditorEventBus mainEventBus = (MultiLevelEntityEditorEventBus) mainPresenter.getEventBus();
+		mainEventBus.start(ebm, presenterFactory);
+		
+		Window w = new Window("Test Entity Editor App");
 		w.setSizeFull();
+		w.setLayout((Layout) mainPresenter.getView());
+		setMainWindow(w);
 		
-		TaskDefinition td = new TaskDefinition();
-		td.setBpmn2ProcDefURL("");
-		td.setProcessId("whse.rcv.asn");
-		
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		def.setName("web.app.mock");
-		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-		TransactionStatus status = this.globalJtaTransactionManager.getTransaction(def);	
-		
-		try
-		{
-			pfs = defaultPageFlowEngine.startPageFlowSession("skeswa", td);
-			w.addComponent(pfs.getWizardComponent());
-			this.globalJtaTransactionManager.commit(status);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			this.globalJtaTransactionManager.rollback(status);
-		}
-		
-		this.setMainWindow(w);
-	}
-
-	public IPageFlowManager getDefaultPageFlowEngine() {
-		return defaultPageFlowEngine;
-	}
-
-	public void setDefaultPageFlowEngine(IPageFlowManager defaultPageFlowEngine) {
-		this.defaultPageFlowEngine = defaultPageFlowEngine;
+//		Window w = new Window();
+//		w.setSizeFull();
+//		
+//		TaskDefinition td = new TaskDefinition();
+//		td.setBpmn2ProcDefURL("");
+//		td.setProcessId("whse.rcv.asn");
+//		
+//		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+//		def.setName("web.app.mock");
+//		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+//		TransactionStatus status = this.globalJtaTransactionManager.getTransaction(def);	
+//		
+//		try
+//		{
+//			pfs = defaultPageFlowEngine.startPageFlowSession("skeswa", td);
+//			w.addComponent(pfs.getWizardComponent());
+//			this.globalJtaTransactionManager.commit(status);
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//			this.globalJtaTransactionManager.rollback(status);
+//		}
+//		
+//		this.setMainWindow(w);
 	}
 }

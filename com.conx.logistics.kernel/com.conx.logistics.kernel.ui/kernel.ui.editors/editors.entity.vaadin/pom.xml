@@ -8,36 +8,7 @@
   </parent>
   <artifactId>com.conx.logistics.kernel.ui.editors.entity.vaadin</artifactId>
 	<dependencies>
-		<!-- ConX -->
-		<dependency>
-			<groupId>com.conx.logistics</groupId>
-			<artifactId>com.conx.logistics.mdm.domain</artifactId>
-			<version>1.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.conx.logistics</groupId>
-			<artifactId>com.conx.logistics.kernel.ui.services</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.conx.logistics</groupId>
-			<artifactId>com.conx.logistics.kernel.system.dao.services</artifactId>
-			<version>${project.version}</version>
-		</dependency>	
-		<dependency>	
-			<groupId>com.conx.logistics</groupId>
-			<artifactId>
-				com.conx.logistics.kernel.pageflow.services
-			</artifactId>
-			<version>${project.version}</version>
-		</dependency>	
-		<dependency>
-			<groupId>com.conx.logistics</groupId>
-			<artifactId>com.conx.logistics.kernel.ui.vaadin.common.addon</artifactId>
-			<version>1.0.0</version>
-			<scope>provided</scope>
-		</dependency>		
+		<!-- ConX -->				
 				
 		<!-- GWT/Vaadin -->
 		<dependency>
@@ -95,22 +66,6 @@
 			<version>1.0.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>contextmenu</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>weelayout</artifactId>
-			<version>0.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>css-tools</artifactId>
-			<version>0.3</version>
-		</dependency>
 		<!-- Spring and AspectJ -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -144,7 +99,14 @@
 			<artifactId>org.springframework.context</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>
+				com.conx.logistics.kernel.ui.vaadin.filteredtable.addon
+			</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
