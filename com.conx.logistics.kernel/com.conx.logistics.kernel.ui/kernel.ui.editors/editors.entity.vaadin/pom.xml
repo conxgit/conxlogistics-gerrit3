@@ -1,15 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>com.conx.logistics.kernel.ui.editors</artifactId>
-    <groupId>com.conx.logistics</groupId>
-    <version>1.0.0</version>
-    <relativePath>..</relativePath>
-  </parent>
-  <artifactId>com.conx.logistics.kernel.ui.editors.entity.vaadin</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>com.conx.logistics.kernel.ui.editors</artifactId>
+		<groupId>com.conx.logistics</groupId>
+		<version>1.0.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>com.conx.logistics.kernel.ui.editors.entity.vaadin</artifactId>
 	<dependencies>
-		<!-- ConX -->				
-				
+		<!-- ConX -->
+
 		<!-- GWT/Vaadin -->
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -53,17 +54,11 @@
 			<artifactId>com.conx.logistics.thirdparty.org.vaadin.addons.mvp-common-customized</artifactId>
 			<version>0.9.2-SNAPSHOT</version>
 			<scope>provided</scope>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>com.vaadin.addon</groupId>
 			<artifactId>jpacontainer-addon-agpl-3.0</artifactId>
 			<version>2.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>toolbar</artifactId>
-			<version>1.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- Spring and AspectJ -->
@@ -128,9 +123,56 @@
 				<excludes>
 					<exclude>**/VAADIN/**/*.*</exclude>
 				</excludes>
-			</resource>			
+			</resource>
 		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>2.2.0</version>
+				<configuration>
+					<webappDirectory>${project.build.directory}/${project.build.finalName}/VAADIN/widgetsets</webappDirectory>
+					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+					<runTarget>kernel.ui.editors.entity.vaadin</runTarget>
+					<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
+					<noServer>true</noServer>
+					<port>8080</port>
+					<compileReport>false</compileReport>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>resources</goal>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.google.gwt</groupId>
+						<artifactId>gwt-dev</artifactId>
+						<version>${gwt.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.google.gwt</groupId>
+						<artifactId>gwt-user</artifactId>
+						<version>${gwt.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<version>1.0.2</version>
+				<executions>
+					<execution>
+						<configuration></configuration>
+						<goals>
+							<goal>update-widgetset</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.springsource.bundlor</groupId>
 				<artifactId>com.springsource.bundlor.maven</artifactId>

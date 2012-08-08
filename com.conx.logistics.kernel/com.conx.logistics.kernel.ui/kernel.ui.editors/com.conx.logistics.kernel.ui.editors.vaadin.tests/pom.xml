@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.conx.logistics</groupId>
-  <version>1.0.0</version>  
-  <artifactId>com.conx.logistics.kernel.ui.editors.vaadin.tests</artifactId>
-  <packaging>war</packaging>
-  <name>UI Editors Vaadin Tests</name>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <vaadin.version>6.7.5</vaadin.version>
-    <gwt.version>2.3.0</gwt.version>
-    <gwt.plugin.version>2.2.0</gwt.plugin.version>
-    <spring.version>3.0.5.RELEASE</spring.version>
-  </properties>
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.conx.logistics</groupId>
+	<version>1.0.0</version>
+	<artifactId>com.conx.logistics.kernel.ui.editors.vaadin.tests</artifactId>
+	<packaging>war</packaging>
+	<name>UI Editors Vaadin Tests</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<vaadin.version>6.7.5</vaadin.version>
+		<gwt.version>2.3.0</gwt.version>
+		<gwt.plugin.version>2.2.0</gwt.plugin.version>
+		<spring.version>3.0.5.RELEASE</spring.version>
+	</properties>
 	<repositories>
 		<repository>
 			<id>org.eclipse.build.rt.virgo.bundles.snapshots</id>
@@ -27,21 +26,17 @@
 				<enabled>false</enabled>
 			</releases>
 		</repository>
-
 		<repository>
 			<id>zodiac</id>
 			<name>Virgo milestone repo</name>
 			<url>http://zodiac.springsource.com/maven/bundles/release</url>
 		</repository>
-
-
 		<repository>
 			<id>EclipseLink Repo</id>
 			<url>http://www.eclipse.org/downloads/download.php?r=1&amp;nf=1&amp;file=/rt/eclipselink/maven.repo</url>
 			<!-- use this for javax.persistence <snapshots> <enabled>true</enabled> 
 				</snapshots> -->
 		</repository>
-
 		<repository>
 			<id>com.springsource.repository.bundles.snapshot</id>
 			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Snapshot</name>
@@ -62,7 +57,6 @@
 			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/external</url>
 		</repository>
-
 		<repository>
 			<id>com.springsource.repository.libraries.release</id>
 			<name>SpringSource Enterprise Bundle Repository - SpringSource Library Releases</name>
@@ -127,7 +121,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
 	<pluginRepositories>
 		<pluginRepository>
 			<id>com.springsource.repository.bundles.release</id>
@@ -140,93 +133,192 @@
 			<url>http://repository.springsource.com/maven/bundles/milestone</url>
 		</pluginRepository>
 	</pluginRepositories>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.m2e</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<lifecycleMappingMetadata>
+						<pluginExecutions>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>
+										com.springsource.bundlor
+									</groupId>
+									<artifactId>
+										com.springsource.bundlor.maven
+									</artifactId>
+									<versionRange>
+										[1.0.0.RELEASE,)
+									</versionRange>
+									<goals>
+										<goal>bundlor</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<ignore></ignore>
+								</action>
+							</pluginExecution>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>
+										org.codehaus.mojo
+									</groupId>
+									<artifactId>
+										gwt-maven-plugin
+									</artifactId>
+									<versionRange>
+										[2.0.0,)
+									</versionRange>
+									<goals>
+										<goal>resources</goal>
+										<goal>compile</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<ignore></ignore>
+								</action>
+							</pluginExecution>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>
+										com.vaadin
+									</groupId>
+									<artifactId>
+										vaadin-maven-plugin
+									</artifactId>
+									<versionRange>
+										[1.0.0,)
+									</versionRange>
+									<goals>
+										<goal>update-widgetset</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<ignore></ignore>
+								</action>
+							</pluginExecution>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>
+										org.apache.maven.plugins
+									</groupId>
+									<artifactId>
+										maven-dependency-plugin
+									</artifactId>
+									<versionRange>
+										[1.0.0,)
+									</versionRange>
+									<goals>
+										<goal>copy-dependencies</goal>
+										<goal>unpack-dependencies</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<ignore></ignore>
+								</action>
+							</pluginExecution>
+						</pluginExecutions>
+					</lifecycleMappingMetadata>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
 
-      <!-- Compile custom GWT components or widget dependencies with the GWT compiler -->
-      <!--
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-        <version>${gwt.plugin.version}</version>
-        <configuration>
-          <webappDirectory>${project.build.directory}/${project.build.finalName}/VAADIN/widgetsets</webappDirectory>
-          <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
-          <runTarget>com.conx.logistics.kernel.ui.editors.vaadin.tests</runTarget>
-          <hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
-          <noServer>true</noServer>
-          <port>8080</port>
-          <compileReport>false</compileReport>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>resources</goal>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <version>${gwt.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-maven-plugin</artifactId>
-        <version>1.0.2</version>
-        <executions>
-          <execution>
-            <configuration>
-            </configuration>
-            <goals>
-              <goal>update-widgetset</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      -->
-
-      <!-- A simple Jetty test server at http://localhost:8080/com.conx.logistics.kernel.ui.editors.vaadin.tests can be launched with the Maven goal jetty:run 
-        and stopped with jetty:stop -->
-      <plugin>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>maven-jetty-plugin</artifactId>
-        <version>6.1.24</version>
-        <configuration>
-          <stopPort>9966</stopPort>
-          <stopKey>com.conx.logistics.kernel.ui.editors.vaadin.tests</stopKey>
-          <!-- Redeploy every x seconds if changes are detected, 0 for no automatic redeployment -->
-          <scanIntervalSeconds>0</scanIntervalSeconds>
-          <!-- make sure Jetty also finds the widgetset -->
-          <webAppConfig>
-            <contextPath>/editors.vaadin.tests</contextPath>
-            <baseResource implementation="org.mortbay.resource.ResourceCollection">
-              <!-- Workaround for Maven/Jetty issue http://jira.codehaus.org/browse/JETTY-680 -->
-              <!-- <resources>src/main/webapp,${project.build.directory}/${project.build.finalName}</resources> -->
-              <resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}</resourcesAsCSV>
-            </baseResource>
-          </webAppConfig>
-        </configuration>
-      </plugin> 
-    </plugins>
-  </build>
+			<!-- Compile custom GWT components or widget dependencies with the GWT 
+				compiler -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>${gwt.plugin.version}</version>
+				<configuration>
+					<!-- <webappDirectory>${project.build.directory}/${project.build.finalName}/VAADIN/widgetsets</webappDirectory> -->
+					<webappDirectory>src/main/webapp/VAADIN/widgetsets</webappDirectory>
+					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+					<runTarget>com.conx.logistics.kernel.ui.editors.vaadin.tests</runTarget>
+					<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
+					<noServer>true</noServer>
+					<port>8080</port>
+					<compileReport>false</compileReport>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>resources</goal>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.google.gwt</groupId>
+						<artifactId>gwt-dev</artifactId>
+						<version>${gwt.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.google.gwt</groupId>
+						<artifactId>gwt-user</artifactId>
+						<version>${gwt.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<version>1.0.1</version>
+				<executions>
+					<execution>
+						<configuration>
+							<!-- if you don't specify any modules, the plugin will find them -->
+							<!-- <modules> <module>com.vaadin.terminal.gwt.DefaultWidgetSet</module> 
+								<module>org.vaadin.peter.contextmenu.ContextmenuWidgetset</module> </modules> -->
+							<!-- <modules> <module>org.vaadin.teemu.wizards.WizardsforvaadinWidgetset</module> 
+								<module>com.vaadin.terminal.gwt.DefaultWidgetSet</module> <module>com.conx.logistics.web.VaadinWidgetset</module> 
+								<module>com.vaadin.addon.toolbar.widgetset.ToolbarWidgetset</module> <module>org.vaadin.peter.contextmenu.ContextmenuWidgetset</module> 
+								<module>org.vaadin.csstools.CssToolsWidgetset</module> <module>org.vaadin.weelayout.WeelayoutWidgetset</module> 
+								<module>com.conx.logistics.kernel.ui.common.gwt.KernelUICommonVaadinWidgetset</module> 
+								</modules> -->
+							<!-- <module>com.conx.logistics.web.VaadinWidgetset</module> <module>com.conx.logistics.kernel.ui.common.gwt.KernelUICommonVaadinWidgetset</module> -->
+						</configuration>
+						<goals>
+							<goal>update-widgetset</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- A simple Jetty test server at http://localhost:8080/com.conx.logistics.kernel.ui.editors.vaadin.tests 
+				can be launched with the Maven goal jetty:run and stopped with jetty:stop -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.24</version>
+				<configuration>
+					<stopPort>9966</stopPort>
+					<stopKey>com.conx.logistics.kernel.ui.editors.vaadin.tests</stopKey>
+					<!-- Redeploy every x seconds if changes are detected, 0 for no automatic 
+						redeployment -->
+					<scanIntervalSeconds>0</scanIntervalSeconds>
+					<!-- make sure Jetty also finds the widgetset -->
+					<webAppConfig>
+						<contextPath>/editors.vaadin.tests</contextPath>
+						<baseResource implementation="org.mortbay.resource.ResourceCollection">
+							<!-- Workaround for Maven/Jetty issue http://jira.codehaus.org/browse/JETTY-680 -->
+							<!-- <resources>src/main/webapp,${project.build.directory}/${project.build.finalName}</resources> -->
+							<resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}</resourcesAsCSV>
+						</baseResource>
+					</webAppConfig>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	<dependencies>
 		<!-- Common libs -->
 		<!-- ConX -->
@@ -251,8 +343,8 @@
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.kernel.persistence.dynaconfiguration</artifactId>
 			<version>1.0.0</version>
-		</dependency>	
-				
+		</dependency>
+
 		<!-- Bootstraping Bundles : stage 2 (fragments) -->
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
@@ -264,24 +356,14 @@
 			<artifactId>com.conx.logistics.app.whse.domain.persistence.config</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.conx.logistics</groupId>
-			<artifactId>com.conx.logistics.mdm.dao.services</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.conx.logistics</groupId>
-			<artifactId>com.conx.logistics.mdm.dao.services.impl</artifactId>
-			<version>1.0.0</version>
-		</dependency>
 
-			
+
 		<!-- Common test resources -->
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.tests.common</artifactId>
 			<version>1.0.0</version>
-		</dependency>		
+		</dependency>
 
 		<!-- Testing -->
 		<dependency>
@@ -464,13 +546,13 @@
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.thirdparty.osgi.wrapper.jxls-reader</artifactId>
-				<version>0.9.8</version>
-				<exclusions>
-					<exclusion>
-						<groupId>net.sf.jxls</groupId>
-						<artifactId>jxls-reader</artifactId>
-					</exclusion>
-				</exclusions>
+			<version>0.9.8</version>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sf.jxls</groupId>
+					<artifactId>jxls-reader</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -506,15 +588,15 @@
 		<dependency>
 			<groupId>com.sun.msv</groupId>
 			<artifactId>com.springsource.com.sun.msv.datatype</artifactId>
-				<version>0.0.0.20060615</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>
+			<version>0.0.0.20060615</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>
 						com.springsource.org.apache.xerces
 					</artifactId>
-						<groupId>org.apache.xerces</groupId>
-					</exclusion>
-				</exclusions>
+					<groupId>org.apache.xerces</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -889,11 +971,6 @@
 
 
 
-		<dependency>
-			<groupId>org.eclipse.jdt.core.compiler</groupId>
-			<artifactId>ecj</artifactId>
-			<version>3.5.1</version>
-		</dependency>
 
 
 
@@ -914,15 +991,15 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.beans</artifactId>
-			<version>${spring.version}</version>			
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.context.support</artifactId>
-		    <version>${spring.version}</version>
+			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.expression</artifactId>
@@ -938,7 +1015,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.orm</artifactId>
-			<version>${spring.version}</version>			
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
@@ -946,44 +1023,44 @@
 			<artifactId>org.springframework.transaction</artifactId>
 			<version>3.0.6.RELEASE</version>
 		</dependency>
-	
+
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.4</version>
 		</dependency>
-			
-	    <!--  Copied from Mock -->
+
+		<!-- Copied from Mock -->
 		<dependency>
-		   <groupId>org.vaadin.addons</groupId>
-		   <artifactId>wizards-for-vaadin</artifactId>
-		   <version>0.4.4</version>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>wizards-for-vaadin</artifactId>
+			<version>0.4.4</version>
 		</dependency>
 		<!-- ConX -->
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.mdm.domain</artifactId>
 			<version>1.0.0</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.thirdparty.org.vaadin.addons.mvp-common-customized</artifactId>
 			<version>0.9.2-SNAPSHOT</version>
-		</dependency>					
+		</dependency>
 		<!-- GWT/Vaadin -->
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <version>2.3.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <version>2.3.0</version>
-            <scope>test</scope>
-        </dependency>		
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>2.3.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>2.3.0</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
@@ -995,34 +1072,12 @@
 			<artifactId>vaadin</artifactId>
 			<version>6.7.5</version>
 			<scope>provided</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>com.vaadin.addon</groupId>
 			<artifactId>jpacontainer-addon-agpl-3.0</artifactId>
 			<version>2.0.0</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>toolbar</artifactId>
-			<version>1.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>contextmenu</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>weelayout</artifactId>
-			<version>0.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.addons</groupId>
-			<artifactId>css-tools</artifactId>
-			<version>0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -1043,8 +1098,8 @@
 		<dependency>
 			<groupId>org.junit</groupId>
 			<artifactId>com.springsource.org.junit</artifactId>
-				<version>4.7.0</version>
-				<scope>test</scope>
+			<version>4.7.0</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -1081,6 +1136,13 @@
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>
 				com.conx.logistics.kernel.ui.editors.entity.vaadin
+			</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>
+				com.conx.logistics.kernel.ui.vaadin.filteredtable.addon
 			</artifactId>
 			<version>1.0.0</version>
 		</dependency>

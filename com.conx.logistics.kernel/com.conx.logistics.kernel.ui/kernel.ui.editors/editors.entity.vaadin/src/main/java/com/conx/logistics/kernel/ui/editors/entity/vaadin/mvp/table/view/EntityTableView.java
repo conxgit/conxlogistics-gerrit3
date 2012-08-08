@@ -28,7 +28,6 @@ public class EntityTableView extends VerticalLayout implements IEntityTableView 
 	@Override
 	public void init() {
 		if (mainLayout != null) {
-			setSizeFull();
 			gridManager = new EntityGridFilterManager();
 			
 			grid = new FilterTable();

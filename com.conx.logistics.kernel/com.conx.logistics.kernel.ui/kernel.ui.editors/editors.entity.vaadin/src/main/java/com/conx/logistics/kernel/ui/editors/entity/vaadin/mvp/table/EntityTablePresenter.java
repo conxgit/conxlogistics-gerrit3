@@ -9,13 +9,13 @@ import org.vaadin.mvp.presenter.BasePresenter;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorPresenter;
-import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.footer.view.IEntityTableFooterView;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.view.EntityTableView;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.view.IEntityTableView;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 
 @Presenter(view = EntityTableView.class)
-public class EntityTablePresenter extends BasePresenter<IEntityTableFooterView, EntityTableEventBus>
+public class EntityTablePresenter extends BasePresenter<IEntityTableView, EntityTableEventBus>
 		implements Property.ValueChangeListener {
 	private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,6 @@ public class EntityTablePresenter extends BasePresenter<IEntityTableFooterView, 
 	private MultiLevelEntityEditorPresenter parentPresenter;
 
 	public EntityTablePresenter() {
-		super();
 	}
 
 	public MultiLevelEntityEditorPresenter getParentPresenter() {
