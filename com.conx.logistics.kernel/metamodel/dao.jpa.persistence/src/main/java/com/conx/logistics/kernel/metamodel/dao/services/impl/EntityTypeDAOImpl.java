@@ -195,8 +195,12 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 		    	{
 		    		if (((javax.persistence.metamodel.EntityType)mt).getSupertype() != null)
 		    		{
-		    			st = createMappedSupperClass(((javax.persistence.metamodel.EntityType)mt).getSupertype());
-		    			System.out.println("["+entity+"] Provided for Super EntityType ("+st.getEntityJavaSimpleType()+")");
+		    			try {
+							st = createMappedSupperClass(((javax.persistence.metamodel.EntityType)mt).getSupertype());
+							System.out.println("["+entity+"] Provided for Super EntityType ("+st.getEntityJavaSimpleType()+")");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 		    		}
 		    		targetEntityType = new EntityType(((javax.persistence.metamodel.EntityType)mt).getName(),
 			    			       mt.getJavaType(),

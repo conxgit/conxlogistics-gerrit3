@@ -29,12 +29,6 @@ public class AbstractConXComponent extends MultitenantBaseEntity implements Size
      * 
      */
     private String typeId;
-    
-    /**
-     * Style names.
-     */
-    @ElementCollection    
-    private ArrayList<String> styles;
 
     /**
      * Caption text.
@@ -62,10 +56,6 @@ public class AbstractConXComponent extends MultitenantBaseEntity implements Size
      */
     private boolean readOnly = false;
 
-    /**
-     * Description of the usage (XML).
-     */
-    private String description = null;
 
     /**
      * The container this component resides in.
@@ -107,14 +97,6 @@ public class AbstractConXComponent extends MultitenantBaseEntity implements Size
 		this.typeId = typeId;
 	}
 
-	public ArrayList<String> getStyles() {
-		return styles;
-	}
-
-	public void setStyles(ArrayList<String> styles) {
-		this.styles = styles;
-	}
-
 	public String getCaption() {
 		return caption;
 	}
@@ -153,14 +135,6 @@ public class AbstractConXComponent extends MultitenantBaseEntity implements Size
 
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public AbstractConXComponent getParent() {

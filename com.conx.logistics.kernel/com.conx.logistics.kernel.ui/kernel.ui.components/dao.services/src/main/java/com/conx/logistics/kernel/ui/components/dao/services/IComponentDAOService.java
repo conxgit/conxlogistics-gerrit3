@@ -2,16 +2,16 @@ package com.conx.logistics.kernel.ui.components.dao.services;
 
 import java.util.List;
 
-import com.conx.logistics.kernel.ui.components.domain.BaseComponent;
+import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 
 public interface IComponentDAOService {
-	public BaseComponent get(long id);
+	public AbstractConXComponent get(long id);
 	
-	public List<BaseComponent> getAll();	
+	public List<AbstractConXComponent> getAll();	
 
-	public BaseComponent add(BaseComponent record);
+	public AbstractConXComponent add(AbstractConXComponent record);
 	
-	public void delete(BaseComponent record);
+	public void delete(AbstractConXComponent record);
 
-	public BaseComponent update(BaseComponent record);
+	public AbstractConXComponent update(AbstractConXComponent record);
 }

@@ -27,6 +27,9 @@ import com.conx.logistics.app.whse.rcv.asn.domain.ASNLine;
 import com.conx.logistics.app.whse.rcv.asn.domain.ASNPickup;
 import com.conx.logistics.app.whse.rcv.rcv.dao.services.IReceiveDAOService;
 import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
+import com.conx.logistics.kernel.datasource.dao.services.IDataSourceDAOService;
+import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
+import com.conx.logistics.kernel.ui.components.dao.services.IComponentDAOService;
 import com.conx.logistics.mdm.dao.services.IAddressDAOService;
 import com.conx.logistics.mdm.dao.services.IContactDAOService;
 import com.conx.logistics.mdm.dao.services.ICountryDAOService;
@@ -87,11 +90,16 @@ public class TestDataManager {
 	private IDocTypeDAOService docTypeDOAService;
 	private IDockTypeDAOService dockTypeDOAService;
 	private IEntityMetadataDAOService entityMetadataDAOService;
+
 	
 	private IReferenceNumberTypeDAOService referenceNumberTypeDaoService;
 	private IReferenceNumberDAOService referenceNumberDaoService;
 	
 	private IReceiveDAOService rcvDaoService;
+
+	private IComponentDAOService componentDAOService;
+	private IEntityTypeDAOService entityTypeDAOService;
+	private IDataSourceDAOService dataSourceDAOService;
 	
 	public void setOrgDaoService(IOrganizationDAOService orgDaoService) {
 		this.orgDaoService = orgDaoService;
@@ -164,12 +172,14 @@ public class TestDataManager {
 		this.globalTransactionManager = globalTransactionManager;
 	}
 	
-	public void start() {
+	public void start() throws ClassNotFoundException {
 		EntityManager em = conxlogisticsEMF.createEntityManager();
 		
-		createPrint1Data();
+		//createPrint1Data();
 		
-		createPrint2Data();
+		//createPrint2Data();
+		
+		UIComponentModelData.createReceiveSearchMasterDetail(componentDAOService, entityTypeDAOService, dataSourceDAOService, em);
 	}
 	private void createPrint2Data() {
 		ASN asn = asnDaoService.getByCode("ASN1");

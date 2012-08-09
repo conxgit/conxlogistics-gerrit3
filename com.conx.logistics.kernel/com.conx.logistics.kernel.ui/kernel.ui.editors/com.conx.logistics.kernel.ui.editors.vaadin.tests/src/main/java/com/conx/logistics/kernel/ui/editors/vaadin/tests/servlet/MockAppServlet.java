@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.conx.logistics.app.whse.rcv.rcv.dao.services.IReceiveDAOService;
 import com.conx.logistics.kernel.ui.editors.vaadin.tests.MockApp;
 import com.vaadin.Application;
 import com.vaadin.terminal.gwt.server.AbstractApplicationServlet;
 
 @Service
-@Transactional
 public class MockAppServlet extends AbstractApplicationServlet {
 
 	/**
@@ -24,15 +24,11 @@ public class MockAppServlet extends AbstractApplicationServlet {
 
 	protected final Logger log = LoggerFactory.getLogger(getClass().getName());
 	
-	static private MockApp mainApp = new MockApp();
-
-	public MockApp getMainApp() {
-		return mainApp;
-	}
+	static private MockApp mockApp;
 
 	@Autowired
-	public void setMainApp(MockApp mainApp) {
-		MockAppServlet.mainApp = mainApp;
+	public void setMainApp(MockApp mockApp) {
+		MockAppServlet.mockApp = mockApp;
 	}
 
     @Override
@@ -42,6 +38,6 @@ public class MockAppServlet extends AbstractApplicationServlet {
 
     @Override
     protected Application getNewApplication(HttpServletRequest request)	throws ServletException {
-        return mainApp;
+        return mockApp;
     }
 }

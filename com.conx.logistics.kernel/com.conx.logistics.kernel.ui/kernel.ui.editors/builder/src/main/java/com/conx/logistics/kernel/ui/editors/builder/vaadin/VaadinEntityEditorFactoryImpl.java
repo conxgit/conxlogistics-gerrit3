@@ -1,10 +1,10 @@
 package com.conx.logistics.kernel.ui.editors.builder.vaadin;
 
 import com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailComponent;
-import com.conx.logistics.kernel.ui.editors.builder.IMultiLevelEntityEditorFactory;
+import com.conx.logistics.kernel.ui.editors.builder.IEntityEditorFactory;
 
-public class VaadinMultiLevelEntityEditorFactoryImpl implements
-		IMultiLevelEntityEditorFactory {
+public class VaadinEntityEditorFactoryImpl implements
+		IEntityEditorFactory {
 
 	@Override
 	public Object create(MasterDetailComponent masterDetailComponent) {

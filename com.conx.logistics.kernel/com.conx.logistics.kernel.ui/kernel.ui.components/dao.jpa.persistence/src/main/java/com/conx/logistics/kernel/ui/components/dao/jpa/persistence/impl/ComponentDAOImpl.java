@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.conx.logistics.kernel.metamodel.dao.services.IBasicTypeDAOService;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.ui.components.dao.services.IComponentDAOService;
-import com.conx.logistics.kernel.ui.components.domain.BaseComponent;
+import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 
 
 
 /**
- * Implementation of {@link BaseComponent} that uses JPA for persistence.<p />
+ * Implementation of {@link AbstractConXComponent} that uses JPA for persistence.<p />
  * <p/>
  * This class is marked as {@link Transactional}. The Spring configuration for this module, enables AspectJ weaving for
  * adding transaction demarcation to classes annotated with <code>@Transactional</code>.
@@ -31,7 +31,7 @@ public class ComponentDAOImpl implements IComponentDAOService {
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());	
 	
 	
-	private transient Map<String,BaseComponent> cache = new HashMap<String, BaseComponent>(); 
+	private transient Map<String,AbstractConXComponent> cache = new HashMap<String, AbstractConXComponent>(); 
 	
     /**
      * Spring will inject a managed JPA {@link EntityManager} into this field.
@@ -52,28 +52,28 @@ public class ComponentDAOImpl implements IComponentDAOService {
 
 
 	@Override
-	public BaseComponent get(long id) {
-		return em.getReference(BaseComponent.class, id);
+	public AbstractConXComponent get(long id) {
+		return em.getReference(AbstractConXComponent.class, id);
 	}    
 
 	@Override
-	public List<BaseComponent> getAll() {
-		return em.createQuery("select o from com.conx.logistics.kernel.ui.components.domain.BaseComponent o record by o.id",BaseComponent.class).getResultList();
+	public List<AbstractConXComponent> getAll() {
+		return em.createQuery("select o from com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent o record by o.id",AbstractConXComponent.class).getResultList();
 	}
 
 	@Override
-	public BaseComponent add(BaseComponent record) {
+	public AbstractConXComponent add(AbstractConXComponent record) {
 		record = em.merge(record);
 		
 		return record;
 	}
 
-	private BaseComponent getByCode(String code) {
-		BaseComponent ds = null;
+	private AbstractConXComponent getByCode(String code) {
+		AbstractConXComponent ds = null;
 		
 		try
 		{
-		TypedQuery<BaseComponent> q = em.createQuery("select DISTINCT o from com.conx.logistics.kernel.ui.components.domain.BaseComponent o WHERE o.code = :code",BaseComponent.class);
+		TypedQuery<AbstractConXComponent> q = em.createQuery("select DISTINCT o from com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent o WHERE o.code = :code",AbstractConXComponent.class);
 		q.setParameter("code",code);
 		ds = q.getSingleResult();
 		}
@@ -86,12 +86,12 @@ public class ComponentDAOImpl implements IComponentDAOService {
 
 
 	@Override
-	public void delete(BaseComponent record) {
+	public void delete(AbstractConXComponent record) {
 		em.remove(record);
 	}
 
 	@Override
-	public BaseComponent update(BaseComponent record) {
+	public AbstractConXComponent update(AbstractConXComponent record) {
 		return em.merge(record);
 	}
 }

@@ -3,6 +3,8 @@ package com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javax.persistence.EntityManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.mvp.eventbus.EventBus;
@@ -12,6 +14,7 @@ import org.vaadin.mvp.presenter.IPresenter;
 import org.vaadin.mvp.presenter.PresenterFactory;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
+import com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailComponent;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.footer.EntityTableFooterEventBus;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.footer.EntityTableFooterPresenter;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.header.EntityTableHeaderEventBus;
@@ -62,7 +65,7 @@ implements Property.ValueChangeListener {
 	/**
 	 * EventBus callbacks
 	 */
-	public void onStart(EventBusManager ebm, PresenterFactory presenterFactory) {
+	public void onStart(EventBusManager ebm, PresenterFactory presenterFactory, MasterDetailComponent md, EntityManager em) {
 		try {
 			this.setInitialized(true);
 			this.setEbm(ebm);
@@ -79,7 +82,7 @@ implements Property.ValueChangeListener {
 			//-- Table
 			tablePresenter = this.presenterFactory.createPresenter(EntityTablePresenter.class);
 			tableBus = (EntityTableEventBus) tablePresenter.getEventBus();
-			tableBus.start(this);	
+			tableBus.start(this,md,em);	
 
 			//-- EntityLineEditor
 			lineEditorPresenter = this.presenterFactory.createPresenter(EntityLineEditorPresenter.class);

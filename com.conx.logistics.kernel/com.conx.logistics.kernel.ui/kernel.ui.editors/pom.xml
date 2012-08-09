@@ -15,5 +15,6 @@
     <module>com.conx.logistics.kernel.ui.editors.vaadin.tests</module>
     <module>editors.entity.vaadin</module>
     <module>builder</module>
+    <module>builder.tests</module>
   </modules>
 </project>

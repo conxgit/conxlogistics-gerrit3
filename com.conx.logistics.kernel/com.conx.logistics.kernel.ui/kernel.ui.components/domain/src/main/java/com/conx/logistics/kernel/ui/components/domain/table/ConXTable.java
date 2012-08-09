@@ -28,11 +28,6 @@ public class ConXTable extends AbstractConXField {
     private int pageLength = 15;
 
     /**
-     * Id the first item on the current page.
-     */
-    private Object currentPageFirstItemId = null;
-
-    /**
      * Index of the first item on the current page.
      */
     private int currentPageFirstItemIndex = 0;
@@ -61,11 +56,6 @@ public class ConXTable extends AbstractConXField {
      * Current sorting direction.
      */
     private boolean sortAscending = true;
-
-    /**
-     * Currently table is sorted on this propertyId.
-     */
-    private Object sortContainerPropertyId = null;
 
     /**
      * Is table sorting disabled alltogether; even if some of the properties
@@ -119,14 +109,6 @@ public class ConXTable extends AbstractConXField {
 		this.pageLength = pageLength;
 	}
 
-	public Object getCurrentPageFirstItemId() {
-		return currentPageFirstItemId;
-	}
-
-	public void setCurrentPageFirstItemId(Object currentPageFirstItemId) {
-		this.currentPageFirstItemId = currentPageFirstItemId;
-	}
-
 	public int getCurrentPageFirstItemIndex() {
 		return currentPageFirstItemIndex;
 	}
@@ -175,13 +157,6 @@ public class ConXTable extends AbstractConXField {
 		this.sortAscending = sortAscending;
 	}
 
-	public Object getSortContainerPropertyId() {
-		return sortContainerPropertyId;
-	}
-
-	public void setSortContainerPropertyId(Object sortContainerPropertyId) {
-		this.sortContainerPropertyId = sortContainerPropertyId;
-	}
 
 	public boolean isSortDisabled() {
 		return sortDisabled;

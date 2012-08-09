@@ -24,11 +24,13 @@ public abstract class AbstractConXOrderedLayout extends AbstractConXLayout {
     /**
      * Mapping from components to alignments (horizontal + vertical).
      */
+	@OneToMany
     private Set<ComponentAlignment> componentToAlignment = new HashSet<ComponentAlignment>();
 
     /**
      * Mapping from components to expandRatio.
-     */    
+     */   
+	@OneToMany
     private Set<ComponentExpandRatio> componentToExpandRatio = new HashSet<ComponentExpandRatio>();
 
     /**

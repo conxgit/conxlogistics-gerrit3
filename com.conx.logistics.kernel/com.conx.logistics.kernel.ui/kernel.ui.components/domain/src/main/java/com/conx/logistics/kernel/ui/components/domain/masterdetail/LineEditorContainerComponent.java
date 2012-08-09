@@ -14,6 +14,12 @@ public class LineEditorContainerComponent extends AbstractConXComponent {
 	@OneToMany
 	private Set<LineEditorComponent> lineEditors = new HashSet<LineEditorComponent>();
 
+	public LineEditorContainerComponent(String code, String name) {
+		this();
+		setCode(code);
+		setName(name);
+	}
+	
 	public LineEditorContainerComponent() {
 		super("lineeditorcontainercomponent");
 	}

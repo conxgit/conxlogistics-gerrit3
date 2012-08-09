@@ -16,6 +16,7 @@ public class DataSourceData {
 	
 	public static DataSource RCV_BASIC_DS = null; 
 	public static DataSource RCV_DEFAULT_DS = null;
+
 	
 	public final static DataSource provideDefaultReceiveDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws ClassNotFoundException
 	{

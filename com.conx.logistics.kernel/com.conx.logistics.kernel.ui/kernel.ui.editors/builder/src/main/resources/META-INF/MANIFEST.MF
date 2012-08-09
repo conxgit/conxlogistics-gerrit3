@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Export-Package: com.conx.logistics.kernel.ui.editors.builder;version="
+ 1.0.0";uses:="com.conx.logistics.kernel.ui.components.domain.masterde
+ tail",com.conx.logistics.kernel.ui.editors.builder.vaadin;version="1.
+ 0.0";uses:="com.conx.logistics.kernel.ui.components.domain.masterdeta
+ il,com.conx.logistics.kernel.ui.editors.builder"
+Build-Jdk: 1.6.0_33
+Built-By: mdu
+Bundle-Version: 1.0.0
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: ConX Component Factories
+Bundle-ManifestVersion: 2
+Created-By: Maven Integration for Eclipse
+Bundle-SymbolicName: com.conx.logistics.kernel.ui.editors.builder
+Import-Package: com.conx.logistics.kernel.ui.components.domain.masterd
+ etail;version="[1.0.0,2.0.0)"
+

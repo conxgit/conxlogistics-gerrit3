@@ -2,6 +2,7 @@ package com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.view;
 
 import org.vaadin.mvp.uibinder.annotation.UiField;
 
+import com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailComponent;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.ext.table.EntityGridFilterManager;
 import com.conx.logistics.kernel.ui.filteredtable.gwt.client.ui.FilterTable;
 import com.vaadin.data.Container;
@@ -37,9 +38,16 @@ public class EntityTableView extends VerticalLayout implements IEntityTableView 
 			grid.setFilterGenerator(gridManager);
 			grid.setFiltersVisible(true);
 			
+			//-- Set container
+			
 			mainLayout.setStyleName("conx-entity-grid");
 			mainLayout.addComponent(grid);
 			mainLayout.setExpandRatio(grid, 1.0f);
 		}
+	}
+
+	@Override
+	public FilterTable getTable() {
+		return this.grid;
 	}
 }

@@ -10,7 +10,12 @@
 	<artifactId>com.conx.logistics.kernel.ui.editors.entity.vaadin</artifactId>
 	<dependencies>
 		<!-- ConX -->
-
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.ui.components.domain</artifactId>
+			<version>1.0.0</version>
+		</dependency>	
+		
 		<!-- GWT/Vaadin -->
 		<dependency>
 			<groupId>com.google.gwt</groupId>

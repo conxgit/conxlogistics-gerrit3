@@ -21,9 +21,7 @@ public class ConXCollapseableSectionForm extends ConXForm {
 	
 	@Transient
 	private Map<String,AbstractConXField> fieldMap = null;	
-	
-	@OneToOne
-	private AbstractConXLayout layout;	
+
 	
 	@OneToMany
 	private List<FieldSet> fieldSetList = new ArrayList<FieldSet>();
@@ -88,7 +86,7 @@ public class ConXCollapseableSectionForm extends ConXForm {
 	public ConXCollapseableSectionForm(String typeId,
 			AbstractConXLayout layout, List<FieldSet> fieldSetList) {
 		super(typeId);
-		this.layout = layout;
+		setLayout(layout);
 		this.fieldSetList = fieldSetList;
 	}
 }
