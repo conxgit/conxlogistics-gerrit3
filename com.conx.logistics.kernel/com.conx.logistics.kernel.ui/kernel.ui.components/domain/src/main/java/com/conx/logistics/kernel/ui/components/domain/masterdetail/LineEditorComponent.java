@@ -10,6 +10,9 @@ public class LineEditorComponent extends AbstractConXComponent {
 	@OneToOne
 	private LineEditorContainerComponent mainComponent;
 	
+	@OneToOne 
+	private AbstractConXComponent content;
+	
 	public LineEditorComponent(String code, String caption,LineEditorContainerComponent mainComponent) {
 		this();
 		setCode(code);
@@ -25,5 +28,21 @@ public class LineEditorComponent extends AbstractConXComponent {
 	public LineEditorComponent(LineEditorContainerComponent mainComponent) {
 		this();
 		this.mainComponent = mainComponent;
+	}
+
+	public LineEditorContainerComponent getMainComponent() {
+		return mainComponent;
+	}
+
+	public void setMainComponent(LineEditorContainerComponent mainComponent) {
+		this.mainComponent = mainComponent;
+	}
+
+	public AbstractConXComponent getContent() {
+		return content;
+	}
+
+	public void setContent(AbstractConXComponent content) {
+		this.content = content;
 	}
 }

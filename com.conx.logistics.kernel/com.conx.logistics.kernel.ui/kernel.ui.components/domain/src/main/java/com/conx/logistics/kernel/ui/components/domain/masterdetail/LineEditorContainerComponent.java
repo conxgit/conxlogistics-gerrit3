@@ -11,7 +11,7 @@ import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 @Entity
 public class LineEditorContainerComponent extends AbstractConXComponent {
 	
-	@OneToMany
+	@OneToMany(mappedBy="mainComponent")
 	private Set<LineEditorComponent> lineEditors = new HashSet<LineEditorComponent>();
 
 	public LineEditorContainerComponent(String code, String name) {

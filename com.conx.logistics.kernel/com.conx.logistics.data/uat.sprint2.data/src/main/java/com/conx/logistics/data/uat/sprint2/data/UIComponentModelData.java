@@ -44,10 +44,16 @@ public class UIComponentModelData {
 		rcvSearchMLEE.setTable(rcvTable);
 		
 		LineEditorContainerComponent lecc = new LineEditorContainerComponent(rcvSearchMLEE.getCode()+"-lineEditorContainerComponent",rcvSearchMLEE.getName()+" Line Editor");
-		lecc = (LineEditorContainerComponent) componentDAOService.add((AbstractConXComponent)lecc);
+		try {
+			lecc = (LineEditorContainerComponent) componentDAOService.add((AbstractConXComponent)lecc);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//-- RCV Basic Line Editor
 		LineEditorComponent rcvBaicFormLE = new LineEditorComponent(lecc.getCode()+"-basicAttrs","Basic",lecc);
+		rcvBaicFormLE = em.merge(rcvBaicFormLE);
 		lecc.getLineEditors().add(rcvBaicFormLE);
 		rcvSearchMLEE.setLineEditorPanel(lecc);
 		
