@@ -426,7 +426,6 @@ public class ASN extends MultitenantBaseEntity {
 		this.dropOff = dropOff;
 	}
 
-
 	public Warehouse getWarehouse() {
 		return warehouse;
 	}
