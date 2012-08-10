@@ -92,6 +92,30 @@
 			<artifactId>com.conx.logistics.app.whse.rcv.rcv.domain.persistence.config</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.domain</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.dao.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
+
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.dao.jpa.persistence</artifactId>
+			<version>${project.version}</version>
+		</dependency>		
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.domain.persistence.config</artifactId>
+			<version>${project.version}</version>
+		</dependency>		
 				
 		<dependency>
 			<groupId>com.conx.logistics</groupId>

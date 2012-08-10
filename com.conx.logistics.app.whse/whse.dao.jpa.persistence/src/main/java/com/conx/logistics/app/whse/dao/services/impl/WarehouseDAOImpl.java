@@ -44,7 +44,7 @@ public class WarehouseDAOImpl implements IWarehouseDAOService {
 
 	@Override
 	public List<Warehouse> getAll() {
-		return em.createQuery("select o from com.conx.logistics.app.whse.domain.warehouse.Warehouse o record by o.id",Warehouse.class).getResultList();
+		return em.createQuery("select o from com.conx.logistics.app.whse.domain.warehouse.Warehouse o record order by o.id",Warehouse.class).getResultList();
 	}
 	
 	@Override

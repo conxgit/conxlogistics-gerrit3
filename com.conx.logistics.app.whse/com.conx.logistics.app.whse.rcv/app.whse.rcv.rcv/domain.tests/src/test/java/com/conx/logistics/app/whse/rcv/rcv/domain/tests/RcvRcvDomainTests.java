@@ -1,12 +1,8 @@
 package com.conx.logistics.app.whse.rcv.rcv.domain.tests;
 
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 import javax.transaction.UserTransaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +16,7 @@ import org.testng.annotations.Test;
 
 import com.conx.logistics.app.whse.rcv.rcv.dao.services.impl.ReceiveDAOImpl;
 import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
-import com.conx.logistics.kernel.metamodel.dao.services.impl.EntityTypeFactory;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
-import com.conx.logistics.kernel.metamodel.dao.services.impl.EntityTypeDAOImpl;
-import com.conx.logistics.kernel.metamodel.domain.AbstractAttribute;
-import com.conx.logistics.kernel.metamodel.domain.BasicAttribute;
-import com.conx.logistics.kernel.metamodel.domain.PluralAttribute;
-import com.conx.logistics.kernel.metamodel.domain.SingularAttribute;
-import com.conx.logistics.mdm.domain.product.Product;
 
 @ContextConfiguration(locations = { "/META-INF/tm.jta-module-context.xml",
         "/META-INF/persistence.datasource-module-context.xml",

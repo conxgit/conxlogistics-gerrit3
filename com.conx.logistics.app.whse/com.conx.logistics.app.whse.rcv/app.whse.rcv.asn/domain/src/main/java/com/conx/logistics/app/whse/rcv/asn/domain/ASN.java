@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.conx.logistics.app.whse.domain.warehouse.Warehouse;
 import com.conx.logistics.app.whse.rcv.asn.shared.type.ASNSTATUS;
 import com.conx.logistics.app.whse.rcv.asn.shared.type.TRANSMODE;
 import com.conx.logistics.mdm.domain.MultitenantBaseEntity;
@@ -137,7 +138,9 @@ public class ASN extends MultitenantBaseEntity {
     @JoinColumn
     private ASNDropOff dropOff;
 
-
+    @OneToOne
+    private Warehouse warehouse;
+    
 	public PackUnit getOuterPackUnit() {
 		return outerPackUnit;
 	}
@@ -422,4 +425,16 @@ public class ASN extends MultitenantBaseEntity {
 	public void setDropOff(ASNDropOff dropOff) {
 		this.dropOff = dropOff;
 	}
+
+
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+	
+	
 }
