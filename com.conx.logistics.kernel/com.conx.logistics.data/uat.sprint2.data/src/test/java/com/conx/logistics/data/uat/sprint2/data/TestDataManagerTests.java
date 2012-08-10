@@ -23,6 +23,7 @@ import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNDropOffDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNPickupDAOService;
 import com.conx.logistics.app.whse.rcv.rcv.dao.services.IReceiveDAOService;
+import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
 import com.conx.logistics.kernel.datasource.dao.services.IDataSourceDAOService;
 import com.conx.logistics.kernel.datasource.domain.DataSource;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
@@ -61,6 +62,7 @@ import com.conx.logistics.mdm.domain.product.Product;
         "/META-INF/app.whse.dao.jpa.persistence-module-context.xml",
         "/META-INF/app.whse.rcv.asn.dao.jpa.persistence-module-context.xml",
         "/META-INF/app.whse.rcv.rcv.dao.jpa.persistence-module-context.xml",
+        "/META-INF/spring/data.uat.sprint2.data-module-context.xml"
         
         })
 public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
@@ -126,6 +128,10 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private IDataSourceDAOService dataSourceDAOService;	
 	
+	
+	@Autowired
+	private TestDataManager uat2TestDataManager;
+	
 	@BeforeClass
 	public void setUp() throws Exception {
         Assert.assertNotNull(applicationContext);
@@ -140,6 +146,8 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(componentDAOService);
         Assert.assertNotNull(entityTypeDAOService);
         Assert.assertNotNull(dataSourceDAOService);
+        
+        Assert.assertNotNull(uat2TestDataManager);
     }	
 	
 	@AfterClass
@@ -149,7 +157,10 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	
     @Test
     public void testCreateUIComponents() throws Exception {
-    	MasterDetailComponent md = UIComponentModelData.createReceiveSearchMasterDetail(componentDAOService, entityTypeDAOService, dataSourceDAOService, em);
-    	Assert.assertNotNull(md);
+    	//MasterDetailComponent md = UIComponentModelData.createReceiveSearchMasterDetail(componentDAOService, entityTypeDAOService, dataSourceDAOService, em);
+    	//Assert.assertNotNull(md);
+    	List<Receive> rcvs = rcvDaoService.getAll();
+    	Assert.assertNotNull(rcvs);
+    	Assert.assertTrue(rcvs.size() == 1);
     }
 }

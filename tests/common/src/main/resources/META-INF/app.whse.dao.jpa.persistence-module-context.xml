@@ -34,4 +34,5 @@
 		PersistenceExceptions will be auto-translated due to @Repository.
 	-->
 	<bean id="dockTypeDao" class="com.conx.logistics.app.whse.dao.services.impl.DockTypeDAOImpl"/>
+	<bean id="whseDao" class="com.conx.logistics.app.whse.dao.services.impl.WarehouseDAOImpl"/>	
 </beans>

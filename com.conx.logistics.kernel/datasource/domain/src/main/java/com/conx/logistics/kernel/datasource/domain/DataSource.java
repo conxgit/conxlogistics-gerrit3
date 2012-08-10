@@ -23,6 +23,9 @@ public class DataSource extends MultitenantBaseEntity {
 	@Transient
 	private Set<String> visibleFieldNames = null;
 	
+	@Transient
+	private Set<String> nestedFieldNames = null;	
+	
 	@ManyToOne
 	private EntityType entityType;
 	
@@ -60,17 +63,25 @@ public class DataSource extends MultitenantBaseEntity {
 		if (visibleFieldNames == null)
 		{
 			visibleFieldNames = new HashSet<String>();
+			nestedFieldNames = new HashSet<String>();
 			Set<DataSourceField> dsFields = getDSFields();
 			for (DataSourceField dsf : dsFields)
 			{
 				if (!dsf.getHidden())
 				{
-					visibleFieldNames.add(dsf.getName());
+					if (dsf.isNestedAttribute())
+					{
+						nestedFieldNames.add(dsf.getJPAPath());
+					}
+					else
+						visibleFieldNames.add(dsf.getName());
 				}
 			}
 		}
 		return visibleFieldNames;
 	}	
+	
+	
 	
 	public String toString()
 	{

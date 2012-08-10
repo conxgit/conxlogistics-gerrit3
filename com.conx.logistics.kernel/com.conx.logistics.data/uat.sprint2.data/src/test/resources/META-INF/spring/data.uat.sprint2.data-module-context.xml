@@ -11,9 +11,9 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-	<bean id="humanTaskServer" class="com.conx.logistics.data.uat.sprint2.data.TestDataManager" init-method="start" destroy-method="stop">
-		<property name="conxlogisticsEMF" ref="conxlogisticsEMF"></property>
-		<property name="globalTransactionManager" ref="globalTransManager"></property>
+	<bean id="uat2TestDataManager" class="com.conx.logistics.data.uat.sprint2.data.TestDataManager" init-method="start" destroy-method="stop">
+		<property name="conxlogisticsEMF" ref="conxLogisticsManagerFactory"></property>
+		<property name="globalTransactionManager" ref="globalJtaTransactionManager"></property>
 				
 		<property name="addressDaoService" ref="addressDao"></property>
 		<property name="asnDaoService" ref="asnDao"></property>
@@ -35,5 +35,12 @@
 		<property name="referenceNumberDaoService" ref="referenceNumberDao"></property>
 		<property name="unlocoDaoService" ref="unlocoDao"></property>
 		<property name="weightUnitDaoService" ref="weightUnitDao"></property>
+		<property name="whseDAOService" ref="whseDao"></property>
+		
+		<property name="entityTypeDAOService" ref="entityTypeDao"></property>
+		<property name="dataSourceDAOService" ref="dsDao"></property>
+		<property name="componentDAOService" ref="componentDao"></property>
+		
+		<property name="rcvDaoService" ref="rcvDao"></property>
 	</bean>
 </beans>

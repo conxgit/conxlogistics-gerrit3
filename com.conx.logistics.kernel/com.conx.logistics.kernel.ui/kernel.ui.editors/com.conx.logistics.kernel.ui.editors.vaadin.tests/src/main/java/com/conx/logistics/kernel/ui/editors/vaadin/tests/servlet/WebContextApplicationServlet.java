@@ -104,7 +104,7 @@ public class WebContextApplicationServlet extends ApplicationServlet {
 
     protected final Logger log = Logger.getLogger(getClass());
 
-    private WebApplicationContext webApplicationContext;
+    transient private WebApplicationContext webApplicationContext;
 
     /**
      * Initialize this servlet.

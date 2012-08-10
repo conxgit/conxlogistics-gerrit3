@@ -18,6 +18,9 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.conx.logistics.app.whse.dao.services.IDockTypeDAOService;
+import com.conx.logistics.app.whse.dao.services.IWarehouseDAOService;
+import com.conx.logistics.app.whse.domain.constants.WarehouseCustomCONSTANTS;
+import com.conx.logistics.app.whse.domain.warehouse.Warehouse;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNDropOffDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNPickupDAOService;
@@ -101,6 +104,8 @@ public class TestDataManager {
 	private IEntityTypeDAOService entityTypeDAOService;
 	private IDataSourceDAOService dataSourceDAOService;
 	
+	private IWarehouseDAOService whseDAOService;
+	
 	public void setOrgDaoService(IOrganizationDAOService orgDaoService) {
 		this.orgDaoService = orgDaoService;
 	}
@@ -159,9 +164,29 @@ public class TestDataManager {
 		this.dockTypeDOAService = dockTypeDOAService;
 	}
 	
+	public void setRcvDaoService(IReceiveDAOService rcvDaoService) {
+		this.rcvDaoService = rcvDaoService;
+	}
 	public void setEntityMetadataDAOService(
 			IEntityMetadataDAOService entityMetadataDAOService) {
 		this.entityMetadataDAOService = entityMetadataDAOService;
+	}
+	
+	public void setComponentDAOService(IComponentDAOService componentDAOService) {
+		this.componentDAOService = componentDAOService;
+	}
+	
+	public void setEntityTypeDAOService(IEntityTypeDAOService entityTypeDAOService) {
+		this.entityTypeDAOService = entityTypeDAOService;
+	}
+	
+	public void setDataSourceDAOService(IDataSourceDAOService dataSourceDAOService) {
+		this.dataSourceDAOService = dataSourceDAOService;
+	}
+	
+	
+	public void setWhseDAOService(IWarehouseDAOService whseDAOService) {
+		this.whseDAOService = whseDAOService;
 	}
 	public void setConxlogisticsEMF(EntityManagerFactory conxlogisticsEMF) {
 		this.conxlogisticsEMF = conxlogisticsEMF;
@@ -172,17 +197,20 @@ public class TestDataManager {
 		this.globalTransactionManager = globalTransactionManager;
 	}
 	
+	
+	
 	public void start() throws ClassNotFoundException {
 		EntityManager em = conxlogisticsEMF.createEntityManager();
-		
-		//createPrint1Data();
-		
-		//createPrint2Data();
-		
+
+		//Create Datasource/Component models
 		UIComponentModelData.createReceiveSearchMasterDetail(componentDAOService, entityTypeDAOService, dataSourceDAOService, em);
+		
+		//Required for ASN
+		ASN asn = createPrint1Data();
+		
+		createPrint2Data(asn);
 	}
-	private void createPrint2Data() {
-		ASN asn = asnDaoService.getByCode("ASN1");
+	private void createPrint2Data(ASN asn) {
 		Receive rcv = rcvDaoService.process(asn);
 		
 		/**
@@ -198,7 +226,10 @@ public class TestDataManager {
 		 * 
 		 */
 	}
-	private void createPrint1Data() {
+	
+	private ASN createPrint1Data() {
+		ASN asn = null;
+		
 		/**
 		 * Org Data: TD ORG 1.0, 4.0, 6.0, 7.0
 		 * 
@@ -301,6 +332,7 @@ public class TestDataManager {
 				 * Prod Data: TD PRD 2.0, 3.0, 4.0
 				 */
 				//-- PRD 2.0
+				whseDAOService.provideDefaults();
 				packUnitDaoService.provideDefaults();
 				dimUnitDaoService.provideDefaults();
 				weightUnitDaoService.provideDefaults();
@@ -394,18 +426,22 @@ public class TestDataManager {
 				dropOff1.setEstimatedDropOff(new Date());
 				dropOff1 = asnDropOffDAOService.add(dropOff1);
 				
-				ASN asn1 = new ASN();
-				asn1.setCode("ASN1");
-				asn1 = asnDaoService.add(asn1);
+				asn = new ASN();
+				asn.setCode("ASN1");
+				asn = asnDaoService.add(asn);
 				
-				rn1.setEntityPK(asn1.getId());
-				rn2.setEntityPK(asn1.getId());
+				Warehouse warehouse = whseDAOService.getByCode(WarehouseCustomCONSTANTS.DEFAULT_WAREHOUSE_CODE);
+				asn.setWarehouse(warehouse);
+				asn = asnDaoService.update(asn);
+				
+				rn1.setEntityPK(asn.getId());
+				rn2.setEntityPK(asn.getId());
 				referenceNumberDaoService.update(rn1);
 				referenceNumberDaoService.update(rn2);
 				
-				asnDaoService.addRefNums(asn1.getId(), refNumList);
-				asnDaoService.addLines(asn1.getId(), asnLineList);
-				asnDaoService.addLocalTrans(asn1.getId(), pickup1, dropOff1);
+				asnDaoService.addRefNums(asn.getId(), refNumList);
+				asnDaoService.addLines(asn.getId(), asnLineList);
+				asnDaoService.addLocalTrans(asn.getId(), pickup1, dropOff1);
 				
 				/**
 				 * Ref IDs: TD RIDTYP 2.0, 3.0, 4.0
@@ -424,6 +460,8 @@ public class TestDataManager {
 			
 			this.globalTransactionManager.rollback(status);
 		}
+		
+		return asn;
 	}
 	
 	public void stop() {

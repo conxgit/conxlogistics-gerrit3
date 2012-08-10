@@ -112,7 +112,7 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 		asn = em.merge(asn);
 		
 		//-Assign defaults
-		assignRcvCode(rcv, null/*warehouse*/, rcv.getId());
+		assignRcvCode(rcv, asn.getWarehouse()/*warehouse*/, rcv.getId());
 		
 		//-Copy basic attrs
 		

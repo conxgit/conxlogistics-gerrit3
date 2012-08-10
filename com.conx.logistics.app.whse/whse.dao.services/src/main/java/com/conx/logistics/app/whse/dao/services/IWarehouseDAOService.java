@@ -1,5 +1,9 @@
 package com.conx.logistics.app.whse.dao.services;
 
+import java.util.List;
+
+import com.conx.logistics.app.whse.domain.warehouse.Warehouse;
+
 public interface IWarehouseDAOService {
 	/**
 	 * Warehouse App
@@ -15,4 +19,22 @@ public interface IWarehouseDAOService {
 	//========= Modules :: Search Feature
 	public static final String WAREHOUSE_APP_RECEIVING_ASNS_SEARCH_NAME = "ASN's";
 	public static final String WAREHOUSE_APP_RECEIVING_ASNS_SEARCH_CODE = "ASN.SEARCH";
+	
+	public Warehouse get(long id);
+	
+	public List<Warehouse> getAll();
+	
+	public Warehouse getByCode(String code);	
+
+	public Warehouse add(Warehouse record);
+
+	public void delete(Warehouse record);
+
+	public Warehouse update(Warehouse record);
+	
+	public Warehouse provide(Warehouse record);
+	
+	public Warehouse provide(String code, String name);
+	
+	public void provideDefaults();	
 }

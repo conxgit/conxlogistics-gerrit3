@@ -18,6 +18,7 @@ import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEd
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.view.EntityTableView;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.view.IEntityTableView;
 import com.conx.logistics.mdm.domain.task.TaskDefinition;
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -37,11 +38,11 @@ public class EntityTablePresenter extends BasePresenter<IEntityTableView, Entity
 
 	private EntityManager em;
 
-	private Object entityContainer;
-
 	private DataSource dataSource;
 
 	private Class javaEntityClass;
+
+	private JPAContainer entityContainer;
 
 	public EntityTablePresenter() {
 	}
@@ -70,7 +71,9 @@ public class EntityTablePresenter extends BasePresenter<IEntityTableView, Entity
 			//-- Create datasource/container from md.dataSource
 			this.entityContainer = JPAContainerFactory.make(this.javaEntityClass,this.em);
 			String[] visibleFieldNames = this.dataSource.getVisibleFieldNames().toArray(new String[0]);
+			getView().getTable().setContainerDataSource(this.entityContainer);
 			getView().getTable().setVisibleColumns(visibleFieldNames);
+			
 			
 			
 			//-- Done
