@@ -1,11 +1,15 @@
 package com.conx.logistics.kernel.datasource.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
@@ -24,12 +28,15 @@ public class DataSource extends MultitenantBaseEntity {
 	private Set<String> visibleFieldNames = null;
 	
 	@Transient
-	private Set<String> nestedFieldNames = null;	
+	private Set<String> nestedFieldNames = null;
+	
+	@Transient
+	private Map<String,DataSourceField> dataSourceFieldMap = null;	
 	
 	@ManyToOne
 	private EntityType entityType;
 	
-	@OneToMany(mappedBy="dataSource")
+	@OneToMany(mappedBy="parentDataSource",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private Set<DataSourceField> dSfields = new HashSet<DataSourceField>();
 
 	public EntityType getEntityType() {
@@ -81,6 +88,20 @@ public class DataSource extends MultitenantBaseEntity {
 		return visibleFieldNames;
 	}	
 	
+	
+	public DataSourceField getField(String dsFieldName)
+	{
+		if (dataSourceFieldMap == null)
+		{
+			dataSourceFieldMap = new HashMap<String, DataSourceField>();
+			Set<DataSourceField> dsFields = getDSFields();
+			for (DataSourceField dsf : dsFields)
+			{
+				dataSourceFieldMap.put(dsf.getName(), dsf);
+			}
+		}
+		return dataSourceFieldMap.get(dsFieldName);
+	}		
 	
 	
 	public String toString()

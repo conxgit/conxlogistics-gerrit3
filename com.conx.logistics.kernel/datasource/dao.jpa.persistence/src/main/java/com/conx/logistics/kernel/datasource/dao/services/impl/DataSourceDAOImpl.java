@@ -144,7 +144,8 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 	}
 
 
-	private DataSource getByCode(String code) {
+	@Override
+	public DataSource getByCode(String code) {
 		DataSource ds = null;
 		
 		try

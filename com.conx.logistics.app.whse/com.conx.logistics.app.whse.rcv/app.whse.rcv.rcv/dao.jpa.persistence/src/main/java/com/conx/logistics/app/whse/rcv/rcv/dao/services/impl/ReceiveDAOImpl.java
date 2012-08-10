@@ -57,7 +57,7 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 
 	@Override
 	public List<Receive> getAll() {
-		return em.createQuery("select o from com.conx.logistics.app.whse.rcv.rcv.domain.Receive o record by o.id",Receive.class).getResultList();
+		return em.createQuery("select o from com.conx.logistics.app.whse.rcv.rcv.domain.Receive o",Receive.class).getResultList();
 	}	
 
 	@Override

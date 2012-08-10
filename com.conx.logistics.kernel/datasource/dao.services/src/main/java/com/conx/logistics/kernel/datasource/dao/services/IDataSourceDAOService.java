@@ -15,6 +15,8 @@ import com.conx.logistics.kernel.metamodel.domain.EntityTypeAttribute;
 public interface IDataSourceDAOService {
 	public DataSource get(long id);
 	
+	public DataSource getByCode(String code);	
+	
 	public List<DataSource> getAll();
 	
 	public DataSourceField getField(Long DataSourceId, String name);	
