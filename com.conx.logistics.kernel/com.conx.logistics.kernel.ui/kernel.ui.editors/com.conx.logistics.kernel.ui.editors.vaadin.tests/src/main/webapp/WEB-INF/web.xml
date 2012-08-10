@@ -12,8 +12,27 @@
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:/META-INF/tm.jta-module-context.xml,classpath*:/META-INF/persistence.datasource-module-context.xml,classpath*:/META-INF/jbpm.persistence.datasource-module-context.xml,classpath*:/META-INF/persistence.dynaconfiguration-module-context.xml,classpath*:/META-INF/metamodel.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/editors.vaadin.module-context.xml</param-value>
+		<param-value>classpath*:/META-INF/tm.jta-module-context.xml,classpath*:/META-INF/persistence.datasource-module-context.xml,classpath*:/META-INF/jbpm.persistence.datasource-module-context.xml,classpath*:/META-INF/persistence.dynaconfiguration-module-context.xml,classpath*:/META-INF/metamodel.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/app.whse.rcv.rcv.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/components.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/datasource.dao.jpa.persistence-module-context.xml,/META-INF/editors.vaadin.module-context.xml</param-value>
 	</context-param>
+	
+	<filter>
+	    <filter-name>openSessionInViewFilter</filter-name>
+	    <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+		<init-param>
+			<param-name>entityManagerFactoryBeanName</param-name>
+			<param-value>conxLogisticsManagerFactory</param-value>
+		</init-param>   
+	</filter>
+	
+	<filter-mapping>
+	    <filter-name>openSessionInViewFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>	
+
+	<filter-mapping>
+	    <filter-name>openSessionInViewFilter</filter-name>
+	    <url-pattern>/VAADIN/*</url-pattern>
+	</filter-mapping>	
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -21,15 +40,15 @@
 
 	<servlet>
 		<servlet-name>webappServlet</servlet-name>
-		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>	
+		<servlet-class>com.conx.logistics.kernel.ui.editors.vaadin.tests.servlet.MockAppServlet</servlet-class>	
         <init-param>
             <param-name>widgetset</param-name>
             <param-value>com.conx.logistics.kernel.ui.editors.vaadin.tests.VaadinWidgetset</param-value>
         </init-param>	
-        <init-param>
+<!--         <init-param>
             <param-name>application</param-name>
             <param-value>com.conx.logistics.kernel.ui.editors.vaadin.tests.MockApp</param-value>
-        </init-param>	        
+        </init-param>	   -->      
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>webappServlet</servlet-name>
@@ -39,4 +58,6 @@
 		<servlet-name>webappServlet</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+	
+	
 </web-app>
