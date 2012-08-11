@@ -108,6 +108,7 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 	@Override
 	public DataSource addField(DataSource record, DataSourceField dsf) {
 		record = em.merge(record);
+		dsf.setParentDataSource(record);
 		record.getDSFields().add(dsf);
 		
 		return em.merge(record);
@@ -116,7 +117,14 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 	@Override
 	public DataSource addFields(DataSource record, Set<DataSourceField> dsfs) {
 		record = em.merge(record);
-		record.getDSFields().addAll(dsfs);
+		for (DataSourceField dsf : dsfs)
+		{
+			dsf.setParentDataSource(record);
+			dsf = em.merge(dsf);
+		}
+		record.getDSFields().addAll(dsfs);		
+		record = em.merge(record);
+
 		
 		return em.merge(record);
 	}	

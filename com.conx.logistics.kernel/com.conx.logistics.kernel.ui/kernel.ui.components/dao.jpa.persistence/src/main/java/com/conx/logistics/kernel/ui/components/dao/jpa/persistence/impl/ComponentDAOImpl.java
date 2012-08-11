@@ -68,7 +68,8 @@ public class ComponentDAOImpl implements IComponentDAOService {
 		return record;
 	}
 
-	private AbstractConXComponent getByCode(String code) {
+	@Override
+	public AbstractConXComponent getByCode(String code) {
 		AbstractConXComponent ds = null;
 		
 		try

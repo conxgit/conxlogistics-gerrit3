@@ -7,6 +7,8 @@ import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 public interface IComponentDAOService {
 	public AbstractConXComponent get(long id);
 	
+	public AbstractConXComponent getByCode(String code);
+	
 	public List<AbstractConXComponent> getAll();	
 
 	public AbstractConXComponent add(AbstractConXComponent record);

@@ -23,17 +23,7 @@ public class UIComponentModelData {
 	public final static MasterDetailComponent createReceiveSearchMasterDetail(IComponentDAOService componentDAOService, IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws ClassNotFoundException
 	{
 		//-- ML E.E.
-		String[] visibleFieldNames = {"id","code","name","dateCreated","dateLastUpdated","warehouse"};
-		List<String> visibleFieldNamesSet = Arrays.asList(visibleFieldNames);	
-		
-		DataSource rcvDefaultDS = getDefaultRCVDS(entityTypeDAOService,dataSourceDAOService,em);
-		for ( DataSourceField field : rcvDefaultDS.getDSFields())
-		{
-			if (visibleFieldNamesSet.contains(field.getName()))
-				field.setHidden(false);
-			else
-				field.setHidden(true);
-		}		
+		DataSource rcvDefaultDS = getDefaultRCVDS(entityTypeDAOService,dataSourceDAOService,em);	
 		MasterDetailComponent rcvSearchMLEE = new MasterDetailComponent("searchReceives","Receives",rcvDefaultDS);
 		rcvSearchMLEE = (MasterDetailComponent) componentDAOService.add((AbstractConXComponent)rcvSearchMLEE);
 

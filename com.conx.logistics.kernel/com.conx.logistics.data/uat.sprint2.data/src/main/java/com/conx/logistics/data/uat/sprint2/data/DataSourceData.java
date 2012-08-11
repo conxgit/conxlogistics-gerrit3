@@ -2,6 +2,7 @@ package com.conx.logistics.data.uat.sprint2.data;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -23,8 +24,28 @@ public class DataSourceData {
 		com.conx.logistics.kernel.metamodel.domain.EntityType rcvET = EntityTypeData.provide(entityTypeDAOService, em, Receive.class);
     	
 		DataSource receiveDS = dataSourceDAOService.provide(rcvET);
-		receiveDS.setName("receiveDS");
+		receiveDS.setCode("defaultReceiveDS");
+		receiveDS.setName("DefaultReceiveDS");
 		receiveDS = em.merge(receiveDS);
+		
+		String[] visibleFieldNames = {"id","code","name","dateCreated","dateLastUpdated","warehouse"};
+		List<String> visibleFieldNamesSet = Arrays.asList(visibleFieldNames);	
+		for ( DataSourceField fld : receiveDS.getDSFields())
+		{
+			if (visibleFieldNamesSet.contains(fld.getName()))
+				fld.setHidden(false);
+			else
+				fld.setHidden(true);
+			
+			if ("warehouse".equals(fld.getName()))
+			{
+				fld.setValueXPath("name");
+				fld = em.merge(fld);
+			}
+		}	
+		
+		receiveDS = em.merge(receiveDS);
+		em.flush();
 	
 		RCV_DEFAULT_DS = receiveDS;
 		
@@ -48,11 +69,15 @@ public class DataSourceData {
 		
 		DataSourceField warehouse = dataSourceDAOService.getFieldByName(receiveDS, "warehouse");
 		warehouse.setValueXPath("code");
+
 		
 		DataSourceField fields[] = { id, code, name, dateCreated, dateLastUpdated, warehouse};
 	    Set<DataSourceField> fieldSet = new HashSet<DataSourceField>(Arrays.asList(fields));
 		
 		receiveDS = dataSourceDAOService.addFields(receiveDS, fieldSet);
+		
+		receiveDS = em.merge(receiveDS);
+		em.flush();
 		
 		RCV_BASIC_DS = receiveDS;
 		

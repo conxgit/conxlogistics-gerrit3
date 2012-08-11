@@ -2,23 +2,28 @@ package com.conx.logistics.data.uat.sprint2.data;
 
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import javax.transaction.UserTransaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.conx.logistics.app.whse.dao.services.IDockTypeDAOService;
+import com.conx.logistics.app.whse.dao.services.IWarehouseDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNDropOffDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNPickupDAOService;
@@ -26,6 +31,7 @@ import com.conx.logistics.app.whse.rcv.rcv.dao.services.IReceiveDAOService;
 import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
 import com.conx.logistics.kernel.datasource.dao.services.IDataSourceDAOService;
 import com.conx.logistics.kernel.datasource.domain.DataSource;
+import com.conx.logistics.kernel.datasource.domain.DataSourceField;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.metamodel.domain.AbstractAttribute;
 import com.conx.logistics.kernel.metamodel.domain.BasicAttribute;
@@ -66,6 +72,9 @@ import com.conx.logistics.mdm.domain.product.Product;
         
         })
 public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
+    @PersistenceContext
+    private EntityManager em;	
+    
 	@Autowired
     private ApplicationContext applicationContext;
 	
@@ -74,8 +83,6 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	
 	private UserTransaction userTransactionManager;
 
-	private EntityManager em;
-	
 	@Autowired
 	private IOrganizationDAOService orgDaoService;
 	@Autowired
@@ -128,16 +135,17 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private IDataSourceDAOService dataSourceDAOService;	
 	
-	
 	@Autowired
-	private TestDataManager uat2TestDataManager;
+	private IWarehouseDAOService whseDAOService;
 	
 	@BeforeClass
 	public void setUp() throws Exception {
         Assert.assertNotNull(applicationContext);
         Assert.assertNotNull(conxLogisticsManagerFactory);
         
-    	em = conxLogisticsManagerFactory.createEntityManager();
+
+        /*
+        em = conxLogisticsManagerFactory.createEntityManager();
         
         userTransactionManager = (UserTransaction) applicationContext.getBean("globalBitronixTransactionManager");
         Assert.assertNotNull(userTransactionManager);
@@ -145,22 +153,37 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(rcvDaoService);
         Assert.assertNotNull(componentDAOService);
         Assert.assertNotNull(entityTypeDAOService);
-        Assert.assertNotNull(dataSourceDAOService);
-        
-        Assert.assertNotNull(uat2TestDataManager);
+        Assert.assertNotNull(dataSourceDAOService);*/
     }	
 	
 	@AfterClass
 	public void tearDown() throws Exception {
-		em.close();
 	}
-	
+
     @Test
-    public void testCreateUIComponents() throws Exception {
+    public void testDataManager() throws Exception {
+/*    	TestDataManager.generateData(em, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService);
+    	
+    	
     	//MasterDetailComponent md = UIComponentModelData.createReceiveSearchMasterDetail(componentDAOService, entityTypeDAOService, dataSourceDAOService, em);
     	//Assert.assertNotNull(md);
-    	List<Receive> rcvs = rcvDaoService.getAll();
-    	Assert.assertNotNull(rcvs);
-    	Assert.assertTrue(rcvs.size() == 1);
-    }
+    	
+    	com.conx.logistics.kernel.metamodel.domain.EntityType rcvET = EntityTypeData.provide(entityTypeDAOService, em, Receive.class);
+    	Assert.assertNotNull(rcvET);
+    	
+    	DataSource receiveDS = dataSourceDAOService.getByCode("defaultReceiveDS");
+    	Assert.assertNotNull(receiveDS);
+    	Assert.assertEquals(receiveDS.getDSFields().size(),56);
+    	
+    	DataSourceField fld = receiveDS.getField("warehouse");
+    	Assert.assertNotNull(fld);
+    
+    	Set<String> vfn = receiveDS.getVisibleFieldNames();
+    	Assert.assertNotNull(vfn);
+    	Assert.assertEquals(vfn.size(), 6);
+    	
+    	
+    	Assert.assertTrue(fld.isNestedAttribute());
+    	Assert.assertTrue("warehouse.name".equals(fld.getJPAPath()));*/
+    }    
 }
