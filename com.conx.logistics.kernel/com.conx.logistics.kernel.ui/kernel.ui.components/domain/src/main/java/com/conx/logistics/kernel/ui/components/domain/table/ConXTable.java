@@ -13,13 +13,13 @@ import com.conx.logistics.kernel.ui.components.domain.AbstractConXField;
 
 @Entity
 public class ConXTable extends AbstractConXField {
-	@OneToMany
+	@OneToMany(mappedBy="table")
 	private Set<ColumnWidth> columnWidths = new HashSet<ColumnWidth>();
 	
-	@OneToMany
-	private Set<ColumnAlignment> columnAlignments = new HashSet<ColumnAlignment>();	
+	//@OneToMany
+	//private Set<ColumnAlignment> columnAlignments = new HashSet<ColumnAlignment>();	
 	
-	@OneToMany
+	@OneToMany(mappedBy="table")
 	private Set<ColumnIconPath> columnIcoPaths = new HashSet<ColumnIconPath>();	
 	
     /**
@@ -83,14 +83,6 @@ public class ConXTable extends AbstractConXField {
 
 	public void setColumnWidths(Set<ColumnWidth> columnWidths) {
 		this.columnWidths = columnWidths;
-	}
-
-	public Set<ColumnAlignment> getColumnAlignments() {
-		return columnAlignments;
-	}
-
-	public void setColumnAlignments(Set<ColumnAlignment> columnAlignments) {
-		this.columnAlignments = columnAlignments;
 	}
 
 	public Set<ColumnIconPath> getColumnIcoPaths() {

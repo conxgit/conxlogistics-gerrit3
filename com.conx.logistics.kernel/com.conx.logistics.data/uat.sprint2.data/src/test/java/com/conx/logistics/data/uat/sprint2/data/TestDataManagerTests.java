@@ -1,6 +1,8 @@
 package com.conx.logistics.data.uat.sprint2.data;
 
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +18,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -74,6 +80,9 @@ import com.conx.logistics.mdm.domain.product.Product;
 public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
     @PersistenceContext
     private EntityManager em;	
+    
+    @Autowired
+    private PlatformTransactionManager jtaTransactionManager;
     
 	@Autowired
     private ApplicationContext applicationContext;
@@ -162,6 +171,40 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testDataManager() throws Exception {
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("uat.sprint1.data");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus status = this.jtaTransactionManager.getTransaction(def);	
+		try
+		{
+			TestDataManager.generateData(em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService);
+			
+	    	DataSource receiveDS = dataSourceDAOService.getByCode("defaultReceiveDS");
+	    	Assert.assertNotNull(receiveDS);
+	    	Assert.assertEquals(receiveDS.getDSFields().size(),56);
+	    	
+	    	DataSourceField fld = receiveDS.getField("warehouse");
+	    	Assert.assertNotNull(fld);
+	    
+	    	Set<String> vfn = receiveDS.getVisibleFieldNames();
+	    	Assert.assertNotNull(vfn);
+	    	Assert.assertEquals(vfn.size(), 6);
+	    	
+	    	
+	    	Assert.assertTrue(fld.isNestedAttribute());
+	    	Assert.assertTrue("warehouse.name".equals(fld.getJPAPath()));			
+			
+			this.jtaTransactionManager.commit(status);
+		}
+		catch (Exception e) 
+		{
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			logger.error(stacktrace);
+			
+			this.jtaTransactionManager.rollback(status);
+		}		
 /*    	TestDataManager.generateData(em, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService);
     	
     	

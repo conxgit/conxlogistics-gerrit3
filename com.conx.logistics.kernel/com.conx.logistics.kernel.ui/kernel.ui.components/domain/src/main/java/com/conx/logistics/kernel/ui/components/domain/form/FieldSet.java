@@ -5,11 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import com.conx.logistics.kernel.datasource.domain.DataSourceField;
 import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 import com.conx.logistics.kernel.ui.components.domain.AbstractConXField;
 import com.conx.logistics.kernel.ui.components.domain.layout.AbstractConXLayout;
@@ -17,57 +20,57 @@ import com.conx.logistics.kernel.ui.components.domain.layout.AbstractConXLayout;
 @Entity
 public class FieldSet extends AbstractConXComponent {
 	@Transient
-	private Map<String,AbstractConXField> fieldMap = null;
-	
+	private Map<String, DataSourceField> fieldMap = null;
+
 	private int ordinal;
-	
+
 	@OneToOne
 	private AbstractConXLayout layout;
-	
-	@OneToMany
-	private List<AbstractConXField> fields = new ArrayList<AbstractConXField>();
 
-	
+	@OneToMany(mappedBy = "fieldSet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<FieldSetField> fields = new ArrayList<FieldSetField>();
+
 	public FieldSet() {
 		super("fieldSet");
 	}
 
-	public List<AbstractConXField> getFields() {
+	public List<FieldSetField> getFields() {
 		return fields;
 	}
-	
-	public void setFields(List<AbstractConXField> fields) {
+
+	public void setFields(List<FieldSetField> fields) {
 		this.fields = fields;
 	}
 
-	public Map<String, AbstractConXField> getFieldMap() {
-		if (fieldMap == null)
-		{
-			fieldMap = new HashMap<String, AbstractConXField>();
-			for (AbstractConXField field : getFields())
-			{
-				fieldMap.put(field.getName(), field);
+	public Map<String, DataSourceField> getFieldMap() {
+		if (fieldMap == null) {
+			fieldMap = new HashMap<String, DataSourceField>();
+			for (FieldSetField field : getFields()) {
+				fieldMap.put(field.getField().getName(), field.getField());
 			}
 		}
 		return fieldMap;
 	}
-	
-	public Boolean hasField(String fieldName)
-	{
+
+	public Boolean hasField(String fieldName) {
 		return getFieldMap().keySet().contains(fieldName);
 	}
-	
-	public AbstractConXField getField(String fieldName)
-	{
+
+	public DataSourceField getField(String fieldName) {
 		return getFieldMap().get(fieldName);
 	}
 
-	public FieldSet(String typeId, int ordinal, 
-			        List<AbstractConXField> fields,
-			        AbstractConXLayout layout) {
-		super(typeId);
-		this.ordinal = ordinal;
+	public FieldSet(String caption, int ordinal, List<FieldSetField> fields,
+			AbstractConXLayout layout) {
+		this(caption,ordinal,layout);
 		this.fields = fields;
+	}
+
+	public FieldSet(String caption, int ordinal,
+			AbstractConXLayout layout) {
+		this();
+		setCaption(caption);
+		this.ordinal = ordinal;
 		this.layout = layout;
 	}
 }

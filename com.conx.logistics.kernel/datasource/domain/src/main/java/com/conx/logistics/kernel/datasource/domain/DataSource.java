@@ -1,9 +1,7 @@
 package com.conx.logistics.kernel.datasource.domain;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,6 +27,7 @@ public class DataSource extends MultitenantBaseEntity {
 	
 	@Transient
 	private Set<String> nestedFieldNames = null;
+	
 	
 	@Transient
 	private Map<String,DataSourceField> dataSourceFieldMap = null;	
@@ -65,6 +64,12 @@ public class DataSource extends MultitenantBaseEntity {
 		this.entityType = entityType;
 	}
 	
+	public Set<String> getNestedFieldNames()
+	{
+		getVisibleFieldNames();
+		return nestedFieldNames;
+	}
+	
 	public Set<String> getVisibleFieldNames()
 	{
 		if (visibleFieldNames == null)
@@ -72,16 +77,22 @@ public class DataSource extends MultitenantBaseEntity {
 			visibleFieldNames = new HashSet<String>();
 			nestedFieldNames = new HashSet<String>();
 			Set<DataSourceField> dsFields = getDSFields();
+			String derivedFieldName;
 			for (DataSourceField dsf : dsFields)
 			{
 				if (!dsf.getHidden())
 				{
 					if (dsf.isNestedAttribute())
 					{
-						nestedFieldNames.add(dsf.getJPAPath());
+						derivedFieldName = dsf.getJPAPath();
+						nestedFieldNames.add(derivedFieldName);
+						visibleFieldNames.add(derivedFieldName);
 					}
 					else
+					{
+						derivedFieldName = dsf.getName();
 						visibleFieldNames.add(dsf.getName());
+					}
 				}
 			}
 		}

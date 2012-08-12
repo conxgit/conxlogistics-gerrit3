@@ -40,7 +40,6 @@ public class DataSourceData {
 			if ("warehouse".equals(fld.getName()))
 			{
 				fld.setValueXPath("name");
-				fld = em.merge(fld);
 			}
 		}	
 		
@@ -61,13 +60,13 @@ public class DataSourceData {
 		DataSource receiveDS = new DataSource("receiveBasicAttrDS", rcvET);
 		receiveDS = dataSourceDAOService.add(receiveDS);
 	
-		DataSourceField id = dataSourceDAOService.getFieldByName(receiveDS, "id");
-		DataSourceField code = dataSourceDAOService.getFieldByName(receiveDS, "code");
-		DataSourceField name = dataSourceDAOService.getFieldByName(receiveDS, "name");
-		DataSourceField dateCreated = dataSourceDAOService.getFieldByName(receiveDS, "dateCreated");		
-		DataSourceField dateLastUpdated = dataSourceDAOService.getFieldByName(receiveDS, "dateLastUpdated");
+		DataSourceField id = dataSourceDAOService.getFieldByName(RCV_DEFAULT_DS, "id");
+		DataSourceField code = dataSourceDAOService.getFieldByName(RCV_DEFAULT_DS, "code");
+		DataSourceField name = dataSourceDAOService.getFieldByName(RCV_DEFAULT_DS, "name");
+		DataSourceField dateCreated = dataSourceDAOService.getFieldByName(RCV_DEFAULT_DS, "dateCreated");		
+		DataSourceField dateLastUpdated = dataSourceDAOService.getFieldByName(RCV_DEFAULT_DS, "dateLastUpdated");
 		
-		DataSourceField warehouse = dataSourceDAOService.getFieldByName(receiveDS, "warehouse");
+		DataSourceField warehouse = dataSourceDAOService.getFieldByName(RCV_DEFAULT_DS, "warehouse");
 		warehouse.setValueXPath("code");
 
 		

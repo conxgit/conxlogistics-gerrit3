@@ -1176,14 +1176,17 @@ public class DataSourceField extends MultitenantBaseEntity {
 
 	public String getJPAPath() {
 		if (com.conx.logistics.common.utils.Validator.isNotNull(valueXPath))
-			return getName()+"."+valueXPath.replace('/', '.');
+		{
+			String path = getName()+"."+valueXPath.replace('/', '.');
+			return path;
+		}
 		else
 			return null;
 	}	
 	
 	public Boolean isNestedAttribute()
 	{
-		if (com.conx.logistics.common.utils.Validator.isNotNull(getJPAPath()) && StringUtil.contains(getJPAPath(),"."))
+		if (com.conx.logistics.common.utils.Validator.isNotNull(getJPAPath()) && StringUtil.contains(getJPAPath(),".",""))
 			return true;
 		else
 			return false;

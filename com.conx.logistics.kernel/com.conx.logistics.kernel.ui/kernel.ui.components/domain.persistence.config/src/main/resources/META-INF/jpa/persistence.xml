@@ -15,12 +15,14 @@
 		<class>com.conx.logistics.kernel.ui.components.domain.form.ConXForm</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.form.ConXTextField</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.form.FieldSet</class>
+		<class>com.conx.logistics.kernel.ui.components.domain.form.FieldSetField</class>
 		
 		<class>com.conx.logistics.kernel.ui.components.domain.layout.AbstractConXLayout</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.layout.AbstractConXOrderedLayout</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.layout.ConXGridLayout</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.layout.ConXHorizontalLayout</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.layout.ConXVerticalLayout</class>
+		<class>com.conx.logistics.kernel.ui.components.domain.layout.OrderedLayoutComponent</class>
 		
 		<class>com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorComponent</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorContainerComponent</class>

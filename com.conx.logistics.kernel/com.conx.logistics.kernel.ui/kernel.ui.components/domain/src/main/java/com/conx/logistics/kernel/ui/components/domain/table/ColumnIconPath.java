@@ -3,12 +3,16 @@ package com.conx.logistics.kernel.ui.components.domain.table;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 import com.conx.logistics.kernel.ui.components.domain.types.Alignment;
 
 @Entity
 public class ColumnIconPath extends AbstractConXComponent implements Serializable {
+	
+	@ManyToOne 
+	private ConXTable table;
 
     private String columnName;
 	

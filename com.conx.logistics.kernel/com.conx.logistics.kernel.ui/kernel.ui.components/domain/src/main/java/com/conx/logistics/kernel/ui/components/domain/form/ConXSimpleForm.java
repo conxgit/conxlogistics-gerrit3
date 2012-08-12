@@ -15,11 +15,8 @@ import com.conx.logistics.kernel.ui.components.domain.AbstractConXField;
 import com.conx.logistics.kernel.ui.components.domain.layout.AbstractConXLayout;
 
 @Entity
-public class ConXCollapseableSectionForm extends ConXForm {
-	
-	@Transient
-	private Map<String,FieldSet> fieldSetMap = null;
-	
+public class ConXSimpleForm extends ConXForm {
+
 	@Transient
 	private Map<String,DataSourceField> fieldMap = null;	
 
@@ -28,32 +25,15 @@ public class ConXCollapseableSectionForm extends ConXForm {
 	private List<FieldSet> fieldSetList = new ArrayList<FieldSet>();
 	
 	
-	public ConXCollapseableSectionForm() {
-		super("collapseableSectionForm");
+	public ConXSimpleForm() {
+		super("simpleForm");
 	}
-
-
+	
 	public List<FieldSet> getFieldSetList() {
 		return fieldSetList;
 	}
-	
-	public Map<String, FieldSet> getFieldSetMap() {
-		if (fieldSetMap == null)
-		{
-			fieldSetMap = new HashMap<String, FieldSet>();
-			Map<String, DataSourceField> fm;
-			for (FieldSet fieldSet : getFieldSetList())
-			{
-				fm = fieldSet.getFieldMap();
-				for (String fieldName : fm.keySet())
-				{
-					fieldSetMap.put(fieldName, fieldSet);
-				}
-			}
-		}
-		return fieldSetMap;
-	}	
-	
+
+
 	public Map<String, DataSourceField> getFieldMap() {
 		if (fieldMap == null)
 		{
@@ -67,11 +47,7 @@ public class ConXCollapseableSectionForm extends ConXForm {
 		}
 		return fieldMap;
 	}		
-	
-	public FieldSet getFieldSetForField(String fieldName)
-	{
-		return getFieldSetMap().get(fieldName);
-	}
+
 	
 	public DataSourceField getField(String fieldName)
 	{
@@ -84,14 +60,8 @@ public class ConXCollapseableSectionForm extends ConXForm {
 	}
 
 
-	public ConXCollapseableSectionForm(DataSource ds,AbstractConXLayout layout, List<FieldSet> fieldSetList) {
-		this(ds,layout);
+	public ConXSimpleForm(DataSource ds,List<FieldSet> fieldSetList) {
+		this();
 		this.fieldSetList = fieldSetList;
 	}
-	
-	public ConXCollapseableSectionForm(DataSource ds,AbstractConXLayout layout) {
-		this();
-		setLayout(layout);
-		setDataSource(ds);
-	}	
 }

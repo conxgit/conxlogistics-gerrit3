@@ -18,20 +18,20 @@ public abstract class AbstractConXOrderedLayout extends AbstractConXLayout {
     /**
      * Custom layout slots containing the components.
      */
-	@OneToMany
-    protected List<AbstractConXComponent> components = new ArrayList<AbstractConXComponent>();
+	@OneToMany(mappedBy="orderedLayout")
+    protected List<OrderedLayoutComponent> components = new ArrayList<OrderedLayoutComponent>();
     
     /**
      * Mapping from components to alignments (horizontal + vertical).
      */
-	@OneToMany
-    private Set<ComponentAlignment> componentToAlignment = new HashSet<ComponentAlignment>();
+	//@OneToMany
+    //private Set<ComponentAlignment> componentToAlignment = new HashSet<ComponentAlignment>();
 
     /**
      * Mapping from components to expandRatio.
      */   
-	@OneToMany
-    private Set<ComponentExpandRatio> componentToExpandRatio = new HashSet<ComponentExpandRatio>();
+	//@OneToMany
+    //private Set<ComponentExpandRatio> componentToExpandRatio = new HashSet<ComponentExpandRatio>();
 
     /**
      * Is spacing between contained components enabled. Defaults to false.
@@ -39,7 +39,7 @@ public abstract class AbstractConXOrderedLayout extends AbstractConXLayout {
     private boolean spacing = false;
 
     public AbstractConXOrderedLayout() {
-        super("abstractLayout");
+        super("abstractConXOrderedLayout");
     }
 
 	public AbstractConXOrderedLayout(String typeId) {

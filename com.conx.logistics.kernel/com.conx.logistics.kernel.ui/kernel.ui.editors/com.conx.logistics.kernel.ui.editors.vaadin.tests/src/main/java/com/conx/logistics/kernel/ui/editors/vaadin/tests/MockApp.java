@@ -34,6 +34,8 @@ import com.conx.logistics.data.uat.sprint2.data.UIComponentModelData;
 import com.conx.logistics.kernel.datasource.dao.services.IDataSourceDAOService;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.ui.components.dao.services.IComponentDAOService;
+import com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorComponent;
+import com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorContainerComponent;
 import com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailComponent;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorEventBus;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorPresenter;
@@ -145,6 +147,8 @@ public class MockApp extends Application {
 			
 			//md = UIComponentModelData.createReceiveSearchMasterDetail(componentDAOService, entityTypeDAOService, dataSourceDAOService, em);
 			md = (MasterDetailComponent)componentDAOService.getByCode("searchReceives");
+			LineEditorContainerComponent lep = md.getLineEditorPanel();
+			LineEditorComponent le = lep.getLineEditors().iterator().next();
 
 			EventBusManager ebm = new EventBusManager();
 			PresenterFactory presenterFactory = new PresenterFactory(ebm, getLocale());
