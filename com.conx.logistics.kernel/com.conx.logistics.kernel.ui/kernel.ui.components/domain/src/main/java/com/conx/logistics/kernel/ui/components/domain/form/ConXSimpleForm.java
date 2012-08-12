@@ -2,8 +2,10 @@ package com.conx.logistics.kernel.ui.components.domain.form;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -21,16 +23,22 @@ public class ConXSimpleForm extends ConXForm {
 	private Map<String,DataSourceField> fieldMap = null;	
 
 	
-	@OneToMany
-	private List<FieldSet> fieldSetList = new ArrayList<FieldSet>();
+	@OneToMany(mappedBy="form")
+	private Set<FormField> formFieldList = new HashSet<FormField>();
 	
+	
+	public ConXSimpleForm(DataSource ds, Set<FormField> formFieldList) {
+		this();
+		setDataSource(ds);
+		this.formFieldList = formFieldList;
+	}	
 	
 	public ConXSimpleForm() {
 		super("simpleForm");
 	}
 	
-	public List<FieldSet> getFieldSetList() {
-		return fieldSetList;
+	public Set<FormField> getFormFieldList() {
+		return formFieldList;
 	}
 
 
@@ -39,10 +47,9 @@ public class ConXSimpleForm extends ConXForm {
 		{
 			fieldMap = new HashMap<String, DataSourceField>();
 			Map<String, DataSourceField> fm;
-			for (FieldSet fieldSet : getFieldSetList())
+			for (FormField formField : getFormFieldList())
 			{
-				fm = fieldSet.getFieldMap();
-				fieldMap.putAll(fm);
+				fieldMap.put(formField.getField().getName(),formField.getField());
 			}
 		}
 		return fieldMap;
@@ -52,16 +59,14 @@ public class ConXSimpleForm extends ConXForm {
 	public DataSourceField getField(String fieldName)
 	{
 		return getFieldMap().get(fieldName);
+	}
+
+	public void setFieldMap(Map<String, DataSourceField> fieldMap) {
+		this.fieldMap = fieldMap;
+	}
+
+	public void setFormFieldList(Set<FormField> formFieldList) {
+		this.formFieldList = formFieldList;
 	}	
 
-
-	public void setFieldSetList(List<FieldSet> fieldSetList) {
-		this.fieldSetList = fieldSetList;
-	}
-
-
-	public ConXSimpleForm(DataSource ds,List<FieldSet> fieldSetList) {
-		this();
-		this.fieldSetList = fieldSetList;
-	}
 }

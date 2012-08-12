@@ -16,8 +16,10 @@ import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.ui.components.dao.services.IComponentDAOService;
 import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 import com.conx.logistics.kernel.ui.components.domain.form.ConXCollapseableSectionForm;
+import com.conx.logistics.kernel.ui.components.domain.form.ConXSimpleForm;
 import com.conx.logistics.kernel.ui.components.domain.form.FieldSet;
 import com.conx.logistics.kernel.ui.components.domain.form.FieldSetField;
+import com.conx.logistics.kernel.ui.components.domain.form.FormField;
 import com.conx.logistics.kernel.ui.components.domain.layout.ConXGridLayout;
 import com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorComponent;
 import com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorContainerComponent;
@@ -59,7 +61,7 @@ public class UIComponentModelData {
 		ConXGridLayout gl = new ConXGridLayout();
 		gl = (ConXGridLayout) componentDAOService.add((AbstractConXComponent)gl);
 		
-		//-- FieldSet
+		//-- FieldSet: Collapseable form
 		FieldSet fs1 = new FieldSet("Basic",1,gl);
 		fs1 = (FieldSet) componentDAOService.add((AbstractConXComponent)fs1);
 		Set<FieldSetField> fsfs = new HashSet<FieldSetField>();
@@ -72,14 +74,31 @@ public class UIComponentModelData {
 		fs1.getFields().addAll(fsfs);
 		fs1 = (FieldSet) componentDAOService.update((AbstractConXComponent)fs1);
 		List<FieldSet> fss = Arrays.asList(fs1);
+		
+		//-- FormField's: Simple Form
+		Set<FormField> ffs = new HashSet<FormField>();
+		FormField ff;
+		for (DataSourceField dsf : basicRcvDS.getDSFields())
+		{
+			ff = new FormField(dsf);
+			ffs.add(ff);
+		}		
+		
+		//-- Simple Form
+		ConXSimpleForm sform = new ConXSimpleForm(basicRcvDS,ffs);
+		sform = (ConXSimpleForm) componentDAOService.add((AbstractConXComponent)sform);
 
-		//-- Form
+		//-- Collapseable Form
 		ConXCollapseableSectionForm cform = new ConXCollapseableSectionForm(basicRcvDS,gl,fss);
 		cform = (ConXCollapseableSectionForm) componentDAOService.add((AbstractConXComponent)cform);
-		rcvBaicFormLE.setContent(cform);
+		
+		
+		//-- Update Line Editor
+		rcvBaicFormLE.setContent(sform);
 		rcvBaicFormLE = (LineEditorComponent) componentDAOService.update((AbstractConXComponent)rcvBaicFormLE);
 		
 		
+		//-- Update EE
 		rcvSearchMLEE = (MasterDetailComponent) componentDAOService.update((AbstractConXComponent)rcvSearchMLEE);
 		
 		return rcvSearchMLEE;

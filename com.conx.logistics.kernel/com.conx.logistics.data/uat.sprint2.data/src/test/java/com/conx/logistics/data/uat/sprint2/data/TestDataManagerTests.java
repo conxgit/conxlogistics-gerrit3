@@ -192,7 +192,7 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	    	
 	    	
 	    	Assert.assertTrue(fld.isNestedAttribute());
-	    	Assert.assertTrue("warehouse.name".equals(fld.getJPAPath()));			
+	    	Assert.assertTrue("warehouse.code".equals(fld.getJPAPath()));			
 			
 			this.jtaTransactionManager.commit(status);
 		}
