@@ -115,6 +115,7 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 		assignRcvCode(rcv, asn.getWarehouse()/*warehouse*/, rcv.getId());
 		
 		//-Copy basic attrs
+		rcv.setWarehouse(asn.getWarehouse());
 		
 		//-Copy singular attrs
 		copySingularAttrs(rcv,asn);

@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ConX DocLib DAO Services
+Bundle-SymbolicName: com.conx.logistics.kernel.documentlibrary.dao.services
+Bundle-Vendor: ConX
+Bundle-Version: 1.0.0
+Import-Package: 
+  com.conx.logistics.kernel.documentlibrary.domain;version="1.0.0",
+  com.conx.logistics.kernel.metamodel.domain;version="1.0.0",
+  javax.persistence;version="0",
+  javax.persistence.metamodel;version="0"

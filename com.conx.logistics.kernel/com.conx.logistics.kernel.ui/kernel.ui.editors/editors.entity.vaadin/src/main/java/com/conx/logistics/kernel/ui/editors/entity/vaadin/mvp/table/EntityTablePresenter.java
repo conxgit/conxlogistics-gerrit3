@@ -20,8 +20,12 @@ import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.view.IEntity
 import com.conx.logistics.mdm.domain.task.TaskDefinition;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.addon.jpacontainer.JPAContainerItem;
+import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ItemClickEvent.ItemClickListener;
 
 @Presenter(view = EntityTableView.class)
 public class EntityTablePresenter extends BasePresenter<IEntityTableView, EntityTableEventBus>
@@ -70,11 +74,24 @@ public class EntityTablePresenter extends BasePresenter<IEntityTableView, Entity
 			
 			//-- Create datasource/container from md.dataSource
 			this.entityContainer = JPAContainerFactory.make(this.javaEntityClass,this.em);
+			Set<String> nestedFieldNames = this.dataSource.getNestedFieldNames();
+			for (String npp : nestedFieldNames)
+			{
+				this.entityContainer.addNestedContainerProperty(npp);
+			}
+			getView().getTable().setContainerDataSource(this.entityContainer);			
+			
 			String[] visibleFieldNames = this.dataSource.getVisibleFieldNames().toArray(new String[0]);
-			getView().getTable().setContainerDataSource(this.entityContainer);
 			getView().getTable().setVisibleColumns(visibleFieldNames);
-			
-			
+			getView().getTable().addListener(new ItemClickListener() {
+				private static final long serialVersionUID = 7230326485331772539L;
+
+				public void itemClick(ItemClickEvent event) {
+					JPAContainerItem item = (JPAContainerItem)event.getItem();
+					Object entity = item.getEntity();
+					entity.toString();
+				}
+			});
 			
 			//-- Done
 			this.setInitialized(true);
