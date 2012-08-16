@@ -28,9 +28,9 @@ import com.conx.logistics.app.whse.rcv.rcv.domain.types.RECEIVELINESTATUS;
 import com.conx.logistics.kernel.documentlibrary.remote.services.IRemoteDocumentRepository;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
-import com.conx.logistics.mdm.dao.services.IEntityMetadataDAOService;
+import com.conx.logistics.mdm.domain.documentlibrary.DocType;
+import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
 import com.conx.logistics.mdm.domain.documentlibrary.Folder;
-import com.conx.logistics.mdm.domain.metadata.DefaultEntityMetadata;
 import com.conx.logistics.mdm.domain.product.Product;
 
 
@@ -144,11 +144,28 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 		//Doc Folder
 		EntityType et = entityTypeDAOService.provide(em.getMetamodel().entity(Receive.class));
 		Folder fldr = documentRepositoryService.provideFolderForEntity(et, rcv.getId());
+		fldr = em.merge(fldr);
 		rcv.setDocFolder(fldr);
 		rcv = em.merge(rcv);
 		
 		return rcv;
 	}
+	
+	@Override
+	public FileEntry addAttachment(Long rcvId, String sourceFileName, String title, String description, String mimeType, DocType attachmentType) throws Exception {
+		Receive rcv = get(rcvId);
+		Folder fldr = rcv.getDocFolder();
+		
+		FileEntry fe = documentRepositoryService.addFileEntry(Long.toString(fldr.getFolderId()), sourceFileName, mimeType, title, description);
+		fe.setDocType(attachmentType);
+		fe = em.merge(fe);
+		fldr.getFiles().add(fe);
+		
+		rcv = update(rcv);
+		
+		return fe;
+	}
+	
 	
 	private void copySingularAttrs(Receive rcv, ASN asn) {
 		rcv.setDimUnit(asn.getDimUnit());

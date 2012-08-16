@@ -187,9 +187,20 @@
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.kernel.ui.components.domain.persistence.config</artifactId>
 			<version>${project.version}</version>
-		</dependency>				
+		</dependency>
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.documentlibrary.remote.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>						
 
-				
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.documentlibrary.remote.services.impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
+						
 		<!-- Common libs -->
 		<!-- ConX -->
 		<!-- Bootstrap -->
