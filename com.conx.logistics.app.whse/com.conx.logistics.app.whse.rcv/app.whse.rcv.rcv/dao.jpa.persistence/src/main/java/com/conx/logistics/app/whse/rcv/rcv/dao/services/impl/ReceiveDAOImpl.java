@@ -31,6 +31,9 @@ import com.conx.logistics.kernel.metamodel.domain.EntityType;
 import com.conx.logistics.mdm.domain.documentlibrary.DocType;
 import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
 import com.conx.logistics.mdm.domain.documentlibrary.Folder;
+import com.conx.logistics.mdm.domain.note.Note;
+import com.conx.logistics.mdm.domain.note.NoteItem;
+import com.conx.logistics.mdm.domain.note.NoteType;
 import com.conx.logistics.mdm.domain.product.Product;
 
 
@@ -146,6 +149,13 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 		Folder fldr = documentRepositoryService.provideFolderForEntity(et, rcv.getId());
 		fldr = em.merge(fldr);
 		rcv.setDocFolder(fldr);
+		
+		//Note
+		Note note = new Note();
+		note.setCode(rcv.getCode());
+		note = em.merge(note);
+		rcv.setNote(note);
+		
 		rcv = em.merge(rcv);
 		
 		return rcv;
@@ -241,5 +251,22 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 		String code = "R"+warehouse.getCode()+paddedId;
 		newRecord.setName(code);
 		newRecord.setCode(code);
+	}
+
+	@Override
+	public NoteItem addNoteItem(Long rcvId, String content, NoteType noteType)
+			throws Exception {
+		Receive rcv = get(rcvId);
+		NoteItem ni = new NoteItem();
+		ni.setParentNote(rcv.getNote());
+		ni.setNoteType(noteType);
+		ni.setContent(content);
+		ni = em.merge(ni);
+		
+		rcv.getNote().getNotes().add(ni);
+		
+		rcv = em.merge(rcv);
+		
+		return ni;
 	}
 }

@@ -23,6 +23,11 @@
 		<class>com.conx.logistics.mdm.domain.metadata.DefaultEntityMetadata</class>
 		<class>com.conx.logistics.mdm.domain.organization.Contact</class>
 		<class>com.conx.logistics.mdm.domain.organization.Organization</class>
+		
+		<class>com.conx.logistics.mdm.domain.note.Note</class>
+		<class>com.conx.logistics.mdm.domain.note.NoteItem</class>
+		<class>com.conx.logistics.mdm.domain.note.NoteType</class>
+		
 		<class>com.conx.logistics.mdm.domain.product.Commodity</class>	
 		<class>com.conx.logistics.mdm.domain.product.DimUnit</class>	
 		<class>com.conx.logistics.mdm.domain.product.PackUnit</class>

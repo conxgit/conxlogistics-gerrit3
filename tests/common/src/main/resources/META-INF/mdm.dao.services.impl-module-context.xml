@@ -74,6 +74,7 @@
 	<bean id="entityMetadataDao" class="com.conx.logistics.mdm.dao.services.impl.EntityMetadataDAOImpl"/>
 	<bean id="folderDao" class="com.conx.logistics.mdm.dao.services.impl.documentlibrary.FolderDAOImpl"/>
 	<bean id="orgDao" class="com.conx.logistics.mdm.dao.services.impl.OrganizationDAOImpl"/>
+	<bean id="noteDao" class="com.conx.logistics.mdm.dao.services.impl.note.NoteDAOImpl"/>
 	<bean id="packUnitDao" class="com.conx.logistics.mdm.dao.services.impl.product.PackUnitDAOImpl"/>	
 	<bean id="productDao" class="com.conx.logistics.mdm.dao.services.impl.product.ProductDAOImpl"/>	
 	<bean id="productTypeDao" class="com.conx.logistics.mdm.dao.services.impl.product.ProductTypeDAOImpl"/>

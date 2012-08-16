@@ -1,13 +1,14 @@
 package com.conx.logistics.kernel.ui.components.domain.masterdetail;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 
 @Entity
 public class LineEditorComponent extends AbstractConXComponent {
-	@OneToOne
+	@ManyToOne
 	private LineEditorContainerComponent mainComponent;
 	
 	@OneToOne 

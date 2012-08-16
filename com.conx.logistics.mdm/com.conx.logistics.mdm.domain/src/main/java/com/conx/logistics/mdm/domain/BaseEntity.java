@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import com.conx.logistics.mdm.domain.documentlibrary.Folder;
+import com.conx.logistics.mdm.domain.note.Note;
 
 
 @MappedSuperclass
@@ -33,6 +34,10 @@ public class BaseEntity implements Serializable {
     @ManyToOne(targetEntity = Folder.class, fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn
     private Folder docFolder;
+    
+    @ManyToOne(targetEntity = Note.class, fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn
+    private Note note;    
 
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -180,5 +185,13 @@ public class BaseEntity implements Serializable {
 
 	public void setDocFolder(Folder docFolder) {
 		this.docFolder = docFolder;
+	}
+
+	public Note getNote() {
+		return note;
+	}
+
+	public void setNote(Note note) {
+		this.note = note;
 	}
 }

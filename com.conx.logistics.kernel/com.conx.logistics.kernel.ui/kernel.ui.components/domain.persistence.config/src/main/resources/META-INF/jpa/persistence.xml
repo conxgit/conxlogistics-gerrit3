@@ -10,6 +10,8 @@
 		<class>com.conx.logistics.kernel.ui.components.domain.ComponentExpandRatio</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.MarginInfo</class>
 		
+		<class>com.conx.logistics.kernel.ui.components.domain.attachment.AttachmentEditorComponent</class>
+		
 		<class>com.conx.logistics.kernel.ui.components.domain.form.AbstractConXTextField</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.form.ConXCollapseableSectionForm</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.form.ConXForm</class>
@@ -31,6 +33,8 @@
 		<class>com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorContainerComponent</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailComponent</class>
 		
+		<class>com.conx.logistics.kernel.ui.components.domain.note.NoteEditorComponent</class>
+
 		<class>com.conx.logistics.kernel.ui.components.domain.tabbed.ConXTab</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.tabbed.ConXTabSheet</class>
 		<class>com.conx.logistics.kernel.ui.components.domain.tabbed.ConXTabSheetTab</class>

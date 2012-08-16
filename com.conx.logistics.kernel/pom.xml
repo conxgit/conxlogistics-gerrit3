@@ -28,5 +28,6 @@
   	<module>criteria</module>
   	<module>metamodel</module>
   	<module>datasource</module>
+  	<module>documentlibrary</module>
   </modules>
 </project>

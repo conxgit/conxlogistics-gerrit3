@@ -1,12 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>com.conx.logistics.kernel.metamodel</artifactId>
-    <groupId>com.conx.logistics</groupId>
-    <version>1.0.0</version>
-    <relativePath>..</relativePath>
-  </parent>
-  <artifactId>com.conx.logistics.kernel.metamodel.domain.tests</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>com.conx.logistics.kernel.metamodel</artifactId>
+		<groupId>com.conx.logistics</groupId>
+		<version>1.0.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>com.conx.logistics.kernel.metamodel.domain.tests</artifactId>
 	<dependencies>
 		<!-- Under Test -->
 		<dependency>
@@ -18,7 +19,7 @@
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.kernel.metamodel.dao.services</artifactId>
 			<version>1.0.0</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.kernel.metamodel.dao.jpa.persistence</artifactId>
@@ -28,8 +29,32 @@
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.kernel.metamodel.domain.persistence.config</artifactId>
 			<version>1.0.0</version>
-		</dependency>						
+		</dependency>
 		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.asn.domain</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.asn.domain.persistence.config</artifactId>
+			<version>1.0.0</version>
+		</dependency>			
+
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.rcv.domain</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.app.whse.rcv.rcv.domain.persistence.config</artifactId>
+			<version>1.0.0</version>
+		</dependency>		
+
 		<!-- Common libs -->
 		<!-- ConX -->
 		<!-- Bootstrap -->
@@ -59,7 +84,7 @@
 			<artifactId>com.conx.logistics.kernel.persistence.dynaconfiguration</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-				
+
 		<!-- Bootstraping Bundles : stage 2 (fragments) -->
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
@@ -87,7 +112,7 @@
 			<version>1.0.0</version>
 		</dependency>
 
-			
+
 		<!-- Common test resources -->
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
@@ -920,5 +945,5 @@
 				<!-- <configuration> <groups>integration</groups> </configuration> -->
 			</plugin>
 		</plugins>
-	</build>  
+	</build>
 </project>

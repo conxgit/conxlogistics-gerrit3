@@ -47,6 +47,7 @@ import com.conx.logistics.mdm.dao.services.IUnlocoDAOService;
 import com.conx.logistics.mdm.dao.services.currency.ICurrencyUnitDAOService;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IDocTypeDAOService;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IFolderDAOService;
+import com.conx.logistics.mdm.dao.services.note.INoteDAOService;
 import com.conx.logistics.mdm.dao.services.product.IDimUnitDAOService;
 import com.conx.logistics.mdm.dao.services.product.IPackUnitDAOService;
 import com.conx.logistics.mdm.dao.services.product.IProductDAOService;
@@ -56,15 +57,21 @@ import com.conx.logistics.mdm.dao.services.referencenumber.IReferenceNumberDAOSe
 import com.conx.logistics.mdm.dao.services.referencenumber.IReferenceNumberTypeDAOService;
 import com.conx.logistics.mdm.domain.constants.AddressCustomCONSTANTS;
 import com.conx.logistics.mdm.domain.constants.DimUnitCustomCONSTANTS;
+import com.conx.logistics.mdm.domain.constants.DocTypeCustomCONSTANTS;
+import com.conx.logistics.mdm.domain.constants.NoteTypeCustomCONSTANTS;
 import com.conx.logistics.mdm.domain.constants.PackUnitCustomCONSTANTS;
 import com.conx.logistics.mdm.domain.constants.ProductTypeCustomCONSTANTS;
 import com.conx.logistics.mdm.domain.constants.ReferenceNumberTypeCustomCONSTANTS;
 import com.conx.logistics.mdm.domain.constants.WeightUnitCustomCONSTANTS;
+import com.conx.logistics.mdm.domain.documentlibrary.DocType;
+import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
 import com.conx.logistics.mdm.domain.geolocation.Address;
 import com.conx.logistics.mdm.domain.geolocation.Country;
 import com.conx.logistics.mdm.domain.geolocation.CountryState;
 import com.conx.logistics.mdm.domain.geolocation.Unloco;
 import com.conx.logistics.mdm.domain.metadata.DefaultEntityMetadata;
+import com.conx.logistics.mdm.domain.note.NoteItem;
+import com.conx.logistics.mdm.domain.note.NoteType;
 import com.conx.logistics.mdm.domain.organization.Contact;
 import com.conx.logistics.mdm.domain.organization.Organization;
 import com.conx.logistics.mdm.domain.product.Product;
@@ -103,11 +110,12 @@ public class TestDataManager {
 			IDataSourceDAOService dataSourceDAOService,
 			IWarehouseDAOService whseDAOService, 
 			IRemoteDocumentRepository documentRepositoryService, 
-			IFolderDAOService folderDAOService) throws Exception {
+			IFolderDAOService folderDAOService,
+			INoteDAOService noteDAOService) throws Exception {
 		
 		//Required for ASN
 		ASN asn = createSprint1Data(null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService);		
-		createPrint2Data(asn, null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService,documentRepositoryService,folderDAOService);
+		createPrint2Data(asn, null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService,documentRepositoryService,folderDAOService,noteDAOService);
 
 		
 		//Create Datasource/Component models
@@ -144,8 +152,39 @@ public class TestDataManager {
 			IDataSourceDAOService dataSourceDAOService,
 			IWarehouseDAOService whseDAOService, 
 			IRemoteDocumentRepository documentRepositoryService, 
-			IFolderDAOService folderDAOService) throws ClassNotFoundException, Exception {
+			IFolderDAOService folderDAOService,
+			INoteDAOService noteDAOService) throws ClassNotFoundException, Exception {
+		/**
+		 * 
+		 * provide Defaults
+		 * 
+		 */
+		docTypeDOAService.provideDefaults();
+		noteDAOService.provideDefaults();
+		
+		
 		Receive rcv = rcvDaoService.process(asn);
+		
+		/**
+		 * 
+		 * Add attachment
+		 * 
+		 */
+		DocType dt = docTypeDOAService.getByCode(DocTypeCustomCONSTANTS.TYPE_BOL_CODE);
+		FileEntry fe = rcvDaoService.addAttachment(rcv.getId(), "/bol.pdf", "Bill Of Laden", "Bill Of Laden", "application/pdf", dt);
+		
+		dt = docTypeDOAService.getByCode(DocTypeCustomCONSTANTS.TYPE_PO_CODE);
+		fe = rcvDaoService.addAttachment(rcv.getId(), "/SamplePurchaseRequisition.jpg", "PO", "PO", "image/jpeg", dt);		
+		
+		/**
+		 * 
+		 * Add attachment
+		 * 
+		 */
+		NoteType nt = noteDAOService.getByNoteTypeCode(NoteTypeCustomCONSTANTS.TYPE_OTHER_CODE);
+		NoteItem note = rcvDaoService.addNoteItem(rcv.getId(), "call when it starts arriving", nt);
+		
+		
 		
 		/**
 		 * 

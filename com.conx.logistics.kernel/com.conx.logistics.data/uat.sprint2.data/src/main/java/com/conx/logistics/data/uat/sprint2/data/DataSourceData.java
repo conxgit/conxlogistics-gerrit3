@@ -12,11 +12,16 @@ import com.conx.logistics.kernel.datasource.dao.services.IDataSourceDAOService;
 import com.conx.logistics.kernel.datasource.domain.DataSource;
 import com.conx.logistics.kernel.datasource.domain.DataSourceField;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
+import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
+import com.conx.logistics.mdm.domain.note.NoteItem;
 
 public class DataSourceData {
 	
 	public static DataSource RCV_BASIC_DS = null; 
 	public static DataSource RCV_DEFAULT_DS = null;
+	
+	public static DataSource FE_DS = null;
+	public static DataSource NI_DS = null; 
 
 	
 	public final static DataSource provideDefaultReceiveDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws Exception
@@ -82,4 +87,64 @@ public class DataSourceData {
 		
 		return receiveDS;
 	}	
+	
+	public final static DataSource provideFileEntryDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws Exception
+	{
+		com.conx.logistics.kernel.metamodel.domain.EntityType feET = EntityTypeData.provide(entityTypeDAOService, em, FileEntry.class);
+    	
+		DataSource feDS = dataSourceDAOService.provide(feET);
+		feDS.setCode("fileEntryDS");
+		feDS.setName("fileEntryDS");
+		feDS = em.merge(feDS);
+		
+		String[] visibleFieldNames = {"title","size","createDate","modifiedDate","dateCreated","docType","mimeType"};
+		List<String> visibleFieldNamesSet = Arrays.asList(visibleFieldNames);	
+		for ( DataSourceField fld : feDS.getDSFields())
+		{
+			if (visibleFieldNamesSet.contains(fld.getName()))
+				fld.setHidden(false);
+			else
+				fld.setHidden(true);
+			
+			if ("docType".equals(fld.getName()))
+			{
+				fld.setValueXPath("code");
+			}
+		}	
+		
+		feDS = em.merge(feDS);
+		em.flush();
+	
+		FE_DS = feDS;
+		
+		return feDS;
+	}	
+	
+	
+	public final static DataSource provideNoteItemDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws Exception
+	{
+		com.conx.logistics.kernel.metamodel.domain.EntityType niET = EntityTypeData.provide(entityTypeDAOService, em, NoteItem.class);
+    	
+		DataSource niDS = dataSourceDAOService.provide(niET);
+		niDS.setCode("noteDS");
+		niDS.setName("noteDS");
+		niDS = em.merge(niDS);
+		
+		String[] visibleFieldNames = {"id","code","name","dateCreated","dateLastUpdated","content"};
+		List<String> visibleFieldNamesSet = Arrays.asList(visibleFieldNames);	
+		for ( DataSourceField fld : niDS.getDSFields())
+		{
+			if (visibleFieldNamesSet.contains(fld.getName()))
+				fld.setHidden(false);
+			else
+				fld.setHidden(true);
+		}	
+		
+		niDS = em.merge(niDS);
+		em.flush();
+	
+		NI_DS = niDS;
+		
+		return niDS;
+	}		
 }

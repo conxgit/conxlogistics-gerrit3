@@ -50,6 +50,7 @@ import com.conx.logistics.mdm.dao.services.IUnlocoDAOService;
 import com.conx.logistics.mdm.dao.services.currency.ICurrencyUnitDAOService;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IDocTypeDAOService;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IFolderDAOService;
+import com.conx.logistics.mdm.dao.services.note.INoteDAOService;
 import com.conx.logistics.mdm.dao.services.product.IDimUnitDAOService;
 import com.conx.logistics.mdm.dao.services.product.IPackUnitDAOService;
 import com.conx.logistics.mdm.dao.services.product.IProductDAOService;
@@ -146,6 +147,9 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	
 	@Autowired
 	private IFolderDAOService folderDAOService;
+	
+	@Autowired
+	private INoteDAOService noteDAOService;	
 
 	private ASN asn = null;	
 	
@@ -252,7 +256,7 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 		try
 		{
 			Assert.assertNotNull(asn);
-			Receive rcv = TestDataManager.createPrint2Data(asn, null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService,documentRepositoryService,folderDAOService);
+			Receive rcv = TestDataManager.createPrint2Data(asn, null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService,documentRepositoryService,folderDAOService,noteDAOService);
 			Assert.assertNotNull(rcv);
 		}
 		catch (Exception e) 

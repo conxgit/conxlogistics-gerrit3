@@ -24,6 +24,8 @@ Import-Package:
   com.conx.logistics.mdm.dao.services.documentlibrary;version="1.0.0",
   com.conx.logistics.mdm.domain.documentlibrary;version="1.0.0",
   com.conx.logistics.common.utils;version="1.0.0",
+  com.conx.logistics.mdm.dao.services.note;version="1.0.0",
+  com.conx.logistics.mdm.domain.note;version="1.0.0",
   org.hibernate.hql.ast;version="3.6.0.Final",
   javax.persistence;version="0",
   javax.persistence.criteria;version="0",
