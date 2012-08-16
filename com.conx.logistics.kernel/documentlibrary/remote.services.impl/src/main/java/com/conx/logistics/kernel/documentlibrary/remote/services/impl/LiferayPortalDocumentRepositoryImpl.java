@@ -1,9 +1,7 @@
 package com.conx.logistics.kernel.documentlibrary.remote.services.impl;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -16,15 +14,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
@@ -33,14 +28,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.conx.logistics.common.utils.StringUtil;
 import com.conx.logistics.common.utils.Validator;
 import com.conx.logistics.kernel.documentlibrary.remote.services.IRemoteDocumentRepository;
-import com.conx.logistics.kernel.documentlibrary.remote.services.impl.liferay.LiferayPortalDocumentRepositoryTests;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IFolderDAOService;
 import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
@@ -318,7 +311,7 @@ public class LiferayPortalDocumentRepositoryImpl implements
 				"/api/secure/jsonws/dlapp/add-folder");
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("repositoryId", repositoryId));
-		params.add(new BasicNameValuePair("parentFolderId", conxlogiFolderId));
+		params.add(new BasicNameValuePair("parentFolderId", parentFolderId));
 		params.add(new BasicNameValuePair("name", name));
 		params.add(new BasicNameValuePair("description", description));
 		
@@ -345,7 +338,7 @@ public class LiferayPortalDocumentRepositoryImpl implements
 
 	@Override
 	public FileEntry addFileEntry(String folderId, String sourceFileName,
-			String mimeType, String title, String description, InputStream data, long size)
+			String mimeType, String title, String description)
 			throws Exception {
 /*		ClientConfig cc = new DefaultClientConfig();
 		cc.getClasses().add(MultiPartWriter.class);
@@ -380,7 +373,7 @@ public class LiferayPortalDocumentRepositoryImpl implements
 		MultipartEntity entity = new MultipartEntity(
 				HttpMultipartMode.BROWSER_COMPATIBLE);
 		
-		final URL testfile = LiferayPortalDocumentRepositoryTests.class.getResource("/bol.pdf");
+		final URL testfile = LiferayPortalDocumentRepositoryImpl.class.getResource(sourceFileName);//"/bol.pdf");
 		File file = new File(testfile.toURI());
 		
 		entity.addPart("repositoryId",new StringBody(repositoryId, Charset.forName("UTF-8")));
@@ -467,7 +460,12 @@ public class LiferayPortalDocumentRepositoryImpl implements
 	@Override
 	public Folder provideFolderForEntity(EntityType entityType, Long entityId) throws Exception {
 		String recordTypeFolderName = entityType.getEntityJavaSimpleType();
-		String recordFolderName = recordTypeFolderName+"-"+entityId;
+		if (recordTypeFolderName.endsWith("s"))
+			recordTypeFolderName += "es";
+		else
+			recordTypeFolderName += "s";
+		
+		String recordFolderName = entityType.getEntityJavaSimpleType()+"-"+entityId;
 		
 		//-- Ensure type folder
 		Folder parentFldr = ensureFolderByName(conxlogiFolderId,recordTypeFolderName);
