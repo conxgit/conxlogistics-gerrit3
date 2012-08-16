@@ -19,6 +19,8 @@ public interface IDataSourceDAOService {
 	
 	public List<DataSource> getAll();
 	
+	public DataSource getByEntityType(EntityType entityType);
+	
 	public DataSourceField getField(Long DataSourceId, String name);	
 	
 	public DataSource addField(Long DataSourceId, DataSourceField field);

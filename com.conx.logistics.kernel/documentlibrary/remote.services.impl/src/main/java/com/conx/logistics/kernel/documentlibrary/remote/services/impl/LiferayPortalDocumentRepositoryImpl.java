@@ -38,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.conx.logistics.common.utils.StringUtil;
+import com.conx.logistics.common.utils.Validator;
 import com.conx.logistics.kernel.documentlibrary.remote.services.IRemoteDocumentRepository;
 import com.conx.logistics.kernel.documentlibrary.remote.services.impl.liferay.LiferayPortalDocumentRepositoryTests;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
@@ -465,10 +466,24 @@ public class LiferayPortalDocumentRepositoryImpl implements
 
 	@Override
 	public Folder provideFolderForEntity(EntityType entityType, Long entityId) throws Exception {
-		String st = entityType.getEntityJavaSimpleType();
-		String folderName = st+"-"+entityId;
+		String recordTypeFolderName = entityType.getEntityJavaSimpleType();
+		String recordFolderName = recordTypeFolderName+"-"+entityId;
 		
-		return provideFolderByJavaTypeName(folderName);
+		//-- Ensure type folder
+		Folder parentFldr = ensureFolderByName(conxlogiFolderId,recordTypeFolderName);
+		
+		//-- Ensure record folder
+		Folder fldr = ensureFolderByName(Long.toString(parentFldr.getFolderId()),recordFolderName);
+		return fldr;
+	}
+
+	private Folder ensureFolderByName(String parentFolderId, String folderName) throws Exception {
+		Folder res = getFolderByName(parentFolderId, folderName);
+		if (Validator.isNull(res))
+		{
+			res = addFolder(parentFolderId, folderName, folderName);
+		}
+		return res;
 	}
 
 	private Folder provideFolderByJavaTypeName(String folderName)

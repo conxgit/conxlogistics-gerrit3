@@ -173,7 +173,7 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	public void tearDown() throws Exception {
 	}
 	
-    @Test
+/*    @Test
     public void testEntitTypeCreation() throws Exception {
     	Metamodel mm = em.getMetamodel();
     	Assert.assertNotNull(mm);
@@ -191,7 +191,7 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
         
         List<PluralAttribute> pattrs = entityTypeDAOService.getAllPluralAttributesByEntityType(et);
         Assert.assertTrue(pattrs.size() > 0);          
-    }	
+    }	*/
 
     @Test
     public void testDataManagerSprint1Data() throws Exception {
@@ -247,7 +247,7 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
     	Assert.assertTrue("warehouse.name".equals(fld.getJPAPath()));*/
     }    
     
-/*    @Test(dependsOnMethods={"testDataManagerSprint1Data","testEntitTypeCreation"})
+    @Test(dependsOnMethods={"testDataManagerSprint1Data"})
     public void testDataManagerSprint2Data() throws Exception {
 		try
 		{
@@ -263,5 +263,5 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 			logger.error(stacktrace);
 			throw e;
 		}		
-    }   */     
+    }     
 }

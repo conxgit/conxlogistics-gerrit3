@@ -12,7 +12,7 @@ public interface IReceiveDAOService {
 
 	public Receive add(Receive record);
 	
-	public Receive process(ASN asn);
+	public Receive process(ASN asn) throws ClassNotFoundException, Exception;
 	
 	public void delete(Receive record);
 

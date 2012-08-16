@@ -318,5 +318,13 @@ public class DataSourceDAOImpl implements IDataSourceDAOService {
 	@Override
 	public DataSource update(DataSource record) {
 		return em.merge(record);
+	}
+
+
+	@Override
+	public DataSource getByEntityType(EntityType entityType) {
+		TypedQuery<DataSource> q = em.createQuery("select o from com.conx.logistics.kernel.datasource.domain.DataSource o WHERE o.entityType = :entityType",DataSource.class);
+		q.setParameter("entityType",entityType);
+		return q.getSingleResult();
 	}	
 }

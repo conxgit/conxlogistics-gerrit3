@@ -142,8 +142,8 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 		}
 		
 		//Doc Folder
-		//EntityType et = entityTypeDAOService.provide(em.getMetamodel().entity(Receive.class));
-		Folder fldr = documentRepositoryService.provideFolderForEntity(Receive.class, rcv.getId());
+		EntityType et = entityTypeDAOService.provide(em.getMetamodel().entity(Receive.class));
+		Folder fldr = documentRepositoryService.provideFolderForEntity(et, rcv.getId());
 		rcv.setDocFolder(fldr);
 		rcv = em.merge(rcv);
 		

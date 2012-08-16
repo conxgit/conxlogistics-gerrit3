@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.conx.logistics.kernel.datasource.domain.DataSource;
 import com.conx.logistics.kernel.metamodel.dao.services.IBasicTypeDAOService;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.ui.components.dao.services.IComponentDAOService;
 import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
+import com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailComponent;
 
 
 
@@ -94,5 +96,23 @@ public class ComponentDAOImpl implements IComponentDAOService {
 	@Override
 	public AbstractConXComponent update(AbstractConXComponent record) {
 		return em.merge(record);
+	}
+
+
+	@Override
+	public MasterDetailComponent getMasterDetailByDataSource(DataSource ds) {
+		MasterDetailComponent mdc = null;
+		
+		try
+		{
+		TypedQuery<MasterDetailComponent> q = em.createQuery("select DISTINCT o from com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent o WHERE o.typeId = :typeId AND o.dataSource = :dataSource",MasterDetailComponent.class);
+		q.setParameter("typeId","masterdetailcomponent");
+		q.setParameter("dataSource",ds);
+		mdc = q.getSingleResult();
+		}
+		catch(javax.persistence.NoResultException e)
+		{}
+		
+		return mdc;		
 	}
 }

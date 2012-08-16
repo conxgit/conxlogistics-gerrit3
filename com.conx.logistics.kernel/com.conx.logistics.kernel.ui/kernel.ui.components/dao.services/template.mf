@@ -8,5 +8,6 @@ Import-Package:
   com.conx.logistics.kernel.datasource.domain;version="1.0.0",
   com.conx.logistics.kernel.metamodel.domain;version="1.0.0",
   com.conx.logistics.kernel.ui.components.domain;version="1.0.0",
+  com.conx.logistics.kernel.ui.components.domain.masterdetail;version="1.0.0",
   javax.persistence;version="0",
   javax.persistence.metamodel;version="0"
