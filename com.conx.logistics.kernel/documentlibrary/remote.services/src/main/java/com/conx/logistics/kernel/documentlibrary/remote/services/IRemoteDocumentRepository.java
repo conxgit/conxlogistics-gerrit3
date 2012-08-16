@@ -46,7 +46,7 @@ public interface IRemoteDocumentRepository {
 	
 	public boolean fileEntryExists(String parentFolderId, String name) throws Exception;
 	
-	public FileEntry addFileEntry(String folderId, String sourceFileName, String mimeType, String title, String description, InputStream data, long size) throws Exception;
+	public FileEntry addFileEntry(String folderId, String sourceFileName, String mimeType, String title, String description) throws Exception;
 	
 	public FileEntry deleteFileEntryById(String folderId, String fileEntryId)  throws Exception;
 	
