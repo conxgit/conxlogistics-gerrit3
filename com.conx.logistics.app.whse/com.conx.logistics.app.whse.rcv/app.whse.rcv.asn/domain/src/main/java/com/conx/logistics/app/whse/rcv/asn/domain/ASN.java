@@ -124,17 +124,16 @@ public class ASN extends MultitenantBaseEntity {
     private Date dateLastImportUpdated;
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true)
     private Set<ReferenceNumber> refNumbers = new java.util.HashSet<ReferenceNumber>();
 
     /**
      * Pickup and Delivery
      */
-    @OneToOne(targetEntity = ASNPickup.class)
+    @OneToOne(targetEntity = ASNPickup.class,fetch=FetchType.EAGER)
     @JoinColumn
     private ASNPickup pickup;
     
-    @OneToOne(targetEntity = ASNDropOff.class)
+    @OneToOne(targetEntity = ASNDropOff.class,fetch=FetchType.EAGER)
     @JoinColumn
     private ASNDropOff dropOff;
 

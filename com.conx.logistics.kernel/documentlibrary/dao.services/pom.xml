@@ -13,11 +13,6 @@
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.mdm.domain</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.conx.logistics</groupId>
-			<artifactId>com.conx.logistics.kernel.documentlibrary.domain</artifactId>
-			<version>${project.version}</version>
 		</dependency>		
 	</dependencies>
 	<build>

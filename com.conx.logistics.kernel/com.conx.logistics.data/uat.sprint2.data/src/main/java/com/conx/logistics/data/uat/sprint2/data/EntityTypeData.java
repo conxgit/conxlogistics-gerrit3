@@ -7,7 +7,7 @@ import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
 
 public class EntityTypeData {
-	public final static EntityType provide(IEntityTypeDAOService entityTypeDAOService,EntityManager em, Class entityjavaClass) throws ClassNotFoundException
+	public final static EntityType provide(IEntityTypeDAOService entityTypeDAOService,EntityManager em, Class entityjavaClass) throws Exception
 	{
 		Metamodel mm = em.getMetamodel();
     	javax.persistence.metamodel.EntityType me = mm.entity(entityjavaClass);

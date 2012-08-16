@@ -4,17 +4,22 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import com.conx.logistics.mdm.domain.documentlibrary.Folder;
+
 
 @MappedSuperclass
-public class BaseEntity  extends SuperBaseEntity implements Serializable {
+public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -24,8 +29,10 @@ public class BaseEntity  extends SuperBaseEntity implements Serializable {
     @Column(name = "version")
     private Integer version;
     
-    
-    private long ownerOrgId;
+    @ManyToOne(targetEntity = Folder.class, fetch = FetchType.EAGER)
+    @JoinColumn
+    private Folder docFolder;
+
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated = new Date();
@@ -53,8 +60,6 @@ public class BaseEntity  extends SuperBaseEntity implements Serializable {
     private String description;
     
     private String portalId;
-    
-    private Long dlFolderId;    
 
 	public Long getId() {
 		return this.id;
@@ -71,14 +76,6 @@ public class BaseEntity  extends SuperBaseEntity implements Serializable {
 	public void setVersion(Integer version) {
 		this.version = version;
 	}    
-
-	public long getOwnerOrgId() {
-		return ownerOrgId;
-	}
-
-	public void setOwnerOrgId(long ownerOrgId) {
-		this.ownerOrgId = ownerOrgId;
-	}
 
 	public Date getDateCreated() {
 		return dateCreated;
@@ -176,11 +173,11 @@ public class BaseEntity  extends SuperBaseEntity implements Serializable {
 		this.portalId = portalId;
 	}
 
-	public Long getDlFolderId() {
-		return dlFolderId;
+	public Folder getDocFolder() {
+		return docFolder;
 	}
 
-	public void setDlFolderId(Long dlFolderId) {
-		this.dlFolderId = dlFolderId;
+	public void setDocFolder(Folder docFolder) {
+		this.docFolder = docFolder;
 	}
 }

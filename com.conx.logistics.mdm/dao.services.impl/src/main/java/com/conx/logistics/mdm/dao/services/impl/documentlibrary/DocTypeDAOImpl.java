@@ -22,7 +22,6 @@ import com.conx.logistics.common.utils.Validator;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IDocTypeDAOService;
 import com.conx.logistics.mdm.domain.constants.DocTypeCustomCONSTANTS;
 import com.conx.logistics.mdm.domain.documentlibrary.DocType;
-import com.conx.logistics.mdm.domain.referencenumber.ReferenceNumber;
 
 @Transactional
 @Repository
@@ -138,6 +137,9 @@ public class DocTypeDAOImpl implements IDocTypeDAOService {
 	@Override
 	public void provideDefaults()
 	{
-		provide(DocTypeCustomCONSTANTS.TYPE_PLATFORM, DocTypeCustomCONSTANTS.TYPE_PLATFORM_DESCRIPTION);
+		provide(DocTypeCustomCONSTANTS.TYPE_BOL_CODE, DocTypeCustomCONSTANTS.TYPE_BOL_NAME);
+		provide(DocTypeCustomCONSTANTS.TYPE_PACK_SLIP_CODE, DocTypeCustomCONSTANTS.TYPE_PACK_SLIP_NAME);
+		provide(DocTypeCustomCONSTANTS.TYPE_PO_CODE, DocTypeCustomCONSTANTS.TYPE_PO_NAME);
+		provide(DocTypeCustomCONSTANTS.TYPE_OTHER_CODE, DocTypeCustomCONSTANTS.TYPE_OTHER_NAME);	
 	}
 }

@@ -15,14 +15,9 @@ import javax.transaction.UserTransaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -33,18 +28,18 @@ import com.conx.logistics.app.whse.dao.services.IWarehouseDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNDropOffDAOService;
 import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNPickupDAOService;
+import com.conx.logistics.app.whse.rcv.asn.domain.ASN;
 import com.conx.logistics.app.whse.rcv.rcv.dao.services.IReceiveDAOService;
 import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
 import com.conx.logistics.kernel.datasource.dao.services.IDataSourceDAOService;
 import com.conx.logistics.kernel.datasource.domain.DataSource;
 import com.conx.logistics.kernel.datasource.domain.DataSourceField;
+import com.conx.logistics.kernel.documentlibrary.remote.services.IRemoteDocumentRepository;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
-import com.conx.logistics.kernel.metamodel.domain.AbstractAttribute;
 import com.conx.logistics.kernel.metamodel.domain.BasicAttribute;
 import com.conx.logistics.kernel.metamodel.domain.PluralAttribute;
 import com.conx.logistics.kernel.metamodel.domain.SingularAttribute;
 import com.conx.logistics.kernel.ui.components.dao.services.IComponentDAOService;
-import com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailComponent;
 import com.conx.logistics.mdm.dao.services.IAddressDAOService;
 import com.conx.logistics.mdm.dao.services.IContactDAOService;
 import com.conx.logistics.mdm.dao.services.ICountryDAOService;
@@ -54,6 +49,7 @@ import com.conx.logistics.mdm.dao.services.IOrganizationDAOService;
 import com.conx.logistics.mdm.dao.services.IUnlocoDAOService;
 import com.conx.logistics.mdm.dao.services.currency.ICurrencyUnitDAOService;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IDocTypeDAOService;
+import com.conx.logistics.mdm.dao.services.documentlibrary.IFolderDAOService;
 import com.conx.logistics.mdm.dao.services.product.IDimUnitDAOService;
 import com.conx.logistics.mdm.dao.services.product.IPackUnitDAOService;
 import com.conx.logistics.mdm.dao.services.product.IProductDAOService;
@@ -61,7 +57,6 @@ import com.conx.logistics.mdm.dao.services.product.IProductTypeDAOService;
 import com.conx.logistics.mdm.dao.services.product.IWeightUnitDAOService;
 import com.conx.logistics.mdm.dao.services.referencenumber.IReferenceNumberDAOService;
 import com.conx.logistics.mdm.dao.services.referencenumber.IReferenceNumberTypeDAOService;
-import com.conx.logistics.mdm.domain.product.Product;
 
 @ContextConfiguration(locations = { "/META-INF/tm.jta-module-context.xml",
         "/META-INF/persistence.datasource-module-context.xml",
@@ -71,6 +66,7 @@ import com.conx.logistics.mdm.domain.product.Product;
         "/META-INF/metamodel.dao.jpa.persistence-module-context.xml",
         "/META-INF/datasource.dao.jpa.persistence-module-context.xml",
         "/META-INF/components.dao.jpa.persistence-module-context.xml",
+        "/META-INF/documentlibrary.remote.services.impl-module-context.xml",
         "/META-INF/app.whse.dao.jpa.persistence-module-context.xml",
         "/META-INF/app.whse.rcv.asn.dao.jpa.persistence-module-context.xml",
         "/META-INF/app.whse.rcv.rcv.dao.jpa.persistence-module-context.xml",
@@ -79,10 +75,7 @@ import com.conx.logistics.mdm.domain.product.Product;
         })
 public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
     @PersistenceContext
-    private EntityManager em;	
-    
-    @Autowired
-    private PlatformTransactionManager jtaTransactionManager;
+    private EntityManager em;
     
 	@Autowired
     private ApplicationContext applicationContext;
@@ -147,12 +140,23 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private IWarehouseDAOService whseDAOService;
 	
+	
+	@Autowired
+	private IRemoteDocumentRepository documentRepositoryService;
+	
+	@Autowired
+	private IFolderDAOService folderDAOService;
+
+	private ASN asn = null;	
+	
 	@BeforeClass
 	public void setUp() throws Exception {
         Assert.assertNotNull(applicationContext);
         Assert.assertNotNull(conxLogisticsManagerFactory);
         
-
+        
+        Assert.assertNotNull(documentRepositoryService);
+        Assert.assertNotNull(folderDAOService);
         /*
         em = conxLogisticsManagerFactory.createEntityManager();
         
@@ -168,16 +172,36 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	@AfterClass
 	public void tearDown() throws Exception {
 	}
+	
+    @Test
+    public void testEntitTypeCreation() throws Exception {
+    	Metamodel mm = em.getMetamodel();
+    	Assert.assertNotNull(mm);
+    	
+    	EntityType<Receive> me = mm.entity(Receive.class);
+    	
+    	com.conx.logistics.kernel.metamodel.domain.EntityType et = entityTypeDAOService.provide(me);
+    	Assert.assertNotNull(et);
+    	
+        List<BasicAttribute> battrs = entityTypeDAOService.getAllBasicAttributesByEntityType(et);
+        Assert.assertTrue(battrs.size() > 0);
+        
+        List<SingularAttribute> sattrs = entityTypeDAOService.getAllSingularAttributesByEntityType(et);
+        Assert.assertTrue(sattrs.size() > 0);     
+        
+        List<PluralAttribute> pattrs = entityTypeDAOService.getAllPluralAttributesByEntityType(et);
+        Assert.assertTrue(pattrs.size() > 0);          
+    }	
 
     @Test
-    public void testDataManager() throws Exception {
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		def.setName("uat.sprint1.data");
-		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-		TransactionStatus status = this.jtaTransactionManager.getTransaction(def);	
+    public void testDataManagerSprint1Data() throws Exception {
 		try
 		{
-			TestDataManager.generateData(em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService);
+			asn  = TestDataManager.createSprint1Data(null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService);
+			Assert.assertEquals(asn.getAsnLines().size(), 2);
+			Assert.assertEquals(asn.getRefNumbers().size(), 2);
+			
+/*			TestDataManager.generateData(em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService,documentRepositoryService,folderDAOService);
 			
 	    	DataSource receiveDS = dataSourceDAOService.getByCode("defaultReceiveDS");
 	    	Assert.assertNotNull(receiveDS);
@@ -192,9 +216,7 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 	    	
 	    	
 	    	Assert.assertTrue(fld.isNestedAttribute());
-	    	Assert.assertTrue("warehouse.code".equals(fld.getJPAPath()));			
-			
-			this.jtaTransactionManager.commit(status);
+	    	Assert.assertTrue("warehouse.code".equals(fld.getJPAPath()));*/			
 		}
 		catch (Exception e) 
 		{
@@ -202,14 +224,9 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
 			e.printStackTrace(new PrintWriter(sw));
 			String stacktrace = sw.toString();
 			logger.error(stacktrace);
-			
-			this.jtaTransactionManager.rollback(status);
+			throw e;
 		}		
 /*    	TestDataManager.generateData(em, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService);
-    	
-    	
-    	//MasterDetailComponent md = UIComponentModelData.createReceiveSearchMasterDetail(componentDAOService, entityTypeDAOService, dataSourceDAOService, em);
-    	//Assert.assertNotNull(md);
     	
     	com.conx.logistics.kernel.metamodel.domain.EntityType rcvET = EntityTypeData.provide(entityTypeDAOService, em, Receive.class);
     	Assert.assertNotNull(rcvET);
@@ -229,4 +246,22 @@ public class TestDataManagerTests extends AbstractTestNGSpringContextTests {
     	Assert.assertTrue(fld.isNestedAttribute());
     	Assert.assertTrue("warehouse.name".equals(fld.getJPAPath()));*/
     }    
+    
+/*    @Test(dependsOnMethods={"testDataManagerSprint1Data","testEntitTypeCreation"})
+    public void testDataManagerSprint2Data() throws Exception {
+		try
+		{
+			Assert.assertNotNull(asn);
+			Receive rcv = TestDataManager.createPrint2Data(asn, null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService,documentRepositoryService,folderDAOService);
+			Assert.assertNotNull(rcv);
+		}
+		catch (Exception e) 
+		{
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			logger.error(stacktrace);
+			throw e;
+		}		
+    }   */     
 }

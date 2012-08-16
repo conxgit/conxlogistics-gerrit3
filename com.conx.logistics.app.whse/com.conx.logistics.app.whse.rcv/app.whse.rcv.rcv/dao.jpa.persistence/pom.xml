@@ -1,49 +1,60 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>com.conx.logistics.app.whse.rcv.rcv</artifactId>
-    <groupId>com.conx.logistics</groupId>
-    <version>1.0.0</version>
-    <relativePath>..</relativePath>
-  </parent>
-  <artifactId>com.conx.logistics.app.whse.rcv.rcv.dao.jpa.persistence</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>com.conx.logistics.app.whse.rcv.rcv</artifactId>
+		<groupId>com.conx.logistics</groupId>
+		<version>1.0.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>com.conx.logistics.app.whse.rcv.rcv.dao.jpa.persistence</artifactId>
 	<dependencies>
 		<!-- ConX -->
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.common.utils</artifactId>
 			<version>${project.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.mdm.domain</artifactId>
 			<version>${project.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.mdm.dao.services</artifactId>
 			<version>1.0.0</version>
-		</dependency>			
+		</dependency>
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.app.whse.rcv.asn.domain</artifactId>
 			<version>${project.version}</version>
-		</dependency>				
+		</dependency>
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.documentlibrary.remote.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.metamodel.dao.services</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.app.whse.rcv.asn.dao.services</artifactId>
 			<version>${project.version}</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.app.whse.rcv.rcv.domain</artifactId>
 			<version>${project.version}</version>
-		</dependency>				
+		</dependency>
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.app.whse.rcv.rcv.dao.services</artifactId>
 			<version>${project.version}</version>
-		</dependency>			
+		</dependency>
 		<!-- Spring and AspectJ -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -73,7 +84,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>org.springframework.context</artifactId>
 			<scope>provided</scope>
-		</dependency>			
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -101,5 +112,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>      
+	</build>
 </project>

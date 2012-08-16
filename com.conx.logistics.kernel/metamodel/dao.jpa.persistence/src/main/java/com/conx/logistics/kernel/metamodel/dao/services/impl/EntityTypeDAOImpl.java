@@ -9,7 +9,9 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,6 +28,7 @@ import javax.persistence.metamodel.Type.PersistenceType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -104,35 +107,45 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 		
 		return q.getResultList();
 	}	
-	@Override
-	public EntityType getByClass(Class entityClass) {
-		EntityType record = null;
-		
+	
+	public Long countByClass(Class entityClass) throws Exception {
+		Long res = null;
+		if ("Organization".equals(entityClass.getSimpleName()))
+		{
+			logger.error("getByClass("+entityClass.getName()+")");
+		}
+		TypedQuery<EntityType> typedQuery = null;
 		try
 		{
 			logger.error("getByClass("+entityClass.getName()+")");
-			
+/*			
 			CriteriaBuilder builder = em.getCriteriaBuilder();
 			CriteriaQuery<EntityType> query = builder.createQuery(EntityType.class);
 			Root<EntityType> rootEntity = query.from(EntityType.class);
 			ParameterExpression<String> p = builder.parameter(String.class);
 			query.select(rootEntity).where(builder.equal(rootEntity.get("entityJavaSimpleType"), p));
 
-			TypedQuery<EntityType> typedQuery = em.createQuery(query);
+			typedQuery = em.createQuery(query);
 			typedQuery.setParameter(p, entityClass.getSimpleName());
 			
-			return typedQuery.getSingleResult();
-			//TypedQuery<EntityType> q = em.createQuery("select DISTINCT  o from com.conx.logistics.kernel.metamodel.domain.metadata.EntityType o WHERE o.entityJavaSimpleType = :entityJavaSimpleType",EntityType.class);
-			//q.setParameter("entityJavaSimpleType", entityClass.getSimpleName());
-			//record = q.getSingleResult();
+			return typedQuery.getSingleResult();*/
+			Query q = em.createQuery("select COUNT(o) from com.conx.logistics.kernel.metamodel.domain.EntityType o WHERE o.entityJavaSimpleType = :entityJavaSimpleType",Long.class);
+			q.setParameter("entityJavaSimpleType", entityClass.getSimpleName());
+			res = (Long)q.getSingleResult();
 		}
 		catch(NoResultException e){}
+		catch(NonUniqueResultException e)
+		{
+			List<EntityType> rl = typedQuery.getResultList();
+			rl.toString();
+		}
 		catch(Exception e)
 		{
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
 			String stacktrace = sw.toString();
 			logger.error(stacktrace);
+			throw e;
 		}
 		catch(Error e)
 		{
@@ -140,6 +153,58 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 			e.printStackTrace(new PrintWriter(sw));
 			String stacktrace = sw.toString();
 			logger.error(stacktrace);
+			throw e;
+		}		
+		
+		return res;
+	}	
+	
+	@Override
+	public EntityType getByClass(Class entityClass) throws Exception {
+		EntityType record = null;
+		if ("Organization".equals(entityClass.getSimpleName()))
+		{
+			logger.error("getByClass("+entityClass.getName()+")");
+		}
+		TypedQuery<EntityType> typedQuery = null;
+		try
+		{
+			logger.error("getByClass("+entityClass.getName()+")");
+/*			
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<EntityType> query = builder.createQuery(EntityType.class);
+			Root<EntityType> rootEntity = query.from(EntityType.class);
+			ParameterExpression<String> p = builder.parameter(String.class);
+			query.select(rootEntity).where(builder.equal(rootEntity.get("entityJavaSimpleType"), p));
+
+			typedQuery = em.createQuery(query);
+			typedQuery.setParameter(p, entityClass.getSimpleName());
+			
+			return typedQuery.getSingleResult();*/
+			typedQuery = em.createQuery("select DISTINCT  o from com.conx.logistics.kernel.metamodel.domain.EntityType o WHERE o.entityJavaSimpleType = :entityJavaSimpleType",EntityType.class);
+			typedQuery.setParameter("entityJavaSimpleType", entityClass.getSimpleName());
+			record = typedQuery.getSingleResult();
+		}
+		catch(NoResultException e){}
+		catch(NonUniqueResultException e)
+		{
+			record = typedQuery.getResultList().get(0);
+		}
+		catch(Exception e)
+		{
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			logger.error(stacktrace);
+			throw e;
+		}
+		catch(Error e)
+		{
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			logger.error(stacktrace);
+			throw e;
 		}		
 		
 		return record;
@@ -147,8 +212,17 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 
 	@Override
 	public EntityType add(EntityType record) {
-		record = em.merge(record);
-		
+		String simpleJavaType = record.getEntityJavaSimpleType();
+		em.persist(record);
+		//em.flush();
+		//em.refresh(record);
+		return record;
+	}
+	
+	public AbstractAttribute add(AbstractAttribute record) {
+		em.persist(record);
+		em.flush();
+		em.refresh(record);
 		return record;
 	}
 
@@ -164,15 +238,20 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 
 
 	@Override
-	public EntityType provide(IdentifiableType jpaEntityType) {
+	public EntityType provide(IdentifiableType jpaEntityType) throws Exception {
 		String entity = jpaEntityType.getJavaType().getSimpleName();
 		System.out.println("providing type for ("+entity+")");
+		
+		if ("Organization".equals(entity))
+		{
+			logger.error("getByClass("+entity+")");
+		}
 		
     	EntityType targetEntityType = null;
     	boolean isMappedSuperClass = false;
     	
-    	targetEntityType = getByClass(jpaEntityType.getJavaType());
-    	if (targetEntityType == null)
+    	long count = countByClass(jpaEntityType.getJavaType());
+    	if (count == 0)
     	{
     		javax.persistence.metamodel.ManagedType mt = null;
     		
@@ -193,52 +272,48 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 	    	{
 		    	if (mt instanceof javax.persistence.metamodel.EntityType)
 		    	{
-		    		if (((javax.persistence.metamodel.EntityType)mt).getSupertype() != null)
-		    		{
-		    			try {
-							st = createMappedSupperClass(((javax.persistence.metamodel.EntityType)mt).getSupertype());
-							System.out.println("["+entity+"] Provided for Super EntityType ("+st.getEntityJavaSimpleType()+")");
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-		    		}
 		    		targetEntityType = new EntityType(((javax.persistence.metamodel.EntityType)mt).getName(),
 			    			       mt.getJavaType(),
 			    			       st,
 			    			       null,//SingularAttribute id, 
 			    			       null,//SingularAttribute version,
 			    			       mt.getJavaType().getName());
+		    		targetEntityType = add(targetEntityType);
+		    		
+		    		if (((javax.persistence.metamodel.EntityType)mt).getSupertype() != null)
+		    		{
+						st = createMappedSupperClass(((javax.persistence.metamodel.EntityType)mt).getSupertype());
+						System.out.println("["+entity+"] Provided for Super EntityType ("+st.getEntityJavaSimpleType()+")");
+						targetEntityType.setSuperType(st);
+						targetEntityType = update(targetEntityType);
+		    		}		    		
+		    		
 		    	}
 		    	else if (mt instanceof MappedSuperclassType)
 		    	{
-		    		if (((MappedSuperclassType) mt).getSupertype() != null)
-		    		{
-		    			st = createMappedSupperClass((((MappedSuperclassType) mt).getSupertype()));
-		    			System.out.println("["+entity+"] Provided for Super EntityType ("+st.getEntityJavaSimpleType()+")");		    			
-		    		}
 		    		targetEntityType = new EntityType(((EntityType)mt).getName(),
 		 			       mt.getJavaType(),
-		 			       st,
+		 			       null,
 		 			       null,//SingularAttribute id, 
 		 			       null,//SingularAttribute version,
 		 			       mt.getJavaType().getName());
+		    		targetEntityType = add(targetEntityType);
+		    		if (((MappedSuperclassType) mt).getSupertype() != null)
+		    		{
+		    			st = createMappedSupperClass((((MappedSuperclassType) mt).getSupertype()));
+		    			System.out.println("["+entity+"] Provided for Super EntityType ("+st.getEntityJavaSimpleType()+")");
+						targetEntityType.setSuperType(st);
+						targetEntityType = update(targetEntityType);
+		    		}		    		
 		    	}
-		    	else
-		    	{
-		    		targetEntityType = null;
-		    	}
-		    	
-		    	//Save 
-		    	targetEntityType = em.merge(targetEntityType);
-		    	em.flush();
 		    	
 		    	targetEntityType = updateEntityTypeAttributes(targetEntityType,st,(IdentifiableType)mt);  		    	
 	    	}
 	    	else
 	    	{
-	    		targetEntityType = getByClass(jpaEntityType.getJavaType());
-	    		if (targetEntityType == null)
-	    		{
+	    		//targetEntityType = getByClass(jpaEntityType.getJavaType());
+	    		//if (targetEntityType == null)
+	    		//{
 		    		if (jpaEntityType.getSupertype() != null)
 		    			st = createMappedSupperClass(jpaEntityType.getSupertype());      		
 		    		targetEntityType = new EntityType(jpaEntityType.getJavaType().getName(),
@@ -249,12 +324,15 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 		 			      jpaEntityType.getJavaType().getName());
 			    	
 			    	//Save 
-			    	targetEntityType = em.merge(targetEntityType);
-			    	em.flush();
+			    	targetEntityType = add(targetEntityType);
 			    	
 			    	targetEntityType = updateEntityTypeAttributes(targetEntityType,st,jpaEntityType);
-	    		}
+	    		//}
 	    	}
+    	}
+    	else
+    	{
+    		targetEntityType = getByClass(jpaEntityType.getJavaType());
     	}
     	
 		return targetEntityType;
@@ -262,7 +340,7 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 
 
 	private EntityType updateEntityTypeAttributes(
-			EntityType targetEntityType, EntityType superTargetEntityType, IdentifiableType jpaEntityType) {
+			EntityType targetEntityType, EntityType superTargetEntityType, IdentifiableType jpaEntityType) throws Exception {
 		//Process attributes
 		String entity = targetEntityType.getEntityJavaSimpleType();
 		if ("Commodity".equals(entity))
@@ -286,7 +364,7 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 			{
 				attr = new com.conx.logistics.kernel.metamodel.domain.BasicAttribute(sattr.isId(),sattr.getName(), sattr.getJavaType(),targetEntityType);
 				attr.setParentEntityType(targetEntityType);
-				attr = em.merge(attr);
+				attr = add(attr);
 				System.out.println("["+entity+"] Adding BASIC attr ("+attr.getName()+")");
 				targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,(BasicAttribute)attr));
 			}
@@ -295,7 +373,7 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 				attrEntityType = provide((IdentifiableType)sattr.getType());
 				attr = new com.conx.logistics.kernel.metamodel.domain.SingularAttribute(sattr.getName(), sattr.getJavaType(), sattr.isId(), sattr.isVersion(), sattr.isOptional(),at,attrEntityType);
 				attr.setParentEntityType(targetEntityType);
-				attr = em.merge(attr);
+				attr = add(attr);
 				System.out.println("["+entity+"] Adding ONE_TO_ONE/MANY_TO_ONE attr ("+attr.getName()+")");
 				targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,(com.conx.logistics.kernel.metamodel.domain.SingularAttribute)attr));				
 			}
@@ -313,21 +391,21 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 				if (pattr.getCollectionType() == CollectionType.LIST)
 				{
 					pattr_ = new ListAttribute(pattr.getName(), et, targetEntityType,at);
-					pattr_ = em.merge(pattr_);
+					pattr_ = (com.conx.logistics.kernel.metamodel.domain.PluralAttribute)add(pattr_);
 					System.out.println("["+entity+"] Adding LIST attr ("+pattr_.getName()+")");
 					targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,pattr_));	
 				}
 				else if (pattr.getCollectionType() == CollectionType.MAP)
 				{
 					pattr_ = new MapAttribute(pattr.getName(), et, targetEntityType,at);
-					pattr_ = em.merge(pattr_);
+					pattr_ = (com.conx.logistics.kernel.metamodel.domain.PluralAttribute)add(pattr_);
 					System.out.println("["+entity+"] Adding MAP attr ("+pattr_.getName()+")");
 					targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,pattr_));
 				}				
 				else if (pattr.getCollectionType() == CollectionType.SET)
 				{
 					pattr_ = new SetAttribute(pattr.getName(), et, targetEntityType,at);
-					pattr_ = em.merge(pattr_);
+					pattr_ = (com.conx.logistics.kernel.metamodel.domain.PluralAttribute)add(pattr_);
 					System.out.println("["+entity+"] Adding SET attr ("+pattr_.getName()+")");
 					targetEntityType.getDeclaredAttributes().add(new EntityTypeAttribute(targetEntityType,pattr_));
 				}
@@ -344,43 +422,39 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 			 }
 		}		
 		
-		targetEntityType = em.merge(targetEntityType);
+		targetEntityType = add(targetEntityType);
 		
 		return targetEntityType;
 	}
 
-	private EntityType createMappedSupperClass(IdentifiableType supertype) {
+	@Override
+	public EntityType createMappedSupperClass(IdentifiableType supertype) throws Exception {
 		EntityType record = null;
 		System.out.println("providing SuperMappedClass["+supertype.getJavaType().getSimpleName()+"] ...");
-		
-		try {
-			record = getByClass(supertype.getJavaType());
-			if (record == null)
+
+		record = getByClass(supertype.getJavaType());
+		if (record == null)
+		{
+			//SuperType
+			IdentifiableType sst = supertype.getSupertype();
+			EntityType sst_ = null;
+			if (sst != null)
 			{
-				//SuperType
-				IdentifiableType sst = supertype.getSupertype();
-				EntityType sst_ = null;
-				if (sst != null)
-				{
-					sst_ = provide(sst);
-	    			System.out.println("["+supertype.getJavaType().getSimpleName()+"] Provided for Super EntityType ("+sst_.getEntityJavaSimpleType()+")");
-				}
-				
-				record = new EntityType(supertype.getJavaType().getName(),
-							supertype.getJavaType(),
-							sst_,
-					       null,//SingularAttribute id, 
-					       null,//SingularAttribute version,
-					       supertype.getJavaType().getName());
-				
-				//Save 
-				record = em.merge(record);
-				
-				record = updateEntityTypeAttributes(record,sst_,supertype);
+				sst_ = provide(sst);
+    			System.out.println("["+supertype.getJavaType().getSimpleName()+"] Provided for Super EntityType ("+sst_.getEntityJavaSimpleType()+")");
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			record = new EntityType(supertype.getJavaType().getName(),
+						supertype.getJavaType(),
+						sst_,
+				       null,//SingularAttribute id, 
+				       null,//SingularAttribute version,
+				       supertype.getJavaType().getName());
+			
+			//Save 
+			record = add(record);
+			
+			record = updateEntityTypeAttributes(record,sst_,supertype);
 		}
 		return record;
 	}
@@ -403,18 +477,7 @@ public class EntityTypeDAOImpl implements IEntityTypeDAOService {
 			
 			return typedQuery.getSingleResult();
 		}
-		catch(NoResultException e){}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		catch(Error e)
-		{
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			String stacktrace = sw.toString();
-			logger.error(stacktrace);
-		}		
+		catch(NoResultException e){}	
 		
 		return record;
 	}	

@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -33,6 +34,7 @@ import com.conx.logistics.app.whse.rcv.asn.domain.ASNPickup;
 import com.conx.logistics.app.whse.rcv.rcv.dao.services.IReceiveDAOService;
 import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
 import com.conx.logistics.kernel.datasource.dao.services.IDataSourceDAOService;
+import com.conx.logistics.kernel.documentlibrary.remote.services.IRemoteDocumentRepository;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.ui.components.dao.services.IComponentDAOService;
 import com.conx.logistics.mdm.dao.services.IAddressDAOService;
@@ -44,6 +46,7 @@ import com.conx.logistics.mdm.dao.services.IOrganizationDAOService;
 import com.conx.logistics.mdm.dao.services.IUnlocoDAOService;
 import com.conx.logistics.mdm.dao.services.currency.ICurrencyUnitDAOService;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IDocTypeDAOService;
+import com.conx.logistics.mdm.dao.services.documentlibrary.IFolderDAOService;
 import com.conx.logistics.mdm.dao.services.product.IDimUnitDAOService;
 import com.conx.logistics.mdm.dao.services.product.IPackUnitDAOService;
 import com.conx.logistics.mdm.dao.services.product.IProductDAOService;
@@ -98,11 +101,13 @@ public class TestDataManager {
 			IComponentDAOService componentDAOService,
 			IEntityTypeDAOService entityTypeDAOService,
 			IDataSourceDAOService dataSourceDAOService,
-			IWarehouseDAOService whseDAOService) throws ClassNotFoundException {
+			IWarehouseDAOService whseDAOService, 
+			IRemoteDocumentRepository documentRepositoryService, 
+			IFolderDAOService folderDAOService) throws Exception {
 		
 		//Required for ASN
 		ASN asn = createSprint1Data(null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService);		
-		createPrint2Data(asn, null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService);
+		createPrint2Data(asn, null, em, orgDaoService, countryDaoService, countryStateDaoService, unlocoDaoService, addressDaoService, packUnitDaoService, dimUnitDaoService, weightUnitDaoService, productTypeDaoService, productDaoService, currencyUnitDAOService, asnDaoService, asnPickupDAOService, asnDropOffDAOService, contactDAOService, docTypeDOAService, dockTypeDOAService, entityMetadataDAOService, referenceNumberTypeDaoService, referenceNumberDaoService, rcvDaoService, componentDAOService, entityTypeDAOService, dataSourceDAOService, whseDAOService,documentRepositoryService,folderDAOService);
 
 		
 		//Create Datasource/Component models
@@ -110,7 +115,7 @@ public class TestDataManager {
 	}
 	
 	
-	private static void createPrint2Data(ASN asn,
+	public static Receive createPrint2Data(ASN asn,
 			PlatformTransactionManager globalTransactionManager,
 			EntityManager em,
 			IOrganizationDAOService orgDaoService,
@@ -137,7 +142,9 @@ public class TestDataManager {
 			IComponentDAOService componentDAOService,
 			IEntityTypeDAOService entityTypeDAOService,
 			IDataSourceDAOService dataSourceDAOService,
-			IWarehouseDAOService whseDAOService) {
+			IWarehouseDAOService whseDAOService, 
+			IRemoteDocumentRepository documentRepositoryService, 
+			IFolderDAOService folderDAOService) throws ClassNotFoundException, Exception {
 		Receive rcv = rcvDaoService.process(asn);
 		
 		/**
@@ -152,9 +159,10 @@ public class TestDataManager {
 		 * Dynamic Arrival
 		 * 
 		 */
+		return rcv;
 	}
 	
-	private static ASN createSprint1Data(
+	public static ASN createSprint1Data(
 			PlatformTransactionManager globalTransactionManager,
 			EntityManager em,
 			IOrganizationDAOService orgDaoService,
@@ -181,7 +189,7 @@ public class TestDataManager {
 			IComponentDAOService componentDAOService,
 			IEntityTypeDAOService entityTypeDAOService,
 			IDataSourceDAOService dataSourceDAOService,
-			IWarehouseDAOService whseDAOService) {
+			IWarehouseDAOService whseDAOService) throws Exception {
 		ASN asn = null;
 		
 		/**
@@ -291,6 +299,10 @@ public class TestDataManager {
 				currencyUnitDAOService.provideDefaults();
 				docTypeDOAService.provideDefaults();
 				dockTypeDOAService.provideDefaults();
+				/**
+				 * Ref IDs: TD RIDTYP 2.0, 3.0, 4.0
+				 */
+				referenceNumberTypeDaoService.provideDefaults();
 				Product prd2 = productDaoService.provide("fooite1", "banana's",ProductTypeCustomCONSTANTS.TYPE_Food_Item,PackUnitCustomCONSTANTS.TYPE_PCE,WeightUnitCustomCONSTANTS.TYPE_LB,DimUnitCustomCONSTANTS.TYPE_FT,DimUnitCustomCONSTANTS.TYPE_CF,"GEN",null);
 				Product prd3 = productDaoService.provide("hazmat1", "Jet Fuel",ProductTypeCustomCONSTANTS.TYPE_Hazardous_Material,PackUnitCustomCONSTANTS.TYPE_PCE,WeightUnitCustomCONSTANTS.TYPE_LB,DimUnitCustomCONSTANTS.TYPE_FT,DimUnitCustomCONSTANTS.TYPE_CF,"GEN",null);
 				Product prd4 = productDaoService.provide("textil1", "Clothing",ProductTypeCustomCONSTANTS.TYPE_Textiles,PackUnitCustomCONSTANTS.TYPE_PCE,WeightUnitCustomCONSTANTS.TYPE_LB,DimUnitCustomCONSTANTS.TYPE_FT,DimUnitCustomCONSTANTS.TYPE_CF,"GEN",null);
@@ -304,15 +316,13 @@ public class TestDataManager {
 				//- Ref Numbers
 				ReferenceNumberType fedexRefType = referenceNumberTypeDaoService.getByCode(ReferenceNumberTypeCustomCONSTANTS.TYPE_FEDEX);
 				ReferenceNumber rn1 = new ReferenceNumber();
-				rn1.setCode("122345678899");
 				rn1.setValue("122345678899");
 				rn1.setType(fedexRefType);
 				rn1.setEntityMetadata(asnEMD);
 				rn1  = referenceNumberDaoService.add(rn1);
 				
 				ReferenceNumber rn2 = new ReferenceNumber();
-				rn2.setCode("998877665544332211");
-				rn2.setValue("122345678899");
+				rn2.setValue("998877665544332211");
 				rn2.setType(fedexRefType);
 				rn2.setEntityMetadata(asnEMD);
 				rn2  = referenceNumberDaoService.add(rn2);				
@@ -321,10 +331,18 @@ public class TestDataManager {
 				refNumList.add(rn1);
 				refNumList.add(rn2);
 				
+				asn = new ASN();
+				asn.setCode("ASN1");
+				asn = asnDaoService.add(asn);
+				
+				asn = asnDaoService.addRefNums(asn.getId(), refNumList);				
+				
+				Iterator<ReferenceNumber> rnsIt = asn.getRefNumbers().iterator();
+				
 				ASNLine al1 = new ASNLine();
 				al1.setCode("AL1");
 				al1.setProduct(prd2);
-				al1.setRefNumber(rn1);
+				//al1.setRefNumber(rnsIt.next());
 				al1.setLineNumber(0);
 				al1.setExpectedInnerPackCount(8);
 				al1.setExpectedOuterPackCount(12);
@@ -338,7 +356,7 @@ public class TestDataManager {
 				ASNLine al2 = new ASNLine();
 				al2.setCode("AL2");
 				al2.setProduct(prd3);
-				al2.setRefNumber(rn2);
+				//al2.setRefNumber(rnsIt.next());
 				al2.setLineNumber(0);
 				al2.setExpectedInnerPackCount(18);
 				al2.setExpectedOuterPackCount(2);
@@ -376,27 +394,17 @@ public class TestDataManager {
 				dropOff1.setEstimatedDropOff(new Date());
 				dropOff1 = asnDropOffDAOService.add(dropOff1);
 				
-				asn = new ASN();
-				asn.setCode("ASN1");
-				asn = asnDaoService.add(asn);
-				
 				Warehouse warehouse = whseDAOService.getByCode(WarehouseCustomCONSTANTS.DEFAULT_WAREHOUSE_CODE);
 				asn.setWarehouse(warehouse);
 				asn = asnDaoService.update(asn);
 				
-				rn1.setEntityPK(asn.getId());
-				rn2.setEntityPK(asn.getId());
-				referenceNumberDaoService.update(rn1);
-				referenceNumberDaoService.update(rn2);
-				
-				asnDaoService.addRefNums(asn.getId(), refNumList);
+				//rn1.setEntityPK(asn.getId());
+				//rn2.setEntityPK(asn.getId());
+				//referenceNumberDaoService.update(rn1);
+				//referenceNumberDaoService.update(rn2);
+
 				asnDaoService.addLines(asn.getId(), asnLineList);
-				asnDaoService.addLocalTrans(asn.getId(), pickup1, dropOff1);
-				
-				/**
-				 * Ref IDs: TD RIDTYP 2.0, 3.0, 4.0
-				 */
-				referenceNumberTypeDaoService.provideDefaults();
+				asn = asnDaoService.addLocalTrans(asn.getId(), pickup1, dropOff1);
 			}
 		} 
 		catch (Exception e) 
@@ -405,6 +413,8 @@ public class TestDataManager {
 			e.printStackTrace(new PrintWriter(sw));
 			String stacktrace = sw.toString();
 			logger.error(stacktrace);
+			
+			throw e;
 		}
 		
 		return asn;

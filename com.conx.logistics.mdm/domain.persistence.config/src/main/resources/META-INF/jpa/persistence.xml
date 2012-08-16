@@ -11,7 +11,10 @@
 		<class>com.conx.logistics.mdm.domain.commercialrecord.CommercialRecord</class>
 		<class>com.conx.logistics.mdm.domain.commercialrecord.CommercialValue</class>
 		<class>com.conx.logistics.mdm.domain.currency.CurrencyUnit</class>
+		<class>com.conx.logistics.mdm.domain.documentlibrary.AbstractDocument</class>
 		<class>com.conx.logistics.mdm.domain.documentlibrary.DocType</class>
+		<class>com.conx.logistics.mdm.domain.documentlibrary.FileEntry</class>
+		<class>com.conx.logistics.mdm.domain.documentlibrary.Folder</class>
 		<class>com.conx.logistics.mdm.domain.geolocation.Address</class>
 		<class>com.conx.logistics.mdm.domain.geolocation.AddressCapability</class>
 		<class>com.conx.logistics.mdm.domain.geolocation.Country</class>

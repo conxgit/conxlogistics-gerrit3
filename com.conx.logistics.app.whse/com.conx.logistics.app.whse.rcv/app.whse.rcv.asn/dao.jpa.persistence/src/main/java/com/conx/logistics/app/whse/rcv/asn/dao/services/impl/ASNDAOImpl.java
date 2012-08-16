@@ -128,12 +128,13 @@ public class ASNDAOImpl implements IASNDAOService {
 			for (ReferenceNumber number : numbers)
 			{
 				number.setEntityMetadata(emd);
+				number.setCode(asn.getCode()+"-"+number.getType().getCode()+"-"+number.getValue());
 				number.setEntityPK(asnId);
 				
-				rnt = em.merge(number.getType());
+				//rnt = em.merge(number.getType());
 				number.setType(rnt);
 				
-				number = referenceNumberDAOService.add(number);
+				//number = em.merge(number);
 				asn.getRefNumbers().add(number);
 			}
 			asn = update(asn);

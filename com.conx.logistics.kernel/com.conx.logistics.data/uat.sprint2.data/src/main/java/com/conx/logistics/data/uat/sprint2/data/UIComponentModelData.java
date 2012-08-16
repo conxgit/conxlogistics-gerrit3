@@ -27,7 +27,7 @@ import com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailC
 import com.conx.logistics.kernel.ui.components.domain.table.ConXTable;
 
 public class UIComponentModelData {
-	public final static MasterDetailComponent createReceiveSearchMasterDetail(IComponentDAOService componentDAOService, IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws ClassNotFoundException
+	public final static MasterDetailComponent createReceiveSearchMasterDetail(IComponentDAOService componentDAOService, IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws Exception
 	{
 		//-- ML E.E.
 		DataSource rcvDefaultDS = getDefaultRCVDS(entityTypeDAOService,dataSourceDAOService,em);	
@@ -104,7 +104,7 @@ public class UIComponentModelData {
 		return rcvSearchMLEE;
 	}
 
-	private static DataSource getDefaultRCVDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws ClassNotFoundException {
+	private static DataSource getDefaultRCVDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws Exception {
 		if (DataSourceData.RCV_DEFAULT_DS == null)
 		{
 			DataSourceData.provideDefaultReceiveDS(entityTypeDAOService, dataSourceDAOService, em);
@@ -113,7 +113,7 @@ public class UIComponentModelData {
 		return DataSourceData.RCV_DEFAULT_DS;
 	}
 	
-	private static DataSource getBasicFormRCVDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws ClassNotFoundException {
+	private static DataSource getBasicFormRCVDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws Exception {
 		if (DataSourceData.RCV_BASIC_DS == null)
 		{
 			DataSourceData.provideBasicFormReceiveDS(entityTypeDAOService, dataSourceDAOService, em);

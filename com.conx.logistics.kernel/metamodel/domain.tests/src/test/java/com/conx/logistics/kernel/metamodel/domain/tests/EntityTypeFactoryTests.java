@@ -18,12 +18,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
 import com.conx.logistics.kernel.metamodel.dao.services.impl.EntityTypeDAOImpl;
 import com.conx.logistics.kernel.metamodel.domain.AbstractAttribute;
 import com.conx.logistics.kernel.metamodel.domain.BasicAttribute;
 import com.conx.logistics.kernel.metamodel.domain.PluralAttribute;
 import com.conx.logistics.kernel.metamodel.domain.SingularAttribute;
+import com.conx.logistics.mdm.domain.BaseEntity;
 import com.conx.logistics.mdm.domain.product.Product;
 
 @ContextConfiguration(locations = { "/META-INF/tm.jta-module-context.xml",
@@ -65,12 +67,30 @@ public class EntityTypeFactoryTests extends AbstractTestNGSpringContextTests {
 		em.close();
 	}
 	
+	
+	
     @Test
+    public void testMappedEntityType() throws Exception {
+    	com.conx.logistics.kernel.metamodel.domain.EntityType targetEntityType = new com.conx.logistics.kernel.metamodel.domain.EntityType(
+    			   BaseEntity.class.getSimpleName(),BaseEntity.class,
+			       null,
+			       null,//SingularAttribute id, 
+			       null,//SingularAttribute version,
+			       BaseEntity.class.getName());
+    	
+		targetEntityType = entityTypeDAOService.add(targetEntityType);
+    	Assert.assertNotNull(targetEntityType);
+    	
+    	targetEntityType = entityTypeDAOService.getByClass(BaseEntity.class);
+    	Assert.assertNotNull(targetEntityType);
+    }	
+	
+    @Test(dependsOnMethods={"testMappedEntityType"})
     public void testEntitTypeCreation() throws Exception {
     	Metamodel mm = em.getMetamodel();
     	Assert.assertNotNull(mm);
     	
-    	EntityType<Product> me = mm.entity(Product.class);
+    	EntityType<Receive> me = mm.entity(Receive.class);
     	
     	com.conx.logistics.kernel.metamodel.domain.EntityType et = entityTypeDAOService.provide(me);
     	Assert.assertNotNull(et);
@@ -82,6 +102,6 @@ public class EntityTypeFactoryTests extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(sattrs.size() > 0);     
         
         List<PluralAttribute> pattrs = entityTypeDAOService.getAllPluralAttributesByEntityType(et);
-        Assert.assertTrue(pattrs.size() == 0);          
+        Assert.assertTrue(pattrs.size() > 0);          
     }
 }

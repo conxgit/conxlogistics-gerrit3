@@ -7,5 +7,17 @@ Bundle-Version: 1.0.0
 Import-Package: 
   com.conx.logistics.kernel.documentlibrary.domain;version="1.0.0",
   com.conx.logistics.kernel.metamodel.domain;version="1.0.0",
+  com.conx.logistics.kernel.documentlibrary.remote.services;version="1.0.0",
+  org.apache.http;version="[4.0,5.0)",
+  org.apache.http.auth;version="[4.0,5.0)",
+  org.apache.http.client;version="[4.0,5.0)",
+  org.apache.http.client.entity;version="[4.0,5.0)",
+  org.apache.http.client.methods;version="[4.0,5.0)",
+  org.apache.http.impl.auth;version="[4.0,5.0)",
+  org.apache.http.impl.client;version="[4.0,5.0)",
+  org.apache.http.message;version="[4.0,5.0)",
+  org.apache.http.protocol;version="[4.0,5.0)",
+  org.apache.http.util;version="[4.0,5.0)",
+  flexjson;version="[2.0,3.0)",
   javax.persistence;version="0",
   javax.persistence.metamodel;version="0"

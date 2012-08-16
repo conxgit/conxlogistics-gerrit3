@@ -16,9 +16,9 @@
 		</dependency>
 		<dependency>
 			<groupId>com.conx.logistics</groupId>
-			<artifactId>com.conx.logistics.kernel.documentlibrary.domain</artifactId>
+			<artifactId>com.conx.logistics.kernel.metamodel.domain</artifactId>
 			<version>${project.version}</version>
-		</dependency>		
+		</dependency>					
 	</dependencies>
 	<build>
 		<plugins>

@@ -19,7 +19,7 @@ public class DataSourceData {
 	public static DataSource RCV_DEFAULT_DS = null;
 
 	
-	public final static DataSource provideDefaultReceiveDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws ClassNotFoundException
+	public final static DataSource provideDefaultReceiveDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws Exception
 	{
 		com.conx.logistics.kernel.metamodel.domain.EntityType rcvET = EntityTypeData.provide(entityTypeDAOService, em, Receive.class);
     	
@@ -51,7 +51,7 @@ public class DataSourceData {
 		return receiveDS;
 	}
 	
-	public final static DataSource provideBasicFormReceiveDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws ClassNotFoundException
+	public final static DataSource provideBasicFormReceiveDS(IEntityTypeDAOService entityTypeDAOService,IDataSourceDAOService dataSourceDAOService,EntityManager em) throws Exception
 	{
 		//--- Basic
 		//-Code/Name

@@ -25,8 +25,12 @@ import com.conx.logistics.app.whse.rcv.rcv.domain.Pickup;
 import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
 import com.conx.logistics.app.whse.rcv.rcv.domain.ReceiveLine;
 import com.conx.logistics.app.whse.rcv.rcv.domain.types.RECEIVELINESTATUS;
+import com.conx.logistics.kernel.documentlibrary.remote.services.IRemoteDocumentRepository;
+import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
+import com.conx.logistics.kernel.metamodel.domain.EntityType;
 import com.conx.logistics.mdm.dao.services.IEntityMetadataDAOService;
-import com.conx.logistics.mdm.dao.services.referencenumber.IReferenceNumberDAOService;
+import com.conx.logistics.mdm.domain.documentlibrary.Folder;
+import com.conx.logistics.mdm.domain.metadata.DefaultEntityMetadata;
 import com.conx.logistics.mdm.domain.product.Product;
 
 
@@ -45,6 +49,12 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
      */
     @PersistenceContext
     private EntityManager em;	
+    
+    @Autowired
+    private IRemoteDocumentRepository documentRepositoryService;
+    
+    @Autowired
+    private IEntityTypeDAOService entityTypeDAOService;
     
 	public void setEm(EntityManager em) {
 		this.em = em;
@@ -106,7 +116,7 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 	}
 
 	@Override
-	public Receive process(ASN asn) {
+	public Receive process(ASN asn) throws Exception {
 		Receive rcv = new Receive();
 		rcv = add(rcv);
 		asn = em.merge(asn);
@@ -122,14 +132,20 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 		
 		//-Copy plural attrs
 		//-- Pickup/Dropoff
-		rcv.setPickUp(copyPickUp(asn.getPickup()));
-		rcv.setDropOff(copyDropOff(asn.getDropOff()));
+		//rcv.setPickUp(copyPickUp(asn.getPickup()));
+		//rcv.setDropOff(copyDropOff(asn.getDropOff()));
 		
 		//-- RcvLine's
 		for (ASNLine asnLine : asn.getAsnLines())
 		{
 			rcv.getRcvLines().add(copyRcvLine(asnLine,rcv));
 		}
+		
+		//Doc Folder
+		//EntityType et = entityTypeDAOService.provide(em.getMetamodel().entity(Receive.class));
+		Folder fldr = documentRepositoryService.provideFolderForEntity(Receive.class, rcv.getId());
+		rcv.setDocFolder(fldr);
+		rcv = em.merge(rcv);
 		
 		return rcv;
 	}

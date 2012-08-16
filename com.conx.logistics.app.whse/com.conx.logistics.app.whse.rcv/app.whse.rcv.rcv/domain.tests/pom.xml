@@ -118,6 +118,19 @@
 			<artifactId>com.conx.logistics.kernel.datasource.domain.persistence.config</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		
+		<!-- DocLib -->
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.documentlibrary.remote.services</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>com.conx.logistics.kernel.documentlibrary.remote.services.impl</artifactId>
+			<version>1.0.0</version>
+		</dependency>		
+				
 		<!-- Common libs -->
 		<!-- ConX -->
 		<!-- Bootstrap -->

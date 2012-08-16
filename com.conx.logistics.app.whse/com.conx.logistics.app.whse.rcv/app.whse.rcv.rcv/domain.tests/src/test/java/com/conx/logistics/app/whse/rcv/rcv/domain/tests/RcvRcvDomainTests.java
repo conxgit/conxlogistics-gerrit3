@@ -22,8 +22,10 @@ import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
         "/META-INF/persistence.datasource-module-context.xml",
         "/META-INF/jbpm.persistence.datasource-module-context.xml",
         "/META-INF/persistence.dynaconfiguration-module-context.xml",
+        "/META-INF/mdm.dao.services.impl-module-context.xml",
         "/META-INF/metamodel.dao.jpa.persistence-module-context.xml",
         "/META-INF/datasource.dao.jpa.persistence-module-context.xml",
+        "/META-INF/documentlibrary.remote.services.impl-module-context.xml",
         "/META-INF/rcv.rcv.dao.jpa.persistence-module-context.xml"
         })
 public class RcvRcvDomainTests extends AbstractTestNGSpringContextTests {
