@@ -3,6 +3,7 @@ package com.conx.logistics.mdm.domain.documentlibrary;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -12,6 +13,9 @@ public class FileEntry extends AbstractDocument {
 	
 	@OneToOne
 	private Folder folder;
+	
+	@ManyToOne
+	private DocType docType;
 	
 	private String uuid;
 	private String originalUuid;
@@ -313,5 +317,17 @@ public class FileEntry extends AbstractDocument {
 	}
 	public void setColumnBitmask(long columnBitmask) {
 		this.columnBitmask = columnBitmask;
+	}
+	public Folder getFolder() {
+		return folder;
+	}
+	public void setFolder(Folder folder) {
+		this.folder = folder;
+	}
+	public DocType getDocType() {
+		return docType;
+	}
+	public void setDocType(DocType docType) {
+		this.docType = docType;
 	}
 }

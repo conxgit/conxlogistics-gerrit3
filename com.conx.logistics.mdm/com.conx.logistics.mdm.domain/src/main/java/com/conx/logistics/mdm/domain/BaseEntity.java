@@ -3,6 +3,7 @@ package com.conx.logistics.mdm.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class BaseEntity implements Serializable {
     @Column(name = "version")
     private Integer version;
     
-    @ManyToOne(targetEntity = Folder.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Folder.class, fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn
     private Folder docFolder;
 
