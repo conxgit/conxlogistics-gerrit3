@@ -12,7 +12,7 @@
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:/META-INF/tm.jta-module-context.xml,classpath*:/META-INF/persistence.datasource-module-context.xml,classpath*:/META-INF/jbpm.persistence.datasource-module-context.xml,classpath*:/META-INF/persistence.dynaconfiguration-module-context.xml,classpath*:/META-INF/metamodel.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/app.whse.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/app.whse.rcv.asn.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/mdm.dao.services.impl-module-context.xml,classpath*:/META-INF/app.whse.rcv.rcv.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/components.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/datasource.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/documentlibrary.remote.services.impl-module-context.xml,/META-INF/editors.vaadin.module-context.xml</param-value>
+		<param-value>classpath*:/META-INF/tm.jta-module-context.xml,/META-INF/mysql.persistence.datasource-module-context.xml,classpath*:/META-INF/jbpm.persistence.datasource-module-context.xml,/META-INF/mysql.persistence.dynaconfiguration-module-context.xml,classpath*:/META-INF/metamodel.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/app.whse.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/app.whse.rcv.asn.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/mdm.dao.services.impl-module-context.xml,classpath*:/META-INF/app.whse.rcv.rcv.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/components.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/datasource.dao.jpa.persistence-module-context.xml,classpath*:/META-INF/documentlibrary.remote.services.impl-module-context.xml,/META-INF/editors.vaadin.module-context.xml</param-value>
 	</context-param>
 	
 	<filter>
@@ -37,7 +37,6 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
 	<servlet>
 		<servlet-name>webappServlet</servlet-name>
 		<servlet-class>com.conx.logistics.kernel.ui.editors.vaadin.tests.servlet.MockAppServlet</servlet-class>	
@@ -58,9 +57,7 @@
 		<servlet-name>webappServlet</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
-	
 	<session-config>
         <session-timeout>30</session-timeout>
     </session-config>	
-	
 </web-app>

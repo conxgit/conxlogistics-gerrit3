@@ -338,7 +338,7 @@ public class DataSourceField extends MultitenantBaseEntity {
      * @return Boolean
      * @see com.smartgwt.client.docs.ComponentBinding ComponentBinding overview and related methods
      */
-    private Boolean ignore;
+    private Boolean ignored;
 
     /**
      * For use in {@link com.smartgwt.client.docs.ComponentSchema}, a field {@link
@@ -1037,12 +1037,12 @@ public class DataSourceField extends MultitenantBaseEntity {
 
 
 	public Boolean getIgnore() {
-		return ignore;
+		return ignored;
 	}
 
 
 	public void setIgnore(Boolean ignore) {
-		this.ignore = ignore;
+		this.ignored = ignore;
 	}
 
 

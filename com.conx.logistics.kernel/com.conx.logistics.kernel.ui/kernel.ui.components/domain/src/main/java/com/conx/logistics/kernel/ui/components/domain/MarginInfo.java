@@ -17,9 +17,9 @@ import com.conx.logistics.mdm.domain.MultitenantBaseEntity;
 public class MarginInfo extends AbstractConXComponent implements Serializable {
 
     private boolean top = true;
-    private boolean right = true;
+    private boolean enableRight = true;
     private boolean bottom = true;
-    private boolean left = true;
+    private boolean enableLeft = true;
     
     
     
@@ -27,9 +27,9 @@ public class MarginInfo extends AbstractConXComponent implements Serializable {
 			boolean bottom, boolean left) {
 		this();
 		this.top = top;
-		this.right = right;
+		this.enableRight = right;
 		this.bottom = bottom;
-		this.left = left;
+		this.enableLeft = left;
 	}
 
 

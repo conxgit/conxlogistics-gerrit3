@@ -65,7 +65,7 @@ public class AbstractConXComponent extends MultitenantBaseEntity implements Size
     private AbstractConXComponent parent = null;
     
     
-    private float width = SIZE_UNDEFINED;
+    private float wdth = SIZE_UNDEFINED;
     private float height = SIZE_UNDEFINED;
     private int widthUnit = UNITS_PIXELS;
     private int heightUnit = UNITS_PIXELS;    
@@ -146,11 +146,11 @@ public class AbstractConXComponent extends MultitenantBaseEntity implements Size
 	}
 
 	public float getWidth() {
-		return width;
+		return wdth;
 	}
 
 	public void setWidth(float width) {
-		this.width = width;
+		this.wdth = width;
 	}
 
 	public float getHeight() {
