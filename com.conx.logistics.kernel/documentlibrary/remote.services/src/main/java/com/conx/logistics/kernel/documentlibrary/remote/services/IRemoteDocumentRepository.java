@@ -48,6 +48,8 @@ public interface IRemoteDocumentRepository {
 	
 	public FileEntry addFileEntry(String folderId, String sourceFileName, String mimeType, String title, String description) throws Exception;
 	
+	public FileEntry addorUpdateFileEntry(String folderId, String sourceFileName, String mimeType, String title, String description) throws Exception;	
+	
 	public FileEntry deleteFileEntryById(String folderId, String fileEntryId)  throws Exception;
 	
 	/**
@@ -57,4 +59,5 @@ public interface IRemoteDocumentRepository {
 	 * @return
 	 */
 	public String getConxlogiFolderId();
+
 }

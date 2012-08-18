@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "sysdlfolder")
 public class Folder extends AbstractDocument {
 
-	@OneToMany(mappedBy="folder")
+	@OneToMany(targetEntity=FileEntry.class, mappedBy="folder",cascade=CascadeType.ALL)
 	private List<FileEntry> files = new ArrayList<FileEntry>();
 	
 	private String uuid;

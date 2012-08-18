@@ -335,36 +335,73 @@ public class LiferayPortalDocumentRepositoryImpl implements
 		System.out.println("addFolder Res:["+response+"]");
 		return fldr;		
 	}
+	
+	@Override
+	public FileEntry addorUpdateFileEntry(String folderId, String sourceFileName,
+			String mimeType, String title, String description)
+			throws Exception {
+		FileEntry fe = null;
+		if (fileEntryExists(folderId, title))
+		{
+			FileEntry fe_ = getFileEntryByTitle(folderId, title);
+			fe = updateFileEntry(fe_.getFileEntryId(),sourceFileName, mimeType, title, description);
+		}
+		else
+		{
+			fe = addFileEntry(folderId, sourceFileName, mimeType, title, description);
+		}
+		
+		return fe;
+	}
+
+	private FileEntry updateFileEntry(long fileEntryId, String sourceFileName,
+			String mimeType, String title, String description) throws Exception {
+		// Add AuthCache to the execution context
+		BasicHttpContext ctx = new BasicHttpContext();
+		ctx.setAttribute(ClientContext.AUTH_CACHE, authCache);
+		
+		HttpPost post = new HttpPost("/api/secure/jsonws/dlapp/update-file-entry");
+		MultipartEntity entity = new MultipartEntity(
+				HttpMultipartMode.BROWSER_COMPATIBLE);
+		
+		final URL testfile = LiferayPortalDocumentRepositoryImpl.class.getResource(sourceFileName);//"/bol.pdf");
+		File file = new File(testfile.toURI());
+		
+		entity.addPart("fileEntryId",new StringBody(Long.toString(fileEntryId), Charset.forName("UTF-8")));
+		entity.addPart("sourceFileName",new StringBody(sourceFileName, Charset.forName("UTF-8")));
+		entity.addPart("mimeType ", new StringBody(mimeType,Charset.forName("UTF-8")));
+		entity.addPart("title", new StringBody(title,Charset.forName("UTF-8")));
+		entity.addPart("description", new StringBody(description,Charset.forName("UTF-8")));
+		entity.addPart("changeLog", new StringBody("",Charset.forName("UTF-8")));		
+		entity.addPart("file", new FileBody(file,mimeType,sourceFileName));
+		//entity.addPart("bytes", new ByteArrayBody("Test Content".getBytes(),mimeType,sourceFileName));
+		entity.addPart("majorVersion", new StringBody("false",Charset.forName("UTF-8")));
+		entity.addPart("serviceContext", new StringBody("{}",Charset.forName("UTF-8")));
+
+		post.setEntity(entity);
+
+		HttpResponse resp = httpclient.execute(targetHost, post, ctx);
+		System.out.println(resp.getStatusLine());
+		
+		String response = null;
+		if(resp.getEntity()!=null) {
+		    response = EntityUtils.toString(resp.getEntity());
+		}
+		System.out.println("updateFileEntry Res:["+response+"]");
+
+		FileEntry fe = null;
+		if (!StringUtil.contains(response, "com.liferay.portlet.documentlibrary.NoSuchFileEntryException", ""))
+		{
+			JSONDeserializer<FileEntry> deserializer = new JSONDeserializer<FileEntry>();
+			fe = deserializer.deserialize(response,FileEntry.class);
+		}
+		return fe;
+	}
 
 	@Override
 	public FileEntry addFileEntry(String folderId, String sourceFileName,
 			String mimeType, String title, String description)
 			throws Exception {
-/*		ClientConfig cc = new DefaultClientConfig();
-		cc.getClasses().add(MultiPartWriter.class);
-
-		Client client = Client.create(cc);
-		client.addFilter(new HTTPBasicAuthFilter(loginEmail, loginPassword));
-
-		WebResource webResource = client.resource(UriBuilder.fromUri("http://localhost:8080/api/secure/jsonws/dlapp/add-file-entry").build());
-
-
-		FormDataMultiPart form = new FormDataMultiPart();
-		form.field("repositoryId", repositoryId);
-		form.field("folderId", folderId);
-		form.field("sourceFileName", sourceFileName);
-		form.field("mimeType",mimeType);
-		form.field("title", title);
-		form.field("description", description);
-		form.field("change Log", "");
-		form.field("is", data, MediaType.MULTIPART_FORM_DATA_TYPE);
-		form.field("size", "0");
-		form.field("serviceContext", "{}");
-		
-		ClientResponse response = webResource.type(MediaType.MULTIPART_FORM_DATA).post(ClientResponse.class, form);
-
-		System.out.println(response.getEntity(String.class));*/
-		
 		// Add AuthCache to the execution context
 		BasicHttpContext ctx = new BasicHttpContext();
 		ctx.setAttribute(ClientContext.AUTH_CACHE, authCache);

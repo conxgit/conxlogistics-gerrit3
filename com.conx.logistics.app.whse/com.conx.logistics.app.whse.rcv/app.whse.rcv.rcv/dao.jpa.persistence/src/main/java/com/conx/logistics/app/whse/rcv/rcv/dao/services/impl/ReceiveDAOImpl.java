@@ -166,7 +166,7 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 		Receive rcv = get(rcvId);
 		Folder fldr = rcv.getDocFolder();
 		
-		FileEntry fe = documentRepositoryService.addFileEntry(Long.toString(fldr.getFolderId()), sourceFileName, mimeType, title, description);
+		FileEntry fe = documentRepositoryService.addorUpdateFileEntry(Long.toString(fldr.getFolderId()), sourceFileName, mimeType, title, description);
 		fe.setDocType(attachmentType);
 		fe = em.merge(fe);
 		fldr.getFiles().add(fe);

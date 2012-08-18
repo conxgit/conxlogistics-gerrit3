@@ -66,6 +66,7 @@ import com.conx.logistics.mdm.domain.product.Product;
         "/META-INF/metamodel.dao.jpa.persistence-module-context.xml",
         "/META-INF/datasource.dao.jpa.persistence-module-context.xml",
         "/META-INF/components.dao.jpa.persistence-module-context.xml",
+        "/META-INF/documentlibrary.remote.services.impl-module-context.xml",
         "/META-INF/app.whse.dao.jpa.persistence-module-context.xml",
         "/META-INF/app.whse.rcv.asn.dao.jpa.persistence-module-context.xml",
         "/META-INF/app.whse.rcv.rcv.dao.jpa.persistence-module-context.xml",

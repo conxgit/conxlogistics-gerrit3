@@ -58,6 +58,10 @@ implements Property.ValueChangeListener {
 
 	private EntityTableFooterEventBus footerBus;
 
+	private MasterDetailComponent metaData;
+
+	private EntityManager entityManager;
+
 	public MultiLevelEntityEditorPresenter() {
 		super();
 	}
@@ -68,6 +72,8 @@ implements Property.ValueChangeListener {
 	public void onStart(EventBusManager ebm, PresenterFactory presenterFactory, MasterDetailComponent md, EntityManager em) {
 		try {
 			this.setInitialized(true);
+			this.metaData = md;
+			this.entityManager = em;
 			this.setEbm(ebm);
 			this.presenterFactory = presenterFactory;
 			
@@ -131,5 +137,21 @@ implements Property.ValueChangeListener {
 
 	public void setEbm(EventBusManager ebm) {
 		this.ebm = ebm;
+	}
+
+	public MasterDetailComponent getMetaData() {
+		return metaData;
+	}
+
+	public void setMetaData(MasterDetailComponent metaData) {
+		this.metaData = metaData;
+	}
+
+	public PresenterFactory getPresenterFactory() {
+		return presenterFactory;
+	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 }
