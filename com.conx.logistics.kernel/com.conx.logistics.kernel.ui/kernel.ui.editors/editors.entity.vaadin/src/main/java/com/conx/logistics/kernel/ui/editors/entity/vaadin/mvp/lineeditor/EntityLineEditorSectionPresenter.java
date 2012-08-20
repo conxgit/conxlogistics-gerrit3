@@ -4,25 +4,37 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.mvp.eventbus.EventBus;
 import org.vaadin.mvp.presenter.BasePresenter;
+import org.vaadin.mvp.presenter.IPresenter;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
+import com.conx.logistics.kernel.datasource.domain.DataSource;
 import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 import com.conx.logistics.kernel.ui.components.domain.attachment.AttachmentEditorComponent;
 import com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorComponent;
 import com.conx.logistics.kernel.ui.components.domain.note.NoteEditorComponent;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.ext.header.EntityEditorToolStripButton;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.ext.table.EntityGridFilterManager;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.ext.upload.AttachmentForm;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.ext.upload.FileUploadPanel;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.AbstractEntityEditorEventBus;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorPresenter;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.attachment.AttachmentEditorEventBus;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.attachment.AttachmentEditorPresenter;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.lineeditor.view.EntityLineEditorSectionView;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.lineeditor.view.IEntityLineEditorSectionView;
 import com.conx.logistics.kernel.ui.filteredtable.gwt.client.ui.FilterTable;
 import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
+import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.JPAContainerItem;
+import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.event.ItemClickEvent;
@@ -47,6 +59,8 @@ public class EntityLineEditorSectionPresenter extends BasePresenter<IEntityLineE
 
 	private LineEditorComponent lineEditorSectionComponentModel;
 
+	private AbstractEntityEditorEventBus eventBus;
+
 	public EntityLineEditorSectionPresenter() {
 		super();
 	}
@@ -54,9 +68,10 @@ public class EntityLineEditorSectionPresenter extends BasePresenter<IEntityLineE
 	/**
 	 * EventBus callbacks
 	 */
-	public void onStart(EntityLineEditorPresenter parentPresenter, LineEditorComponent lineEditorSectionComponentModel) {
+	public void onStart(EntityLineEditorPresenter parentPresenter, AbstractEntityEditorEventBus entityEditorEventListener,  AbstractConXComponent aec, EntityManager em) {
 		try {
-			this.lineEditorSectionComponentModel = lineEditorSectionComponentModel;
+			this.lineEditorSectionComponentModel = (LineEditorComponent)aec;
+			this.parentPresenter = parentPresenter;
 			
 			//1. Get comp model
 			AbstractConXComponent lecm = this.lineEditorSectionComponentModel.getContent();
@@ -65,86 +80,10 @@ public class EntityLineEditorSectionPresenter extends BasePresenter<IEntityLineE
 			Component leComponent = null;
 			if (lecm instanceof AttachmentEditorComponent)
 			{
-				AttachmentEditorComponent ac = (AttachmentEditorComponent)lecm;
-				//- Create FileEntry container
-				JPAContainer<FileEntry> entityContainer = JPAContainerFactory.make(ac.getDataSource().getEntityType().getJavaType(),parentPresenter.getParentPresenter().getEntityManager());
-				
-				//- View: Create attachment grid and layout
-				EntityGridFilterManager gridManager = new EntityGridFilterManager();
-				FilterTable grid = new FilterTable();
-				grid.setSizeFull();
-				grid.setSelectable(true);
-				grid.setFilterDecorator(gridManager);
-				grid.setFilterGenerator(gridManager);
-				grid.setFiltersVisible(true);
-				//grid.setEditable(true);
-				//grid.setTableFieldFactory(new FieldFactory());
-				
-				//- Create upload form
-				final VerticalLayout uploadLayout = new VerticalLayout();
-				uploadLayout.setHeight("150px");
-				uploadLayout.setWidth("100%");
-				uploadLayout.setVisible(false);
-				
-				HorizontalSplitPanel fupVSP = new HorizontalSplitPanel();
-				fupVSP.setWidth("100%");
-				fupVSP.addComponent(new FileUploadPanel());
-				
-				uploadLayout.addComponent(fupVSP);
-				
-				
-				//- Toolstrip
-				EntityEditorToolStripButton newButton = new EntityEditorToolStripButton("toolstrip/img/new.png");
-				newButton.addListener(new ClickListener() {
-					@Override
-					public void buttonClick(ClickEvent event) {
-						uploadLayout.setVisible(!uploadLayout.isVisible());
-					}
-				});
-				EntityEditorToolStripButton deleteButton = new EntityEditorToolStripButton("toolstrip/img/delete.png");
-				
-				HorizontalLayout innerToolStrip1 = new HorizontalLayout();
-				innerToolStrip1.setSpacing(true);
-				innerToolStrip1.addComponent(newButton);
-				innerToolStrip1.addComponent(deleteButton);
-				
-				HorizontalLayout toolStrip1 = new HorizontalLayout();
-				toolStrip1.setHeight("40px");
-				toolStrip1.setWidth("100%");
-				toolStrip1.setStyleName("conx-entity-toolstrip");
-				toolStrip1.addComponent(innerToolStrip1);
-				
-				toolStrip1.setComponentAlignment(innerToolStrip1, Alignment.MIDDLE_LEFT);
-				
-				VerticalLayout gridLayout = new VerticalLayout();
-				gridLayout.setStyleName("conx-entity-grid");
-				gridLayout.addComponent(toolStrip1);
-				gridLayout.addComponent(grid);
-				gridLayout.addComponent(uploadLayout);
-				gridLayout.setSizeFull();
-				gridLayout.setExpandRatio(grid, 1.0f);
-				
-				//- Presenter: Init grid
-				Set<String> nestedFieldNames = ac.getDataSource().getNestedFieldNames();
-				for (String npp : nestedFieldNames)
-				{
-					entityContainer.addNestedContainerProperty(npp);
-				}
-				grid.setContainerDataSource(entityContainer);			
-				
-				String[] visibleFieldNames = ac.getDataSource().getVisibleFieldNames().toArray(new String[0]);
-				grid.setVisibleColumns(visibleFieldNames);
-				grid.addListener(new ItemClickListener() {
-					private static final long serialVersionUID = 7230326485331772539L;
-
-					public void itemClick(ItemClickEvent event) {
-						JPAContainerItem item = (JPAContainerItem)event.getItem();
-						Object entity = item.getEntity();
-						entity.toString();
-					}
-				});				
-				
-				leComponent = gridLayout;
+				IPresenter<?, ? extends EventBus> aep = this.parentPresenter.getParentPresenter().getPresenterFactory().createPresenter(AttachmentEditorPresenter.class);
+				this.eventBus = (AttachmentEditorEventBus) aep.getEventBus();
+				eventBus.start((AbstractEntityEditorEventBus)parentPresenter.getParentPresenter().getEventBus(),(AbstractConXComponent)lecm,parentPresenter.getParentPresenter().getEntityManager());				
+				leComponent = (Component)aep.getView();
 			}
 			else if (lecm instanceof NoteEditorComponent)
 			{
@@ -167,6 +106,11 @@ public class EntityLineEditorSectionPresenter extends BasePresenter<IEntityLineE
 			logger.error(stacktrace);
 		}
 	}
+	
+	//MultiLevelEntityEditorEventBus implementation
+	public void onEntityItemEdit(EntityItem item) {
+		this.eventBus.entityItemEdit(item);
+	}	
 	
 	@Override
 	public void bind() {

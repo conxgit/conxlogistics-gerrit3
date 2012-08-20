@@ -25,6 +25,7 @@ import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.EntityTableE
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.EntityTablePresenter;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.view.IMultiLevelEntityEditorView;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.view.MultiLevelEntityEditorView;
+import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Component;
@@ -69,7 +70,7 @@ implements Property.ValueChangeListener {
 	/**
 	 * EventBus callbacks
 	 */
-	public void onStart(EventBusManager ebm, PresenterFactory presenterFactory, MasterDetailComponent md, EntityManager em) {
+	public void onInit(EventBusManager ebm, PresenterFactory presenterFactory, MasterDetailComponent md, EntityManager em) {
 		try {
 			this.setInitialized(true);
 			this.metaData = md;
@@ -83,22 +84,22 @@ implements Property.ValueChangeListener {
 			//-- Header
 			headerPresenter = this.presenterFactory.createPresenter(EntityTableHeaderPresenter.class);
 			headerBus = (EntityTableHeaderEventBus) headerPresenter.getEventBus();
-			headerBus.start(this);	
+			headerBus.start(this.getEventBus(),null,null);	
 
 			//-- Table
 			tablePresenter = this.presenterFactory.createPresenter(EntityTablePresenter.class);
 			tableBus = (EntityTableEventBus) tablePresenter.getEventBus();
-			tableBus.start(this,md,em);	
+			tableBus.start(this.getEventBus(),md,em);	
 
 			//-- EntityLineEditor
 			lineEditorPresenter = this.presenterFactory.createPresenter(EntityLineEditorPresenter.class);
 			lineEditorBus = (EntityLineEditorEventBus) lineEditorPresenter.getEventBus();
-			lineEditorBus.start(this);	
+			lineEditorBus.start(this,this.getEventBus(),md,em);	
 
 			//-- Footer
 			footerPresenter = this.presenterFactory.createPresenter(EntityTableFooterPresenter.class);
 			footerBus = (EntityTableFooterEventBus) footerPresenter.getEventBus();
-			footerBus.start(this);	
+			footerBus.start(this.getEventBus(),md,em);	
 			
 			IMultiLevelEntityEditorView localView = this.getView();
 			
@@ -114,7 +115,12 @@ implements Property.ValueChangeListener {
 			logger.error(stacktrace);
 		}
 	}
-
+	
+	//MultiLevelEntityEditorEventBus implementation
+	public void onEntityItemEdit(EntityItem item) {
+		((AbstractEntityEditorEventBus)lineEditorBus).entityItemEdit(item); 
+	}
+	  
 	@Override
 	public void bind() {
 	}

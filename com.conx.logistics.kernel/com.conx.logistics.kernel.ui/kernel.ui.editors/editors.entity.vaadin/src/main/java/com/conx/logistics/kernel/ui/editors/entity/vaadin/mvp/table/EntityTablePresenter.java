@@ -13,7 +13,10 @@ import org.vaadin.mvp.presenter.annotation.Presenter;
 
 import com.conx.logistics.kernel.datasource.domain.DataSource;
 import com.conx.logistics.kernel.datasource.domain.DataSourceField;
+import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 import com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailComponent;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.AbstractEntityEditorEventBus;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorEventBus;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorPresenter;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.view.EntityTableView;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.table.view.IEntityTableView;
@@ -63,10 +66,10 @@ public class EntityTablePresenter extends BasePresenter<IEntityTableView, Entity
 	/**
 	 * EventBus callbacks
 	 */
-	public void onStart(MultiLevelEntityEditorPresenter parentPresenter, MasterDetailComponent md, EntityManager em) {
+	public void onStart(AbstractEntityEditorEventBus entityEditorEventListener,  AbstractConXComponent aec, EntityManager em) {
 		try {
 			this.em = em;
-			this.dataSource = md.getDataSource();
+			this.dataSource = ((MasterDetailComponent)aec).getDataSource();
 			this.javaEntityClass = this.dataSource.getEntityType().getJavaType();
 			
 			//-- Instanciate View and Table
@@ -90,6 +93,8 @@ public class EntityTablePresenter extends BasePresenter<IEntityTableView, Entity
 					JPAContainerItem item = (JPAContainerItem)event.getItem();
 					Object entity = item.getEntity();
 					entity.toString();
+					MultiLevelEntityEditorEventBus eb = EntityTablePresenter.this.parentPresenter.getEventBus();
+					eb.entityItemEdit(item);
 				}
 			});
 			

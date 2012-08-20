@@ -15,8 +15,6 @@ public class MultiLevelEntityEditorView extends VerticalLayout implements IMulti
 	VerticalLayout headerLayout;
 	@UiField
 	VerticalLayout contentLayout;
-	@UiField
-	VerticalLayout footerLayout;
 
 	private VerticalSplitPanel splitPanel;
 
@@ -52,7 +50,5 @@ public class MultiLevelEntityEditorView extends VerticalLayout implements IMulti
 
 	@Override
 	public void setFooter(Component component) {
-		footerLayout.removeAllComponents();
-		footerLayout.addComponent(component);
 	}
 }

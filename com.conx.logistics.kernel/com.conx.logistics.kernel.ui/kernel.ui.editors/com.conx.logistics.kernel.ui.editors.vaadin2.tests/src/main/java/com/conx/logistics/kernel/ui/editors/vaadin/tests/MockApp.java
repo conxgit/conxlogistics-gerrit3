@@ -165,7 +165,7 @@ public class MockApp extends Application {
 			PresenterFactory presenterFactory = new PresenterFactory(ebm, getLocale());
 			IPresenter<?, ? extends EventBus> mainPresenter = presenterFactory.createPresenter(MultiLevelEntityEditorPresenter.class);
 			MultiLevelEntityEditorEventBus mainEventBus = (MultiLevelEntityEditorEventBus) mainPresenter.getEventBus();
-			mainEventBus.start(ebm, presenterFactory,md,em);
+			mainEventBus.init(ebm, presenterFactory,md,em);
 			
 			Window w = new Window("Test Entity Editor App");
 			w.setSizeFull();

@@ -3,11 +3,15 @@ package com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.header;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javax.persistence.EntityManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.mvp.presenter.BasePresenter;
 import org.vaadin.mvp.presenter.annotation.Presenter;
 
+import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.AbstractEntityEditorEventBus;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorPresenter;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.header.view.EntityTableHeaderView;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.header.view.IEntityTableHeaderView;
@@ -38,7 +42,7 @@ public class EntityTableHeaderPresenter extends BasePresenter<IEntityTableHeader
 	/**
 	 * EventBus callbacks
 	 */
-	public void onStart(MultiLevelEntityEditorPresenter parentPresenter) {
+	public void onStart(AbstractEntityEditorEventBus entityEditorEventListener,  AbstractConXComponent aec, EntityManager em) {
 		try {
 			this.setInitialized(true);
 			this.getView().init();
