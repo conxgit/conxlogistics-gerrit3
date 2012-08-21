@@ -12,6 +12,7 @@ import org.vaadin.mvp.presenter.annotation.Presenter;
 
 import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.AbstractEntityEditorEventBus;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.ConfigurableBasePresenter;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorPresenter;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.footer.view.EntityTableFooterView;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.footer.view.IEntityTableFooterView;
@@ -19,7 +20,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 
 @Presenter(view = EntityTableFooterView.class)
-public class EntityTableFooterPresenter extends BasePresenter<IEntityTableFooterView, EntityTableFooterEventBus>
+public class EntityTableFooterPresenter extends ConfigurableBasePresenter<IEntityTableFooterView, EntityTableFooterEventBus>
 		implements Property.ValueChangeListener {
 	private static final long serialVersionUID = 1L;
 
@@ -40,10 +41,9 @@ public class EntityTableFooterPresenter extends BasePresenter<IEntityTableFooter
 	}
 
 
-	/**
-	 * EventBus callbacks
-	 */
-	public void onStart(AbstractEntityEditorEventBus entityEditorEventListener,  AbstractConXComponent aec, EntityManager em) {
+	
+	@Override
+	public void bind() {
 		try {
 			this.setInitialized(true);
 			this.getView().init();
@@ -52,11 +52,7 @@ public class EntityTableFooterPresenter extends BasePresenter<IEntityTableFooter
 			e.printStackTrace(new PrintWriter(sw));
 			String stacktrace = sw.toString();
 			logger.error(stacktrace);
-		}
-	}
-	
-	@Override
-	public void bind() {
+		}		
 	}
 
 	@Override
@@ -69,5 +65,11 @@ public class EntityTableFooterPresenter extends BasePresenter<IEntityTableFooter
 
 	public void setInitialized(boolean initialized) {
 		this.initialized = initialized;
+	}
+
+	@Override
+	public void configure() {
+		// TODO Auto-generated method stub
+		
 	}
 }

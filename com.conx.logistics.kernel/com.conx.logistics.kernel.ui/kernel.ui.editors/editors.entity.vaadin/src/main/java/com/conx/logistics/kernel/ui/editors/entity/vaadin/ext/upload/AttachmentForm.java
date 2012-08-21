@@ -2,7 +2,14 @@ package com.conx.logistics.kernel.ui.editors.entity.vaadin.ext.upload;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.conx.logistics.kernel.documentlibrary.remote.services.IRemoteDocumentRepository;
+import com.conx.logistics.mdm.domain.documentlibrary.Folder;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -20,10 +27,18 @@ import com.vaadin.ui.Upload.StartedEvent;
 
 public class AttachmentForm extends Form {
 	private static final long serialVersionUID = -7906217975800435620L;
+	
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private GridLayout layout;
+
+	private IRemoteDocumentRepository docRepo;
+
+	private Folder docFolder;
 	
-	public AttachmentForm() {
+	public AttachmentForm(IRemoteDocumentRepository docRepo) {
+		this.docRepo = docRepo;
+		
 		layout = new GridLayout(4, 3);
 		layout.setWidth("100%");
 		layout.setMargin(true);
@@ -92,7 +107,25 @@ public class AttachmentForm extends Form {
 			private static final long serialVersionUID = 982087759549669305L;
 
 			public void uploadFinished(FinishedEvent event) {
-                stateField.setValue("Idle");
+				String sourceFileName = event.getFilename();
+				String mimeType = event.getMIMEType();
+				String title = (String)AttachmentForm.this.getItemDataSource().getItemProperty("").getValue();
+				String description = (String)AttachmentForm.this.getItemDataSource().getItemProperty("").getValue();
+				
+				String folderId = Long.toString(AttachmentForm.this.docFolder.getFolderId());
+				
+				try {
+					AttachmentForm.this.docRepo.addFileEntry(
+							folderId, sourceFileName,
+							mimeType, title, description);
+				} catch (Exception e) {
+					StringWriter sw = new StringWriter();
+					e.printStackTrace(new PrintWriter(sw));
+					String stacktrace = sw.toString();
+					logger.error(stacktrace);
+					throw new RuntimeException("Error uploading doc "+sourceFileName+" to server", e);
+				}
+				stateField.setValue("Idle");
                 progressBar.setVisible(false);
             }
         });
@@ -130,4 +163,17 @@ public class AttachmentForm extends Form {
         layout.addComponent(progressBar, 2, 0, 3, 0);
         layout.addComponent(toolStrip, 0, 2, 3, 2);
 	}
+
+	public IRemoteDocumentRepository getDocRepo() {
+		return docRepo;
+	}
+
+	public Folder getDocFolder() {
+		return docFolder;
+	}
+
+	public void setDocFolder(Folder docFolder) {
+		this.docFolder = docFolder;
+	}
+	
 }

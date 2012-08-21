@@ -89,6 +89,7 @@ public class FileUploadPanel extends VerticalLayout {
 			private static final long serialVersionUID = 982087759549669305L;
 
 			public void uploadFinished(FinishedEvent event) {
+				//Send to DocLib
                 state.setValue("Idle");
                 progressBar.setVisible(false);
                 textualProgress.setVisible(false);

@@ -1,20 +1,17 @@
 package com.conx.logistics.kernel.ui.editors.vaadin.tests;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.vaadin.mvp.eventbus.EventBus;
@@ -30,7 +27,6 @@ import com.conx.logistics.app.whse.rcv.asn.dao.services.IASNPickupDAOService;
 import com.conx.logistics.app.whse.rcv.rcv.dao.services.IReceiveDAOService;
 import com.conx.logistics.app.whse.rcv.rcv.domain.Receive;
 import com.conx.logistics.data.uat.sprint2.data.TestDataManager;
-import com.conx.logistics.data.uat.sprint2.data.UIComponentModelData;
 import com.conx.logistics.kernel.datasource.dao.services.IDataSourceDAOService;
 import com.conx.logistics.kernel.documentlibrary.remote.services.IRemoteDocumentRepository;
 import com.conx.logistics.kernel.metamodel.dao.services.IEntityTypeDAOService;
@@ -38,10 +34,10 @@ import com.conx.logistics.kernel.ui.components.dao.services.IComponentDAOService
 import com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorComponent;
 import com.conx.logistics.kernel.ui.components.domain.masterdetail.LineEditorContainerComponent;
 import com.conx.logistics.kernel.ui.components.domain.masterdetail.MasterDetailComponent;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.ConfigurablePresenterFactory;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorEventBus;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorPresenter;
-import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.view.IMultiLevelEntityEditorView;
-import com.conx.logistics.kernel.ui.editors.vaadin.tests.MockApp.SpringContextHelper;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.customizer.ConfigurablePresenterFactoryCustomizer;
 import com.conx.logistics.mdm.dao.services.IAddressDAOService;
 import com.conx.logistics.mdm.dao.services.IContactDAOService;
 import com.conx.logistics.mdm.dao.services.ICountryDAOService;
@@ -147,7 +143,8 @@ public class MockApp extends Application {
 	public void init() {
 		setTheme("conx");
 		
-		//this.em = conxLogisticsManagerFactory.createEntityManager();
+		HashMap<String,Object> extraParams = new HashMap<String, Object>();
+		extraParams.put("iremoteDocumentRepository",documentRepositoryService);
 		
     	MasterDetailComponent md = null;
 		try {
@@ -162,10 +159,19 @@ public class MockApp extends Application {
 			LineEditorComponent le = lep.getLineEditors().iterator().next();
 
 			EventBusManager ebm = new EventBusManager();
-			PresenterFactory presenterFactory = new PresenterFactory(ebm, getLocale());
+			ConfigurablePresenterFactory presenterFactory = new ConfigurablePresenterFactory(ebm, getLocale());
+			Map<String,Object> config = new HashMap<String,Object>();
+			config.put("ebm",ebm);
+			config.put("md",md);
+			config.put("em",em);
+			config.put("extraParams",extraParams);
+			config.put("presenterFactory",presenterFactory);
+			config.put("iremoteDocumentRepository",documentRepositoryService);
+			presenterFactory.setCustomizer(new ConfigurablePresenterFactoryCustomizer(config));
+			
 			IPresenter<?, ? extends EventBus> mainPresenter = presenterFactory.createPresenter(MultiLevelEntityEditorPresenter.class);
 			MultiLevelEntityEditorEventBus mainEventBus = (MultiLevelEntityEditorEventBus) mainPresenter.getEventBus();
-			mainEventBus.init(ebm, presenterFactory,md,em);
+			//mainEventBus.init(ebm,presenterFactory,md,em,extraParams);
 			
 			Window w = new Window("Test Entity Editor App");
 			w.setSizeFull();

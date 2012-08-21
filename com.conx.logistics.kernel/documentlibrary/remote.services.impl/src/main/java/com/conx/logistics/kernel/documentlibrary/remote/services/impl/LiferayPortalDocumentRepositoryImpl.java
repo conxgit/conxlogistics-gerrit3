@@ -36,6 +36,8 @@ import com.conx.logistics.common.utils.Validator;
 import com.conx.logistics.kernel.documentlibrary.remote.services.IRemoteDocumentRepository;
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IFolderDAOService;
+import com.conx.logistics.mdm.domain.BaseEntity;
+import com.conx.logistics.mdm.domain.documentlibrary.DocType;
 import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
 import com.conx.logistics.mdm.domain.documentlibrary.Folder;
 
@@ -538,5 +540,22 @@ public class LiferayPortalDocumentRepositoryImpl implements
 		String folderName = st+"-"+entityId;
 		
 		return provideFolderByJavaTypeName(folderName);
+	}
+
+	@Override
+	public FileEntry addorUpdateFileEntry(BaseEntity entity, 
+			DocType attachmentType,
+			String sourceFileName, 
+			String mimeType, 
+			String title,
+			String description) throws Exception {
+		FileEntry fe = null;
+		Folder df = entity.getDocFolder();
+
+		fe = addorUpdateFileEntry(Long.toString(df.getFolderId()), sourceFileName, mimeType, title, description);
+		
+		fe = folderDAOService.addFileEntry(df.getFolderId(),attachmentType,fe);
+		
+		return fe;
 	}
 }

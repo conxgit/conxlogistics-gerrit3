@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.conx.logistics.common.utils.Validator;
 import com.conx.logistics.mdm.dao.services.documentlibrary.IFolderDAOService;
+import com.conx.logistics.mdm.domain.documentlibrary.DocType;
 import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
 import com.conx.logistics.mdm.domain.documentlibrary.Folder;
 
@@ -132,19 +133,21 @@ public class FolderDAOImpl implements IFolderDAOService {
 	}
 
 	@Override
-	public Folder addFileEntry(Long folderId, FileEntry fileEntry) {
+	public FileEntry addFileEntry(Long folderId, DocType attachmentType, FileEntry fileEntry) {
 		Folder res =  getByFolderIdOrName(folderId,null);
+		attachmentType = em.merge(attachmentType);
+		fileEntry.setDocType(attachmentType);
 		fileEntry = em.merge(fileEntry);
 		res.getFiles().add(fileEntry);
 		res = em.merge(res);
-		return res;
+		return fileEntry;
 	}
 
 	@Override
 	public Folder addFileEntries(Long folderId, Set<FileEntry> fileEntries) {
 		for (FileEntry fe : fileEntries)
 		{
-			addFileEntry(folderId, fe);
+			addFileEntry(folderId, fe.getDocType(), fe);
 		}
 		return getByFolderIdOrName(folderId,null);
 	}

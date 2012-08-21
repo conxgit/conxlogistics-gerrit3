@@ -12,6 +12,7 @@ import org.vaadin.mvp.presenter.annotation.Presenter;
 
 import com.conx.logistics.kernel.ui.components.domain.AbstractConXComponent;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.AbstractEntityEditorEventBus;
+import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.ConfigurableBasePresenter;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.MultiLevelEntityEditorPresenter;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.header.view.EntityTableHeaderView;
 import com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp.header.view.IEntityTableHeaderView;
@@ -19,7 +20,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 
 @Presenter(view = EntityTableHeaderView.class)
-public class EntityTableHeaderPresenter extends BasePresenter<IEntityTableHeaderView, EntityTableHeaderEventBus>
+public class EntityTableHeaderPresenter extends ConfigurableBasePresenter<IEntityTableHeaderView, EntityTableHeaderEventBus>
 		implements Property.ValueChangeListener {
 	private static final long serialVersionUID = 1L;
 
@@ -39,10 +40,9 @@ public class EntityTableHeaderPresenter extends BasePresenter<IEntityTableHeader
 		this.parentPresenter = parentPresenter;
 	}
 
-	/**
-	 * EventBus callbacks
-	 */
-	public void onStart(AbstractEntityEditorEventBus entityEditorEventListener,  AbstractConXComponent aec, EntityManager em) {
+	
+	@Override
+	public void bind() {
 		try {
 			this.setInitialized(true);
 			this.getView().init();
@@ -51,11 +51,7 @@ public class EntityTableHeaderPresenter extends BasePresenter<IEntityTableHeader
 			e.printStackTrace(new PrintWriter(sw));
 			String stacktrace = sw.toString();
 			logger.error(stacktrace);
-		}
-	}
-	
-	@Override
-	public void bind() {
+		}		
 	}
 
 	@Override
@@ -69,5 +65,9 @@ public class EntityTableHeaderPresenter extends BasePresenter<IEntityTableHeader
 
 	public void setInitialized(boolean initialized) {
 		this.initialized = initialized;
+	}
+
+	@Override
+	public void configure() {
 	}
 }

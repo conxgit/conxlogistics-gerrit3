@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import com.conx.logistics.kernel.metamodel.domain.EntityType;
+import com.conx.logistics.mdm.domain.BaseEntity;
+import com.conx.logistics.mdm.domain.documentlibrary.DocType;
 import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
 import com.conx.logistics.mdm.domain.documentlibrary.Folder;
 
@@ -49,6 +51,8 @@ public interface IRemoteDocumentRepository {
 	public FileEntry addFileEntry(String folderId, String sourceFileName, String mimeType, String title, String description) throws Exception;
 	
 	public FileEntry addorUpdateFileEntry(String folderId, String sourceFileName, String mimeType, String title, String description) throws Exception;	
+	
+	public FileEntry addorUpdateFileEntry(BaseEntity entity, DocType attachmentType, String sourceFileName, String mimeType, String title, String description) throws Exception;	
 	
 	public FileEntry deleteFileEntryById(String folderId, String fileEntryId)  throws Exception;
 	

@@ -120,6 +120,8 @@ public class TestDataManager {
 		
 		//Create Datasource/Component models
 		UIComponentModelData.createReceiveSearchMasterDetail(componentDAOService, entityTypeDAOService, dataSourceDAOService, em);
+		
+		em.flush();
 	}
 	
 	

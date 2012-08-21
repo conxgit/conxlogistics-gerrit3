@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.conx.logistics.mdm.domain.BaseEntity;
+import com.conx.logistics.mdm.domain.documentlibrary.DocType;
 import com.conx.logistics.mdm.domain.documentlibrary.FileEntry;
 import com.conx.logistics.mdm.domain.documentlibrary.Folder;
 
@@ -16,7 +17,7 @@ public interface IFolderDAOService {
 
 	public Folder add(Folder record);
 	
-	public Folder addFileEntry(Long folderId, FileEntry fileEntry);
+	public FileEntry addFileEntry(Long folderId, DocType attachmentType, FileEntry fileEntry);
 	
 	public Folder addFileEntries(Long folderId, Set<FileEntry> fileEntries);
 

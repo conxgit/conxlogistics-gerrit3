@@ -164,13 +164,7 @@ public class ReceiveDAOImpl implements IReceiveDAOService {
 	@Override
 	public FileEntry addAttachment(Long rcvId, String sourceFileName, String title, String description, String mimeType, DocType attachmentType) throws Exception {
 		Receive rcv = get(rcvId);
-		Folder fldr = rcv.getDocFolder();
-		
-		FileEntry fe = documentRepositoryService.addorUpdateFileEntry(Long.toString(fldr.getFolderId()), sourceFileName, mimeType, title, description);
-		fe.setDocType(attachmentType);
-		fe = em.merge(fe);
-		fldr.getFiles().add(fe);
-		
+		FileEntry fe = documentRepositoryService.addorUpdateFileEntry(rcv,attachmentType,sourceFileName, mimeType, title, description);
 		rcv = update(rcv);
 		
 		return fe;

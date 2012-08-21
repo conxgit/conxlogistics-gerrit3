@@ -1,11 +1,13 @@
 package com.conx.logistics.mdm.domain.documentlibrary;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -13,8 +15,8 @@ import javax.persistence.Table;
 @Table(name = "sysdlfolder")
 public class Folder extends AbstractDocument {
 
-	@OneToMany(targetEntity=FileEntry.class, mappedBy="folder",cascade=CascadeType.ALL)
-	private List<FileEntry> files = new ArrayList<FileEntry>();
+	@OneToMany(targetEntity=FileEntry.class, mappedBy="folder",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	private Set<FileEntry> files = new HashSet<FileEntry>();
 	
 	private String uuid;
 	private String originalUuid;
@@ -46,10 +48,10 @@ public class Folder extends AbstractDocument {
 	private long defaultFileEntryTypeId;
 	private boolean overrideFileEntryTypes;
 	private long columnBitmask;
-	public List<FileEntry> getFiles() {
+	public Set<FileEntry> getFiles() {
 		return files;
 	}
-	public void setFiles(List<FileEntry> files) {
+	public void setFiles(Set<FileEntry> files) {
 		this.files = files;
 	}
 	public String getUuid() {

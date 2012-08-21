@@ -1,0 +1,27 @@
+Bundle-ManifestVersion: 2
+Bundle-Version: 1.0.0
+Bundle-Name: ConX UI Factory Services
+Bundle-SymbolicName: com.conx.logistics.kernel.ui.factory.services
+Import-Template: com.conx.logistics.mdm.domain.application;version="[1.0.0,2.0.0)",
+  com.conx.logistics.kernel.ui.components.domain.masterdetail;version="[1.0.0,2.0.0)",
+  com.conx.logistics.mdm.domain;version="[1.0.0,2.0.0)",
+  com.conx.logistics.kernel.datasource.domain;version="[1.0.0,2.0.0)",
+  com.conx.logistics.kernel.metamodel.domain;version="[1.0.0,2.0.0)",
+  com.conx.logistics.kernel.ui.components.domain;version="[1.0.0,2.0.0)",
+  com.conx.logistics.kernel.ui.components.domain.attachment;version="[1.0.0,2.0.0)",
+  com.conx.logistics.kernel.ui.components.domain.note;version="[1.0.0,2.0.0)",
+  com.conx.logistics.kernel.documentlibrary.remote.services;version="[1.0.0,2.0.0)",
+  com.conx.logistics.mdm.domain.documentlibrary;version="[1.0.0,2.0.0)",
+  javax.persistence;version="[1.0.0, 3.0.0)",
+  javax.persistence.criteria;version="[1.0.0, 3.0.0)",
+  org.springframework.transaction;version="[3.0,3.1)",
+  org.springframework.transaction.support;version="[3.0, 3.1)",
+  org.springframework.osgi.extensions.annotation;version="[1.0.0,2.0.0)",
+  org.slf4j;version="[1.6.0,1.7.0)"
+Excluded-Imports: 
+ org.apache.log4j,
+ org.springframework.test.*,
+ org.junit.*,
+ com.google.gwt.*,
+ com.conx.logistics.kernel.ui.common.gwt.client.ui
+

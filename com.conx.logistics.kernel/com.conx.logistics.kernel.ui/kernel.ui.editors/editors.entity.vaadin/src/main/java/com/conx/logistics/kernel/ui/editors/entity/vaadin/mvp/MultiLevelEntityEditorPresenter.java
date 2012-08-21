@@ -2,6 +2,8 @@ package com.conx.logistics.kernel.ui.editors.entity.vaadin.mvp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 
@@ -31,7 +33,7 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Component;
 
 @Presenter(view = MultiLevelEntityEditorView.class)
-public class MultiLevelEntityEditorPresenter extends BasePresenter<IMultiLevelEntityEditorView, MultiLevelEntityEditorEventBus>
+public class MultiLevelEntityEditorPresenter extends ConfigurableBasePresenter<IMultiLevelEntityEditorView, MultiLevelEntityEditorEventBus>
 implements Property.ValueChangeListener {
 	private static final long serialVersionUID = 1L;
 
@@ -41,27 +43,29 @@ implements Property.ValueChangeListener {
 
 	private EventBusManager ebm = null;
 
-	private PresenterFactory presenterFactory = null;
+	private ConfigurablePresenterFactory presenterFactory = null;
 
-	private IPresenter<?, ? extends EventBus> headerPresenter;
+	private ConfigurableBasePresenter<?, ? extends EventBus> headerPresenter;
 
 	private EntityTableHeaderEventBus headerBus;
 
-	private IPresenter<?, ? extends EventBus> tablePresenter;
+	private ConfigurableBasePresenter<?, ? extends EventBus> tablePresenter;
 
 	private EntityTableEventBus tableBus;
 
-	private IPresenter<?, ? extends EventBus> lineEditorPresenter;
+	private ConfigurableBasePresenter<?, ? extends EventBus> lineEditorPresenter;
 
 	private EntityLineEditorEventBus lineEditorBus;
 
-	private IPresenter<?, ? extends EventBus> footerPresenter;
+	private ConfigurableBasePresenter<?, ? extends EventBus> footerPresenter;
 
 	private EntityTableFooterEventBus footerBus;
 
 	private MasterDetailComponent metaData;
 
 	private EntityManager entityManager;
+
+	private HashMap<String, Object> extraParams;
 
 	public MultiLevelEntityEditorPresenter() {
 		super();
@@ -70,44 +74,13 @@ implements Property.ValueChangeListener {
 	/**
 	 * EventBus callbacks
 	 */
-	public void onInit(EventBusManager ebm, PresenterFactory presenterFactory, MasterDetailComponent md, EntityManager em) {
+	public void onInit(EventBusManager ebm, PresenterFactory presenterFactory, MasterDetailComponent md, EntityManager em, HashMap<String,Object> extraParams) {
 		try {
 			this.setInitialized(true);
 			this.metaData = md;
 			this.entityManager = em;
 			this.setEbm(ebm);
-			this.presenterFactory = presenterFactory;
-			
-			/**
-			 * Create children presenters
-			 */
-			//-- Header
-			headerPresenter = this.presenterFactory.createPresenter(EntityTableHeaderPresenter.class);
-			headerBus = (EntityTableHeaderEventBus) headerPresenter.getEventBus();
-			headerBus.start(this.getEventBus(),null,null);	
-
-			//-- Table
-			tablePresenter = this.presenterFactory.createPresenter(EntityTablePresenter.class);
-			tableBus = (EntityTableEventBus) tablePresenter.getEventBus();
-			tableBus.start(this.getEventBus(),md,em);	
-
-			//-- EntityLineEditor
-			lineEditorPresenter = this.presenterFactory.createPresenter(EntityLineEditorPresenter.class);
-			lineEditorBus = (EntityLineEditorEventBus) lineEditorPresenter.getEventBus();
-			lineEditorBus.start(this,this.getEventBus(),md,em);	
-
-			//-- Footer
-			footerPresenter = this.presenterFactory.createPresenter(EntityTableFooterPresenter.class);
-			footerBus = (EntityTableFooterEventBus) footerPresenter.getEventBus();
-			footerBus.start(this.getEventBus(),md,em);	
-			
-			IMultiLevelEntityEditorView localView = this.getView();
-			
-			localView.init();
-			localView.setHeader((Component) headerPresenter.getView());
-			localView.setMaster((Component) tablePresenter.getView());
-			localView.setDetail((Component) lineEditorPresenter.getView());
-			localView.setFooter((Component) footerPresenter.getView());
+			this.extraParams = extraParams;
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
@@ -120,9 +93,61 @@ implements Property.ValueChangeListener {
 	public void onEntityItemEdit(EntityItem item) {
 		((AbstractEntityEditorEventBus)lineEditorBus).entityItemEdit(item); 
 	}
+	
+	@Override
+	public void configure() {
+		try {
+			Map<String, Object> config = super.getConfig();
+			this.metaData = (MasterDetailComponent)config.get("md");
+			this.entityManager = (EntityManager)config.get("em");
+			this.ebm = (EventBusManager)config.get("ebm");
+			this.presenterFactory = (ConfigurablePresenterFactory)config.get("presenterFactory");
+			this.presenterFactory.getCustomizer().getConfig().put("multiLevelEntityEditorPresenter", this);
+			
+			
+			/**
+			 * Create children presenters
+			 */
+			//-- Header
+			headerPresenter = (ConfigurableBasePresenter)this.presenterFactory.createPresenter(EntityTableHeaderPresenter.class);
+			headerBus = (EntityTableHeaderEventBus) headerPresenter.getEventBus();
+			//headerBus.start(this.getEventBus(),null,null,extraParams);	
+
+			//-- Table
+			tablePresenter = (ConfigurableBasePresenter)this.presenterFactory.createPresenter(EntityTablePresenter.class);
+			tableBus = (EntityTableEventBus) tablePresenter.getEventBus();
+			//tableBus.start(this.getEventBus(),this.metaData,this.entityManager,extraParams);	
+
+			//-- EntityLineEditor
+			lineEditorPresenter = (ConfigurableBasePresenter)this.presenterFactory.createPresenter(EntityLineEditorPresenter.class);
+			lineEditorBus = (EntityLineEditorEventBus) lineEditorPresenter.getEventBus();
+			//lineEditorBus.start(this,this.getEventBus(),this.metaData,this.entityManager,extraParams);	
+
+			//-- Footer
+			footerPresenter = (ConfigurableBasePresenter)this.presenterFactory.createPresenter(EntityTableFooterPresenter.class);
+			footerBus = (EntityTableFooterEventBus) footerPresenter.getEventBus();
+			//footerBus.start(this.getEventBus(),this.metaData,this.entityManager,extraParams);	
+			
+			IMultiLevelEntityEditorView localView = this.getView();
+			
+			localView.init();
+			localView.setHeader((Component) headerPresenter.getView());
+			localView.setMaster((Component) tablePresenter.getView());
+			localView.setDetail((Component) lineEditorPresenter.getView());
+			localView.setFooter((Component) footerPresenter.getView());
+			
+			this.setInitialized(true);
+		} catch (Exception e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			logger.error(stacktrace);
+		}		
+	}
 	  
 	@Override
 	public void bind() {
+
 	}
 
 	@Override
@@ -151,10 +176,6 @@ implements Property.ValueChangeListener {
 
 	public void setMetaData(MasterDetailComponent metaData) {
 		this.metaData = metaData;
-	}
-
-	public PresenterFactory getPresenterFactory() {
-		return presenterFactory;
 	}
 
 	public EntityManager getEntityManager() {
