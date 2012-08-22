@@ -1,9 +1,7 @@
 package com.conx.logistics.kernel.ui.components.domain.form;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,8 +11,6 @@ import javax.persistence.Transient;
 
 import com.conx.logistics.kernel.datasource.domain.DataSource;
 import com.conx.logistics.kernel.datasource.domain.DataSourceField;
-import com.conx.logistics.kernel.ui.components.domain.AbstractConXField;
-import com.conx.logistics.kernel.ui.components.domain.layout.AbstractConXLayout;
 
 @Entity
 public class ConXSimpleForm extends ConXForm {

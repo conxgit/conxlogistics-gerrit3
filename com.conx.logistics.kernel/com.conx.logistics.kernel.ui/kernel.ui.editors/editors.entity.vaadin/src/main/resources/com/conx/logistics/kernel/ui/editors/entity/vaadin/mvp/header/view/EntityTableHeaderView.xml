@@ -3,14 +3,8 @@
 	xmlns:r="urn:org.vaadin.mvp.uibinder.resource" xmlns:e="urn:org.vaadin.mvp.uibinder.event"
 	xmlns:v="urn:import:com.vaadin.ui">
 
-	<v:HorizontalLayout styleName="conx-entity-toolstrip"
+	<v:VerticalLayout styleName="conx-entity-header"
 		sizeFull="" ui:field="mainLayout">
-		<v:HorizontalLayout styleName="conx-entity-toolstrip-left"
-			height="28px" ui:field="leftLayout">
-		</v:HorizontalLayout>
-		<v:HorizontalLayout styleName="conx-entity-toolstrip-right"
-			height="28px" ui:field="rightLayout">
-		</v:HorizontalLayout>
-	</v:HorizontalLayout>
+	</v:VerticalLayout>
 
 </ui:UiBinder>

@@ -46,7 +46,7 @@ public class ConXHeader extends HorizontalLayout {
 	public ConXHeader() {
 		setWidth("100%");
 		setHeight(TOOLSTRIP_HEIGHT);
-		setMargin(false);
+		setMargin(false, false, false, true);
 		addStyleName("header-toolstrip");
 		
 		initialize();
@@ -54,13 +54,6 @@ public class ConXHeader extends HorizontalLayout {
 	
 	public void initialize() {
 		applicationSelectionListeners = new ArrayList<Property.ValueChangeListener>();
-		
-		conxMenu = new ConXMenuBar();
-		conxMenu.setHeight("25px");
-		
-		conxButton = conxMenu.addItem("", 
-				new ThemeResource(ICON_CONX_LOGO), null);
-		conxButton.setStyleName(STYLE_CONX_LOGO_BUTTON);
         
         quickLaunch = new ConXQuickLaunchBox();
         quickLaunch.setInputPrompt("Quick Launch...");
@@ -79,9 +72,6 @@ public class ConXHeader extends HorizontalLayout {
 		leftStrip.setSpacing(true);
 		leftStrip.setHeight("25px");
 		leftStrip.addStyleName(STYLE_LEFT_MENUBAR);
-		leftStrip.addComponent(new ConXMenuSeparator());
-		leftStrip.addComponent(conxMenu);
-		leftStrip.addComponent(new ConXMenuSeparator());
 		leftStrip.addComponent(quickLaunchIcon);
 		leftStrip.addComponent(quickLaunch);
 		leftStrip.addComponent(new ConXMenuSeparator());

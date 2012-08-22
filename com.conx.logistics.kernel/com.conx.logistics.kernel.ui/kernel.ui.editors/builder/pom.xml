@@ -361,6 +361,14 @@
 			<artifactId>com.conx.logistics.thirdparty.hibernate.core</artifactId>
 			<version>3.6.0.Final</version>
 
+			<exclusions>
+				<exclusion>
+					<artifactId>
+						com.conx.logistics.thirdparty.hibernate.annotations.commons
+					</artifactId>
+					<groupId>com.conx.logistics</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -1020,7 +1028,21 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.4</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>
+				com.conx.logistics.kernel.documentlibrary.remote.services
+			</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.conx.logistics</groupId>
+			<artifactId>
+				com.conx.logistics.kernel.ui.forms.vaadin
+			</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+  </dependencies>
 	<build>
 		<sourceDirectory>${basedir}/src/main</sourceDirectory>
 		<testSourceDirectory>${basedir}/src/test</testSourceDirectory>

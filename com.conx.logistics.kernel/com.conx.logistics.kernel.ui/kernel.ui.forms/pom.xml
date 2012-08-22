@@ -13,5 +13,6 @@
   	<module>domain</module>
   	<module>builder.vaadin</module>
   	<module>dao.services</module>
+  	<module>vaadin</module>
   </modules>
 </project>

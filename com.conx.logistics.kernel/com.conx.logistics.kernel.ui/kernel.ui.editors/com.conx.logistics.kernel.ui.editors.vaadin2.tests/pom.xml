@@ -335,6 +335,12 @@
 			<groupId>com.conx.logistics</groupId>
 			<artifactId>com.conx.logistics.app.whse.rcv.rcv.dao.jpa.persistence</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>ecj</artifactId>
+					<groupId>org.eclipse.jdt.core.compiler</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

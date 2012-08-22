@@ -116,7 +116,7 @@ public class FBScript implements Mappable {
         if (getHelpers() != null) {
             List<Object> helpersMap = new ArrayList<Object>();
             for (FBScriptHelper helper : getHelpers()) {
-                helpersMap.add(helper.getDataMap());
+//                helpersMap.add(helper.getDataMap());
             }
             data.put("helpers", helpersMap);
         }
